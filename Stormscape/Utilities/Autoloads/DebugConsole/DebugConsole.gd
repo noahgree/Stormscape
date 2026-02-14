@@ -4,20 +4,32 @@ extends CanvasLayer
 @onready var console_input: LineEdit = %ConsoleInput
 @onready var console_input_panel: Panel = %ConsoleInputPanel
 @onready var console_output: Label = %ConsoleOutput
+@onready var output_outer_margins: MarginContainer = %OutputOuterMargins
+@onready var console_autoc: RichTextLabel = %ConsoleAutoComplete
+@onready var console_autoc_margins: MarginContainer = %ConsoleAutoCompleteMargins
+@onready var autocomplete_outer_margins: MarginContainer = %AutoCompleteOuterMargins
 @onready var console_history: RichTextLabel = %ConsoleHistory
 @onready var console_history_margins: MarginContainer = %ConsoleHistoryMargins
 
 var commands: Dictionary[StringName, Callable]
 var past_commands: Array[String]
-var history_index: int
-var showing_valid_help: bool
-const MAX_PAST_COMMANDS: int = 16
+var history_index: int = -1
+var autocomplete_index: int = -1
+var showing_valid_help: bool = false
+var showing_autocomplete: bool:
+	set(new_value):
+		autocomplete_outer_margins.visible = new_value
+		showing_autocomplete = new_value
+var current_matches: Array[String] = []
+const MAX_PAST_COMMANDS: int = 10
+const MAX_AUTOCOMPLETES: int = 6
 
 
 func _ready() -> void:
 	hide()
-	console_output.hide()
-	console_history.hide()
+	output_outer_margins.hide()
+	console_history_margins.hide()
+	autocomplete_outer_margins.hide()
 	console_input.editable = false
 	add_command("help", func() -> void: print(str(commands.keys()).replace("&", "").replace("\"", "")))
 	add_command("clear", func() -> void:
@@ -47,7 +59,7 @@ func _call_command(command_name: StringName, args: Array[Variant]) -> void:
 
 func _add_to_command_history(string: String) -> void:
 	past_commands.append(string)
-	console_history.show()
+	console_history_margins.show()
 	if past_commands.size() >= MAX_PAST_COMMANDS:
 		past_commands.pop_front()
 
@@ -56,8 +68,8 @@ func _add_to_command_history(string: String) -> void:
 func _update_command_history_display() -> void:
 	var all_past_commands: String = ""
 	for i: int in range(past_commands.size()):
-		var color_str: String = "[color=Deepskyblue]" if i == history_index else ""
-		all_past_commands += color_str + past_commands[i] + ("[/color]" if color_str != "" else "")
+		var color_str: String = "[color=White][outline_size=2][outline_color=Dodgerblue]" if (i == history_index and not showing_autocomplete) else ""
+		all_past_commands += color_str + past_commands[i] + ("[/outline_color][/outline_size][/color]" if color_str != "" else "")
 		if i <= past_commands.size() - 2:
 			all_past_commands += "\n"
 		i += 1
@@ -70,6 +82,28 @@ func _update_command_history_display() -> void:
 		console_history_margins.add_theme_constant_override("margin_bottom", -2)
 		console_history_margins.add_theme_constant_override("margin_top", -2)
 
+func _update_autocomplete_display() -> void:
+	var all_options: String = ""
+	for i: int in range(current_matches.size()):
+		var color_str: String = "[color=Greenyellow][outline_size=2][outline_color=Darkgreen]" if i == autocomplete_index else ""
+		all_options += color_str + current_matches[i] + ("[/outline_color][/outline_size][/color]" if color_str != "" else "")
+		if i <= current_matches.size() - 2:
+			all_options += "\n"
+		i += 1
+	if current_matches.is_empty():
+		console_autoc.text = "autocomplete..."
+		console_autoc.add_theme_color_override("default_color", Color.WEB_GRAY)
+	else:
+		console_autoc.text = all_options
+		console_autoc.remove_theme_color_override("default_color")
+
+	if current_matches.size() > 1:
+		console_autoc_margins.add_theme_constant_override("margin_bottom", 2)
+		console_autoc_margins.add_theme_constant_override("margin_top", 2)
+	else:
+		console_autoc_margins.add_theme_constant_override("margin_bottom", -2)
+		console_autoc_margins.add_theme_constant_override("margin_top", -2)
+
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("console"):
 		_toggle_usage()
@@ -79,18 +113,39 @@ func _input(event: InputEvent) -> void:
 	elif console_input.has_focus() and event is InputEventKey and event.is_pressed() and not event.is_echo():
 		match event.keycode:
 			KEY_UP:
-				if history_index < 0:
-					history_index = past_commands.size()
-				history_index = wrapi(history_index - 1, 0, min(MAX_PAST_COMMANDS, past_commands.size()))
-				_show_history_and_update_text_from_past_commands()
+				if showing_autocomplete:
+					if autocomplete_index < 0:
+						autocomplete_index = current_matches.size()
+					autocomplete_index = wrapi(autocomplete_index - 1, 0, current_matches.size())
+					_update_autocomplete_display()
+				else:
+					if history_index < 0:
+						history_index = past_commands.size()
+					history_index = wrapi(history_index - 1, 0, min(MAX_PAST_COMMANDS, past_commands.size()))
+					_show_history_and_update_text_from_past_commands()
+				get_viewport().set_input_as_handled()
 			KEY_DOWN:
-				if history_index < 0:
-					history_index = past_commands.size() - 2
-				history_index = wrapi(history_index + 1, 0, min(MAX_PAST_COMMANDS, past_commands.size()))
-				_show_history_and_update_text_from_past_commands()
+				if showing_autocomplete:
+					if autocomplete_index < 0:
+						autocomplete_index = current_matches.size() - 2
+					autocomplete_index = wrapi(autocomplete_index + 1, 0, current_matches.size())
+					_update_autocomplete_display()
+				else:
+					if history_index < 0:
+						history_index = past_commands.size() - 2
+					history_index = wrapi(history_index + 1, 0, min(MAX_PAST_COMMANDS, past_commands.size()))
+					_show_history_and_update_text_from_past_commands()
+				get_viewport().set_input_as_handled()
+			KEY_TAB:
+				if showing_autocomplete:
+					_update_text_from_autocomplete()
 			_ when event.keycode != KEY_RIGHT and event.keycode != KEY_LEFT:
-				history_index = -1
-				_update_command_history_display()
+				if showing_autocomplete:
+					autocomplete_index = -1
+					_update_autocomplete_display()
+				else:
+					history_index = -1
+					_update_command_history_display()
 
 func _toggle_usage() -> void:
 	console_input.accept_event()
@@ -98,20 +153,18 @@ func _toggle_usage() -> void:
 	Globals.change_focused_ui_state(console_input.editable, self)
 	if console_input.editable:
 		console_input.grab_focus()
-		history_index = past_commands.size() - 1
+		history_index = -1
+		autocomplete_index = -1
 		_update_command_history_display()
 	else:
 		console_input.release_focus()
-		console_output.hide()
+		output_outer_margins.hide()
 
 	visible = console_input.editable
 
 func _parse_command(new_text: String) -> void:
 	var split_elements: PackedStringArray = new_text.split(" ")
 	var strings: Array = Array(split_elements)
-	if showing_valid_help:
-		_add_to_command_history(strings[0] + " " + console_output.text)
-		return
 	if not strings.is_empty() and not strings[0] == "":
 		var i: int = 0
 		for string: String in strings:
@@ -124,21 +177,50 @@ func _parse_command(new_text: String) -> void:
 		_add_to_command_history(new_text)
 		_call_command(str(strings[0]), strings.slice(1))
 
-func _on_console_input_text_changed(new_text: String) -> void:
-	console_output.hide()
+func _on_console_input_text_changed(new_text: String, from_history_scroll: bool = false) -> void:
+	output_outer_margins.hide()
+	showing_autocomplete = false
 	showing_valid_help = false
 
 	var pieces: PackedStringArray = new_text.split(" ", true)
-	if not pieces.is_empty() and pieces[0] in commands:
-		console_input_panel.get_theme_stylebox("panel").border_color = Color(0, 0.75, 0, 0.5)
-		console_input_panel.get_theme_stylebox("panel").bg_color = Color(0.16, 0.27, 0.153, 0.502)
-		if pieces.size() == 2 and pieces[1] == "help":
-			console_output.text = _get_arg_list(commands[pieces[0]].get_object(), commands[pieces[0]].get_method())
-			console_output.show()
+	var command: String = ArrayHelpers.get_or_default(pieces, 0, "")
+	var arg_1: String = ArrayHelpers.get_or_default(pieces, 1, "")
+	var valid_autocomplete_option: bool = false
+	if command in commands:
+		if pieces.size() <= 2 and not from_history_scroll:
+			match command:
+				"spawn_item", "give":
+					current_matches = StringHelpers.get_matching_in_dict(Items.cached_items, arg_1, MAX_AUTOCOMPLETES)
+					valid_autocomplete_option = true
+				"set":
+					current_matches = StringHelpers.get_matching_in_dict(DebugFlags.get_all_flags(), arg_1, MAX_AUTOCOMPLETES)
+					valid_autocomplete_option = true
+				"wpn_mod":
+					current_matches = StringHelpers.get_matching_in_dict(Items.get_all_wpn_mods(), arg_1, MAX_AUTOCOMPLETES)
+					valid_autocomplete_option = true
+				"sound":
+					current_matches = StringHelpers.get_matching_in_dict(AudioManager.sound_cache, arg_1, MAX_AUTOCOMPLETES)
+					valid_autocomplete_option = true
+				"stop_sound":
+					current_matches = StringHelpers.get_matching_in_dict(AudioManager.get_all_active_sounds(), arg_1, MAX_AUTOCOMPLETES, true)
+					valid_autocomplete_option = true
+
+			if valid_autocomplete_option:
+				showing_autocomplete = true
+				autocomplete_index = current_matches.size() - 1
+				_update_autocomplete_display()
+
+		console_output.text = _get_arg_list(commands[pieces[0]].get_object(), commands[pieces[0]].get_method())
+		if console_output.text != "":
+			output_outer_margins.show()
 			showing_valid_help = true
 	else:
-		console_input_panel.get_theme_stylebox("panel").border_color = Color(0, 0, 0, 0.65)
-		console_input_panel.get_theme_stylebox("panel").bg_color = Color(0.0, 0.0, 0.0, 0.502)
+		if command != "":
+			current_matches = StringHelpers.get_matching_in_dict(commands, command, MAX_AUTOCOMPLETES)
+			if not current_matches.is_empty():
+				showing_autocomplete = true
+				autocomplete_index = current_matches.size() - 1
+				_update_autocomplete_display()
 
 func _get_arg_list(object: Object, method_name: String) -> String:
 	if method_name == "<anonymous lambda>":
@@ -165,12 +247,31 @@ func _get_arg_list(object: Object, method_name: String) -> String:
 
 	return arg_list.trim_suffix(", ")
 
-
 func _show_history_and_update_text_from_past_commands() -> void:
 	console_input.text = ArrayHelpers.get_or_default(past_commands, history_index, console_input.text)
-	_on_console_input_text_changed(console_input.text)
+	_on_console_input_text_changed(console_input.text, true)
 	_update_command_history_display()
 	if not past_commands.is_empty():
-		console_history.show()
+		console_history_margins.show()
 		await get_tree().process_frame
 		console_input.caret_column = console_input.text.length()
+
+func _update_text_from_autocomplete() -> void:
+	var pieces: PackedStringArray = console_input.text.split(" ", true)
+	var arg_0: String = ArrayHelpers.get_or_default(pieces, 0, "")
+	if arg_0 == "":
+		return
+	var current_match: String = ArrayHelpers.get_or_default(current_matches, autocomplete_index, "")
+	if current_match == "":
+		return
+
+	if pieces.size() == 1:
+		console_input.text = current_match
+	else:
+		console_input.text = arg_0 + " " + current_match
+
+	_on_console_input_text_changed(console_input.text)
+	_update_autocomplete_display()
+
+	await get_tree().process_frame
+	console_input.caret_column = console_input.text.length()

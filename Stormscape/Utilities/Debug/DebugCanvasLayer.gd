@@ -5,14 +5,14 @@ extends CanvasLayer
 
 
 func _ready() -> void:
-	if DebugFlags.frame_rate:
+	if DebugFlags.show_fps:
 		set_process(true)
 	else:
 		set_process(false)
 		fps_label.text = ""
 
 func _process(_delta: float) -> void:
-	if DebugFlags.frame_rate:
+	if DebugFlags.show_fps:
 		fps_label.text = str(int(Engine.get_frames_per_second()))
 	else:
 		fps_label.text = ""

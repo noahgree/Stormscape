@@ -156,6 +156,8 @@ func _put_what_fits_in_empty_index_and_continue(index: int, inv_item: InvItemRes
 
 ## This removes a certain amount of an item at the target index slot. If it removes everything, it deletes it.
 func remove_item(index: int, amount: int) -> void:
+	if inv[index] == null:
+		return
 	var updated_item: InvItemResource = InvItemResource.new(inv[index].stats, inv[index].quantity)
 	updated_item.quantity = max(0, updated_item.quantity - amount)
 	if updated_item.quantity <= 0:

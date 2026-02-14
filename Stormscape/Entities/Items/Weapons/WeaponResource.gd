@@ -50,9 +50,12 @@ static func visual_percent_of_lvl_progress(weapon_stats: WeaponResource) -> floa
 	return float(weapon_stats.lvl_progress) / float(xp_needed)
 
 ## Whether the weapon is the same as another weapon when called externally to compare.
-## Overrides base method to also compare weapon mods.
+## Overrides base method to also compare weapon mods and SUID if cooldowns are based on it.
 func is_same_as(other_item: ItemResource) -> bool:
-	return (str(self) == str(other_item)) and (self.current_mods == other_item.current_mods)
+	var initial_checks: bool = (str(self) == str(other_item)) and (self.current_mods == other_item.current_mods)
+	if cooldowns_per_suid:
+		return (self.session_uid == other_item.session_uid) and initial_checks
+	return initial_checks
 
 ## Checks to see if the weapon has the passed in mod already, regardless of level.
 func has_mod(mod_id: StringName, index: int = -1) -> bool:

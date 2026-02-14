@@ -66,7 +66,7 @@ func calculate_inv_ammo() -> void:
 			var count: int = 0
 			for i: int in range(0, Globals.MAIN_PLAYER_INV_SIZE + Globals.HOTBAR_SIZE):
 				var item: InvItemResource = Globals.player_node.inv.inv[i]
-				if item != null and (item.stats.is_same_as(current_item_stats)):
+				if item != null and (item.stats.id == current_item_stats.id):
 					count += item.quantity
 			var equipped_inv_item: InvItemResource = Globals.player_node.inv.inv[Globals.player_node.hands.equipped_item.inv_index]
 			count -= equipped_inv_item.quantity if equipped_inv_item else 0

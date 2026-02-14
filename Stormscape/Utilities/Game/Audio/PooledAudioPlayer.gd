@@ -17,5 +17,6 @@ func reset() -> void:
 	valid = false
 	finish_callables.clear()
 	remove_from_group(sound_id)
+	remove_from_group("ACTIVE_SOUNDS")
 	sound_id = ""
 	loops_completed = 0

@@ -166,13 +166,13 @@ physics_layer_1/collision_layer = 128
 physics_layer_1/collision_mask = 0
 sources/1 = SubResource("TileSetAtlasSource_lb4xb")
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_yng6w"]
+rough = true
+
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_01d0t"]
 rough = true
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_h3uly"]
-rough = true
-
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_4ti61"]
 rough = true
 
 [sub_resource type="Resource" id="Resource_t15sm"]
@@ -306,7 +306,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="Resource" id="Resource_vblrk"]
+[sub_resource type="Resource" id="Resource_4psjl"]
 resource_local_to_scene = true
 script = ExtResource("19_04pgg")
 title = "Storm Base"
@@ -429,15 +429,15 @@ y_sort_enabled = true
 
 [node name="TestRigidEntity" parent="WorldRoot/Testing" unique_id=120789680 instance=ExtResource("9_37jga")]
 position = Vector2(127, 27)
-physics_material_override = SubResource("PhysicsMaterial_01d0t")
+physics_material_override = SubResource("PhysicsMaterial_yng6w")
 
 [node name="TestRigidEntity2" parent="WorldRoot/Testing" unique_id=294390776 instance=ExtResource("9_37jga")]
 position = Vector2(129, 87)
-physics_material_override = SubResource("PhysicsMaterial_h3uly")
+physics_material_override = SubResource("PhysicsMaterial_01d0t")
 
 [node name="TestRigidEntity3" parent="WorldRoot/Testing" unique_id=941546994 instance=ExtResource("9_37jga")]
 position = Vector2(65, 118)
-physics_material_override = SubResource("PhysicsMaterial_4ti61")
+physics_material_override = SubResource("PhysicsMaterial_h3uly")
 freeze = true
 immovable = true
 
@@ -620,7 +620,7 @@ sprite_frames = SubResource("SpriteFrames_hkn5b")
 
 [node name="InteractionArea" parent="WorldRoot/StormBase" unique_id=897230405 instance=ExtResource("36_e5rpg")]
 prompt_radius = 36.0
-interaction_offer = SubResource("Resource_vblrk")
+interaction_offer = SubResource("Resource_4psjl")
 prompt_offset = Vector2(0, -23)
 
 [node name="ClippingArea" parent="WorldRoot/StormBase" unique_id=1945922444 instance=ExtResource("48_8jild")]

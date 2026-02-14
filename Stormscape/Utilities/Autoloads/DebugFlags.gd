@@ -41,7 +41,7 @@ var show_aiming_direction: bool = false
 var show_status_effect_particle_emission_area: bool = false
 
 # On Screen Debug Flags
-var frame_rate: bool = true
+var show_fps: bool = true
 
 # Entity Flags
 var show_facing_dir: bool = false
@@ -52,12 +52,12 @@ func _ready() -> void:
 	DebugConsole.add_command("set", set_debug_flag)
 
 ## Sets a debug flag to the passed in value.
-func set_debug_flag(flag_name: String, value: Variant) -> void:
+func set_debug_flag(flag_name: String, value: int) -> void:
 	var bool_val: bool = false
 	match value:
-		"true", "1", 1, 1.0:
+		1, 1.0:
 			bool_val = true
-		"false", "0", 0, 0.0:
+		0, 0.0:
 			bool_val = false
 		_:
 			printerr("The value passed in could not be converted to a bool. False was chosen by default.")
@@ -66,3 +66,14 @@ func set_debug_flag(flag_name: String, value: Variant) -> void:
 		set(flag_name, bool_val)
 	else:
 		printerr("That flag does not exist.")
+
+## Returns all flags and their current values.
+func get_all_flags() -> Dictionary[StringName, Variant]:
+	var all_flags: Dictionary[StringName, Variant]
+	for flag: Dictionary in get_script().get_script_property_list():
+		var flag_name: String = flag.name
+		if flag_name == "DebugFlags.gd":
+			continue
+		var value: Variant = get(flag.name)
+		all_flags[flag_name] = value
+	return all_flags

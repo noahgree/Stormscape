@@ -279,6 +279,7 @@ func _create_or_restart_audio_player_from_resource(audio_resource: AudioResource
 		audio_player.bus = "Reverb" if use_reverb else "SFX"
 
 	# --- Universal Details ---
+	audio_player.add_to_group("ACTIVE_SOUNDS")
 	audio_player.add_to_group(audio_resource.id)
 	audio_player.sound_id = audio_resource.id
 	audio_player.loops_completed = 0
@@ -520,4 +521,12 @@ func _play_sound_globally_by_id(sound_id: StringName, volume: float = 0) -> void
 ## the name.
 func _debug_print_active_nodes_in_group(sound_id: StringName) -> void:
 	print(get_tree().get_nodes_in_group(sound_id))
+
+## Gets all active sound nodes keyed by their sound_id.
+func get_all_active_sounds() -> Dictionary[StringName, Variant]:
+	var nodes: Array[Node] = get_tree().get_nodes_in_group("ACTIVE_SOUNDS")
+	var results: Dictionary[StringName, Variant]
+	for node: Variant in nodes:
+		results[node.sound_id] = node
+	return results
 #endregion
