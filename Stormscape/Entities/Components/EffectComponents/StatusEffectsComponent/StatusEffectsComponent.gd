@@ -13,9 +13,9 @@ static var cached_status_effects: Dictionary[StringName, StatusEffect] = {} ## A
 
 @onready var affected_entity: Entity = owner ## The entity affected by these status effects.
 
-var current_effects: Dictionary[String, StatusEffect] = {} ## Keys are general status effect ids and values are the effect resources themselves.
-var effect_timers: Dictionary[String, Timer] = {} ## Holds references to all timers currently tracking active status effects.
-var particle_fade_tweens: Dictionary[String, Tween] = {} ## Holds references to all particle fade out tweens so if that effect is started again while fading out, we can cancel it.
+var current_effects: Dictionary[StringName, StatusEffect] = {} ## Keys are general status effect ids and values are the effect resources themselves.
+var effect_timers: Dictionary[StringName, Timer] = {} ## Holds references to all timers currently tracking active status effects.
+var particle_fade_tweens: Dictionary[StringName, Tween] = {} ## Holds references to all particle fade out tweens so if that effect is started again while fading out, we can cancel it.
 
 
 #region Debug
@@ -246,15 +246,21 @@ func check_if_has_effect(id: String, source_type: Globals.StatusEffectSourceType
 	if source_type != -1:
 		return current_effects.has(id + ":" + str(Globals.StatusEffectSourceType.keys()[source_type]).to_lower())
 	else:
-		for effect_key: String in current_effects:
+		for effect_key: StringName in current_effects:
 			if effect_key.begins_with(id + ":"):
 				return true
 		return false
 
-## Attempts to remove any effect of the matching id and source type.
+## Attempts to remove any effect of the matching id and source type (which is given as an Enum value).
 ## It also cancels any active DOTs and HOTs for it.
-func request_effect_removal_by_source(id: String, source_type: Globals.StatusEffectSourceType) -> void:
-	var key_to_remove: String = id + ":" + str(Globals.StatusEffectSourceType.keys()[source_type]).to_lower()
+func request_effect_removal_by_source(id: StringName, source_type: Globals.StatusEffectSourceType) -> void:
+	var source_string: StringName = StringName((Globals.StatusEffectSourceType.keys()[source_type]).to_lower())
+	request_effect_removal_by_source_string(id, source_string)
+
+## Attempts to remove any effect of the matching id and source type (which is given as a StringName).
+## It also cancels any active DOTs and HOTs for it.
+func request_effect_removal_by_source_string(id: StringName, source_string: StringName) -> void:
+	var key_to_remove: String = id + ":" + source_string
 	var existing_effect: StatusEffect = current_effects.get(key_to_remove, null)
 	if existing_effect:
 		_remove_status_effect(existing_effect)
@@ -263,10 +269,14 @@ func request_effect_removal_by_source(id: String, source_type: Globals.StatusEff
 ## Attempts to remove all effects of the matching id, regardless of source type.
 ## It also cancels all active DOTs and HOTs for each of them.
 func request_effect_removal_for_all_sources(id: String) -> void:
-	for effect_key: String in current_effects:
+	var to_erase: Array[StatusEffect] = []
+	for effect_key: StringName in current_effects:
 		if effect_key.begins_with(id + ":"):
-			_remove_status_effect(current_effects[effect_key])
+			to_erase.append(current_effects[effect_key])
 			_cancel_over_time_effects(effect_key)
+
+	for effect: StatusEffect in to_erase:
+		_remove_status_effect(effect)
 
 ## Sends the cancellation requests for a composite effect key to the damage and heal handlers if they exist.
 func _cancel_over_time_effects(key_to_cancel: String) -> void:
@@ -278,7 +288,7 @@ func _cancel_over_time_effects(key_to_cancel: String) -> void:
 ## Removes all bad status effects except for an optional exception effect that may be specified.
 ## The optional kept effect should be given only as its effect id, not including its source type.
 func remove_all_bad_status_effects(effect_to_keep_id: String = "") -> void:
-	for status_effect_key: String in current_effects.keys():
+	for status_effect_key: StringName in current_effects:
 		if effect_to_keep_id == StringHelpers.get_before_colon(status_effect_key):
 			continue
 		elif current_effects[status_effect_key].is_bad_effect:
@@ -287,7 +297,7 @@ func remove_all_bad_status_effects(effect_to_keep_id: String = "") -> void:
 ## Removes all good status effects except for an optional exception effect that may be specified.
 ## The optional kept effect should be given only as its effect id, not including its source type.
 func remove_all_good_status_effects(effect_to_keep_id: String = "") -> void:
-	for status_effect_key: String in current_effects.keys():
+	for status_effect_key: StringName in current_effects:
 		if effect_to_keep_id == StringHelpers.get_before_colon(status_effect_key):
 			continue
 		elif not current_effects[status_effect_key].is_bad_effect:
@@ -304,3 +314,14 @@ func is_untouchable() -> bool:
 		if status_effect.id == "untouchable":
 			return true
 	return false
+
+## Returns a dictionary of arrays, grouped by the effect id. This abstracts out the source types.
+func get_current_effects_grouped_by_id() -> Dictionary[StringName, Array]:
+	var results: Dictionary[StringName, Array]
+	for effect: StringName in current_effects:
+		var effect_id: StringName = effect.split(":")[0]
+		if effect_id in results:
+			results[effect_id].append(current_effects[effect])
+		else:
+			results[effect_id] = [current_effects[effect]]
+	return results

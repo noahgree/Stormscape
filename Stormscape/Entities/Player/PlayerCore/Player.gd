@@ -33,7 +33,8 @@ func _add_player_debug_commands() -> void:
 	DebugConsole.add_command("remove", inv.remove_item)
 	DebugConsole.add_command("print_inv", inv.print_inv.bind(true))
 	DebugConsole.add_command("effect", effect_receiver.apply_effect_by_id)
-	DebugConsole.add_command("remove_effect", effect_receiver.remove_effect_by_id)
+	DebugConsole.add_command("remove_effect_by_source", effect_receiver.remove_effect_by_id_and_source)
+	DebugConsole.add_command("remove_effect_by_id", effect_receiver.remove_all_effects_of_id)
 	DebugConsole.add_command("tp", teleport_relative)
 	DebugConsole.add_command("tp_set", teleport)
 	DebugConsole.add_command("hp", health_component.change_hp_by_amount)
@@ -47,6 +48,7 @@ func _add_player_debug_commands() -> void:
 	DebugConsole.add_command("remove_mod", stats.remove_mod)
 	DebugConsole.add_command("coords", func() -> void: print_rich("PLAYER COORDINATES: [b]", global_position))
 	DebugConsole.add_command("orphans", func() -> void: self.print_orphan_nodes())
+	DebugConsole.add_command("quit", func() -> void: assert(false, "QUIT command ran."))
 
 ## Moves the player by the given x and y amounts relative to the current global position.
 func teleport_relative(x: int, y: int) -> void:

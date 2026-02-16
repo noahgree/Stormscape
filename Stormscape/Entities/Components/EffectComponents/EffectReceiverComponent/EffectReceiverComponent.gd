@@ -298,12 +298,19 @@ func apply_effect_by_id(effect_key: StringName) -> void:
 
 	handle_status_effect(status_effect)
 
-## Attempts to remove an effect based on its file name turned into snake case. "poison_1", for example.
-func remove_effect_by_id(effect_key: StringName) -> void:
-	var status_effect: StatusEffect = StatusEffectsComponent.cached_status_effects.get(effect_key, null)
-	if status_effect == null:
-		printerr("The request to remove the effect \"" + effect_key + "\" failed because it does not exist.")
+## Attempts to remove an effect based on its effect id. "poison", for example.
+func remove_all_effects_of_id(effect_id: StringName) -> void:
+	affected_entity.effects.request_effect_removal_for_all_sources(effect_id)
+
+## Attempts to remove an effect based on its effect id case plus its source.
+## "poison:from_weapon", for example.
+func remove_effect_by_id_and_source(effect_key: StringName) -> void:
+	if effect_key not in affected_entity.effects.current_effects:
+		printerr("The request to remove \"" + effect_key + "\" failed because it does not exist as a currently applied effect.")
 		return
 
-	affected_entity.effects.request_effect_removal_by_source(status_effect.id, status_effect.source_type)
+	var effect_pieces: PackedStringArray = effect_key.split(":")
+	if effect_pieces.size() < 2:
+		return
+	affected_entity.effects.request_effect_removal_by_source_string(effect_pieces[0], effect_pieces[1])
 #endregion

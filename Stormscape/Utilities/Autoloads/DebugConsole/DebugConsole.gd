@@ -185,25 +185,28 @@ func _on_console_input_text_changed(new_text: String, from_history_scroll: bool 
 	var pieces: PackedStringArray = new_text.split(" ", true)
 	var command: String = ArrayHelpers.get_or_default(pieces, 0, "")
 	var arg_1: String = ArrayHelpers.get_or_default(pieces, 1, "")
-	var valid_autocomplete_option: bool = false
+	var valid_autocomplete_option: bool = true
 	if command in commands:
 		if pieces.size() <= 2 and not from_history_scroll:
 			match command:
 				"spawn_item", "give":
 					current_matches = StringHelpers.get_matching_in_dict(Items.cached_items, arg_1, MAX_AUTOCOMPLETES)
-					valid_autocomplete_option = true
 				"set":
 					current_matches = StringHelpers.get_matching_in_dict(DebugFlags.get_all_flags(), arg_1, MAX_AUTOCOMPLETES)
-					valid_autocomplete_option = true
 				"wpn_mod":
 					current_matches = StringHelpers.get_matching_in_dict(Items.get_all_wpn_mods(), arg_1, MAX_AUTOCOMPLETES)
-					valid_autocomplete_option = true
 				"sound":
 					current_matches = StringHelpers.get_matching_in_dict(AudioManager.sound_cache, arg_1, MAX_AUTOCOMPLETES)
-					valid_autocomplete_option = true
 				"stop_sound":
 					current_matches = StringHelpers.get_matching_in_dict(AudioManager.get_all_active_sounds(), arg_1, MAX_AUTOCOMPLETES, true)
-					valid_autocomplete_option = true
+				"effect":
+					current_matches = StringHelpers.get_matching_in_dict(StatusEffectsComponent.cached_status_effects, arg_1, MAX_AUTOCOMPLETES)
+				"remove_effect_by_source":
+					current_matches = StringHelpers.get_matching_in_dict(Globals.player_node.effects.current_effects, arg_1, MAX_AUTOCOMPLETES, true)
+				"remove_effect_by_id":
+					current_matches = StringHelpers.get_matching_in_dict(Globals.player_node.effects.get_current_effects_grouped_by_id(), arg_1, MAX_AUTOCOMPLETES, true)
+				_:
+					valid_autocomplete_option = false
 
 			if valid_autocomplete_option:
 				showing_autocomplete = true
