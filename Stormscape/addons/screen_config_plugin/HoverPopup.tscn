@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://ddk1hwcufjh8i"]
+[gd_scene format=3 uid="uid://ddk1hwcufjh8i"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6cm31"]
 bg_color = Color(0.0986429, 0.115677, 0.149743, 1)
@@ -10,6 +10,7 @@ corner_detail = 10
 
 [sub_resource type="SystemFont" id="SystemFont_6cm31"]
 font_names = PackedStringArray("Sans-Serif")
+subpixel_positioning = 0
 
 [sub_resource type="LabelSettings" id="LabelSettings_tbl6p"]
 line_spacing = 5.0
@@ -17,22 +18,27 @@ font = SubResource("SystemFont_6cm31")
 font_size = 30
 font_color = Color(0.841469, 0.841469, 0.841469, 1)
 
-[node name="HoverPopup" type="Popup"]
+[node name="HoverPopup" type="Popup" unique_id=1073276877]
 transparent_bg = true
+gui_disable_input = true
+gui_embed_subwindows = true
+oversampling_override = 1.0
 title = "HelpPopup"
+position = Vector2i(-5, 130)
 size = Vector2i(650, 100)
 visible = true
+transient_to_focused = true
 transparent = true
 mouse_passthrough = true
 
-[node name="Panel" type="Panel" parent="."]
+[node name="Panel" type="Panel" parent="." unique_id=1160969356]
 custom_minimum_size = Vector2(650, 100)
 offset_right = 40.0
 offset_bottom = 40.0
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_6cm31")
 
-[node name="Label" type="Label" parent="Panel"]
+[node name="Label" type="Label" parent="Panel" unique_id=1143523438]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 1
 anchors_preset = 15

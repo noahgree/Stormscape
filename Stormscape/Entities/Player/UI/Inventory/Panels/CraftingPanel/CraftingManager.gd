@@ -110,7 +110,7 @@ func _is_item_craftable(item: ItemResource) -> bool:
 		if total_quantity < ingredient.quantity:
 			return false
 
-	if not _verify_exact_match(recipe):
+	if not _verify_exact_match(item):
 		return false
 
 	return true
@@ -121,15 +121,21 @@ func _check_rarity_condition(rarity_cond: String, req_rarity: Globals.ItemRarity
 	match rarity_cond:
 		"No":
 			return true
+		"Equal":
+			return item_rarity == req_rarity
 		"GEQ":
 			return item_rarity >= req_rarity
 	return false
 
 ## This verifies that each slot contains something that contributes to the recipe.
-func _verify_exact_match(recipe: Array[CraftingIngredient]) -> bool:
+func _verify_exact_match(stats_of_item_to_craft: ItemResource) -> bool:
+	var recipe: Array[CraftingIngredient] = stats_of_item_to_craft.recipe
+	var occupied_slots: int = 0
+
 	for slot: CraftingSlot in input_slots:
 		if slot.item == null:
 			continue
+		occupied_slots += 1
 
 		var allowed: bool = false
 		for ingredient: CraftingIngredient in recipe:
@@ -147,7 +153,28 @@ func _verify_exact_match(recipe: Array[CraftingIngredient]) -> bool:
 
 		if not allowed:
 			return false
+
+	if stats_of_item_to_craft.exact_input_match and occupied_slots > recipe.size():
+		return false
+
 	return true
+
+## Checks if an item resource is a valid ingredient in another item's recipe. Does not consider counts.
+func check_if_item_in_ingredient_list(item_to_check: ItemResource, stats_of_item_to_craft: ItemResource) -> bool:
+	if item_to_check == null:
+		return false
+	var recipe: Array[CraftingIngredient] = stats_of_item_to_craft.recipe
+
+	for ingredient: CraftingIngredient in recipe:
+		if ingredient.type == "Item":
+			if (item_to_check.id == ingredient.item.id) and _check_rarity_condition(ingredient.rarity_match, ingredient.item.rarity, item_to_check.rarity):
+				return true
+		elif ingredient.type == "Tags":
+			for tag: StringName in ingredient.tags:
+				if tag in item_to_check.tags:
+					return true
+
+	return false
 
 ## Use the inverted lookups to get candidate recipes from the current items in the input.
 func _get_candidate_recipes() -> Array:
@@ -182,7 +209,13 @@ func _update_crafting_result() -> void:
 	for recipe_cache_id: StringName in candidates:
 		var item_resource: ItemResource = Items.get_item_by_id(recipe_cache_id)
 		if _is_item_craftable(item_resource):
-			output_slot.set_item(InvItemResource.new(item_resource, item_resource.output_quantity).assign_unique_suid())
+			output_slot.set_item(
+				InvItemResource.new(item_resource.duplicate_deep(), item_resource.output_quantity
+			).assign_unique_suid())
+
+			if output_slot.item.stats.upgrade_recipe and output_slot.item.stats is WeaponResource:
+				var upgrade_origin_stats: ItemResource = get_upgrade_source(output_slot.item.stats)
+				output_slot.item.stats.migrate_from_rarity_upgrade(upgrade_origin_stats, Globals.player_node, false)
 			return
 
 	output_slot.set_item(null)
@@ -218,26 +251,39 @@ func _consume_ingredient(ingredient: CraftingIngredient, target_count: int) -> b
 ## This consumes the ingredients in the recipe once the item is claimed.
 ## If the target amount is greater than 1, it must be able to craft that amount or it won't craft any at all.
 ## The target amount should be -1 if you want to craft as many as possible.
-## If it fails, it restores all quantities and returns 0.
-func _consume_recipe(recipe: Array[CraftingIngredient], target_count: int) -> int:
+## If it fails, it restores all quantities and returns 0 as well as the backups.
+func _consume_recipe(stats_of_item_to_craft: ItemResource, target_count: int) -> Dictionary[StringName, Variant]:
 	var backups: Array[int] = _get_slot_quantities()
+	var recipe: Array[CraftingIngredient] = stats_of_item_to_craft.recipe
+	var result: Dictionary[StringName, Variant] = { &"successful_crafts" : 0, &"saved_items" : {} }
 
-	var max_can_craft: int = _get_max_amount_craftable(recipe)
+	var max_can_craft: int = _get_max_amount_craftable(stats_of_item_to_craft)
 	if max_can_craft < 1:
-		return 0
+		return result
 
-	var target_crafts: int = max_can_craft if target_count == -1 else min(target_count, max_can_craft)
+	result.successful_crafts = max_can_craft if target_count == -1 else min(target_count, max_can_craft)
+
+	if stats_of_item_to_craft.upgrade_recipe and stats_of_item_to_craft is WeaponResource:
+		result.saved_items[&"upgrade_origin_stats"] = get_upgrade_source(stats_of_item_to_craft)
 
 	for ingredient: CraftingIngredient in recipe:
-		if not _consume_ingredient(ingredient, target_crafts):
+		if not _consume_ingredient(ingredient, result.successful_crafts):
 			_restore_input_slot_quantities(backups)
-			return 0
+			return result
 
 	for slot: CraftingSlot in input_slots:
 		if slot.item and slot.item.quantity <= 0:
 			slot.set_item(null)
 
-	return target_crafts
+	return result
+
+## If we are upgrading a weapon as this craft, this will find the first weapon in the inputs that matches the
+## recipe and return its stats. This acts as the source for the upgrade.
+func get_upgrade_source(stats_of_item_to_craft: ItemResource) -> ItemResource:
+	for slot: CraftingSlot in input_slots:
+		if slot.item and check_if_item_in_ingredient_list(slot.item.stats, stats_of_item_to_craft) and slot.item.stats is WeaponResource:
+			return slot.item.stats
+	return null
 
 ## Gets an array of the quantities for each input slot.
 func _get_slot_quantities() -> Array[int]:
@@ -267,13 +313,17 @@ func _get_total_ingredient_count(ingredient: CraftingIngredient) -> int:
 	return total
 
 ## Gets the max amount of times we can craft the given recipe based on what is in the input slots.
-func _get_max_amount_craftable(recipe: Array[CraftingIngredient]) -> int:
+func _get_max_amount_craftable(stats_of_item_to_craft: ItemResource) -> int:
+	var recipe: Array[CraftingIngredient] = stats_of_item_to_craft.recipe
+
 	var max_can_craft: int = 10000
 	for ingredient: CraftingIngredient in recipe:
 		var available_ingredient_count: int = _get_total_ingredient_count(ingredient)
 		var max_craftable_for_this_ingredient: int = floori(float(available_ingredient_count) / float(ingredient.quantity))
 		max_can_craft = min(max_can_craft, max_craftable_for_this_ingredient)
 
+	if stats_of_item_to_craft.upgrade_recipe:
+		return min(1, max_can_craft)
 	return max_can_craft
 
 ## Puts a saved array of quantities back into the input slots after a failed craft.
@@ -291,10 +341,13 @@ func attempt_craft() -> void:
 	if Input.is_action_pressed("sprint"):
 		amount = -1
 
-	var successful_crafts: int = _consume_recipe(output_slot.item.stats.recipe, amount)
+	var consumption_result: Dictionary[StringName, Variant] = _consume_recipe(output_slot.item.stats, amount)
 	var output_quant_per_craft: int = output_slot.item.stats.output_quantity
-	if successful_crafts > 0:
-		output_slot.set_item(InvItemResource.new(output_slot.item.stats, successful_crafts * output_quant_per_craft))
+	if consumption_result.successful_crafts > 0:
+		output_slot.set_item(InvItemResource.new(output_slot.item.stats, consumption_result.successful_crafts * output_quant_per_craft))
+
+		if output_slot.item.stats.upgrade_recipe and output_slot.item.stats is WeaponResource:
+			output_slot.item.stats.migrate_from_rarity_upgrade(consumption_result.saved_items.upgrade_origin_stats, Globals.player_node)
 
 		MessageManager.add_msg_preset(output_slot.item.get_pretty_string() + " Crafted", MessageManager.Presets.SUCCESS, 3.0, true)
 		AudioManager.play_ui_sound(&"craft_button")
@@ -325,7 +378,7 @@ func _get_preview_array(item: InvItemResource) -> Array[Array]:
 					items_to_preview.append({ InvItemResource.new(item_with_tag, ingredient.quantity, true) : 0 })
 		elif ingredient.type == "Item":
 			var min_rarity: int = 0
-			if ingredient.rarity_match == "GEQ":
+			if ingredient.rarity_match in ["Equal", "GEQ"]:
 				min_rarity = ingredient.item.rarity
 			items_to_preview.append({ InvItemResource.new(ingredient.item, ingredient.quantity, true) : min_rarity })
 

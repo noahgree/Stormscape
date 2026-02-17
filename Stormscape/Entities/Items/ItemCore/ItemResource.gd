@@ -26,6 +26,8 @@ class_name ItemResource
 
 @export_group("Crafting")
 @export var recipe: Array[CraftingIngredient] = [] ## The items & quantities required to craft an instance of this item.
+@export var exact_input_match: bool = false ## When true, the input slots must not be occupied by any more than the exact ingredient count of this recipe. The slots can contain more than they need, but if a recipe calls for 5 logs, you cannot put 2 in one slot and 3 in another, or any greater-than-that combination. There must be 5 or more in a single slot.
+@export var upgrade_recipe: bool = false ## When true, this recipe is treated as an upgrade recipe only, meaning the only way this item is crafted is through an item of lower rarity and its upgrade template. This tells the crafting manager to pass along the mods and levels of the old version to the new version.
 @export var output_quantity: int = 1 ## The number of resulting instances of this item that spawn when crafted.
 @export var recipe_unlocked: bool = true ## A flag to determine whether or not this item can be crafted. True by default.
 
@@ -111,9 +113,9 @@ func is_same_as(other_item: ItemResource) -> bool:
 
 ## Custom duplication method that passes the old session_uid as a negative in order to trick the setter
 ## function to keeping it.
-func duplicate_with_suid(duplicate_subresources: bool = false) -> ItemResource:
+func duplicate_with_suid() -> ItemResource:
 	# This will generate a new incremented session UID from the static var holding the counter
-	var duplicated: ItemResource = self.duplicate(duplicate_subresources)
+	var duplicated: ItemResource = self.duplicate()
 	# But this makes that obsolete by just setting it to the negative of what it used to be so that it can stay as its original (the setter sees a negative and makes it positive without generating a UID again)
 	duplicated.session_uid = -session_uid
 	return duplicated

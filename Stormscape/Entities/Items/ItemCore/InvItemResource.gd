@@ -10,16 +10,12 @@ class_name InvItemResource
 ## The placeholder parameter determines if this resource needs its mod caches set up. If this item is being used
 ## as a preview or just for its image and will not be needing modded stats, mark placeholder as true.
 func _init(item_stats: ItemResource = null, item_quantity: int = 1, placeholder: bool = false) -> void:
-	if item_stats == null:
-		self.stats = item_stats
-	else:
-		self.stats = item_stats.duplicate_with_suid()
-
+	self.stats = item_stats if item_stats == null else item_stats.duplicate_with_suid()
 	self.quantity = item_quantity
 
 	if not placeholder:
 		if stats is ProjWeaponResource:
-			if stats.s_mods.base_values.is_empty(): # Otherwise it undoes any changes to values made my mods
+			if stats.s_mods.base_values.is_empty(): # Otherwise it undoes any changes to values made by mods
 				InitializationHelpers.initialize_proj_wpn_stats_resource(stats)
 		elif stats is MeleeWeaponResource:
 			if stats.s_mods.base_values.is_empty():

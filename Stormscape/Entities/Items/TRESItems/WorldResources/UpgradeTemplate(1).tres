@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="WorldResourceResource" format=3 uid="uid://buk4r8balgqup"]
+
+[ext_resource type="Script" uid="uid://cowjdnic7xmkp" path="res://Entities/Player/UI/Inventory/Panels/ItemDetailsPanel/StatDetail.gd" id="1_sjhsl"]
+[ext_resource type="Texture2D" uid="uid://onmoe4xkeqqd" path="res://Entities/Items/Currency/Stormshine/stormshine.png" id="2_kvrnn"]
+[ext_resource type="Script" uid="uid://ctxa7i1mbt7ab" path="res://Entities/Player/UI/Inventory/Panels/CraftingPanel/CraftingIngredient.gd" id="2_r6bbm"]
+[ext_resource type="Script" uid="uid://crlmvnjkf7c3g" path="res://Entities/Items/WorldResources/WorldResourceResource.gd" id="3_kvrnn"]
+
+[resource]
+script = ExtResource("3_kvrnn")
+id = "upgrade_template"
+name = "Upgrade Template"
+item_type = 4
+rarity = 1
+info = "Can be used to upgrade weapons from common to uncommon. Add this weapon and this template to the crafting panel to perform the upgrade."
+ground_icon = ExtResource("2_kvrnn")
+in_hand_icon = ExtResource("2_kvrnn")
+inv_icon = ExtResource("2_kvrnn")
+recipe_unlocked = false
+metadata/_custom_type_script = "uid://crlmvnjkf7c3g"

@@ -6,7 +6,7 @@ class_name CraftingIngredient
 @export var item: ItemResource ## The item resource to match.
 @export_range(1, 1000, 1) var quantity: int = 1 ## The required quantity of any matching item resources or tagged items.
 @export var tags: Array[StringName] = [] ## The set of string tags that are allowed to match in order to be considered valid for this ingredient.
-@export_enum("No", "GEQ") var rarity_match: String = "No" ## What relative rarities are allowed to be used for this recipe. "No" means no rarity match required. "GEQ" means greater or equal rarity match required.
+@export_enum("No", "Equal", "GEQ") var rarity_match: String = "No" ## What relative rarities are allowed to be used for this recipe. "No" means no rarity match required. "GEQ" means greater or equal rarity match required.
 
 
 func _to_string() -> String:

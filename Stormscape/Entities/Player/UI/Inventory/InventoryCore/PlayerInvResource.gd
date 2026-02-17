@@ -214,5 +214,7 @@ func grant_from_item_id(item_cache_id: StringName, count: int = 1) -> void:
 	if item_resource == null:
 		printerr("The request to grant the item \"" + item_cache_id + "\" failed because it does not exist.")
 		return
-	insert_from_inv_item(InvItemResource.new(item_resource, int(count)), false, true)
+	insert_from_inv_item(
+		InvItemResource.new(item_resource.duplicate_deep(), count
+	).assign_unique_suid(), true, false)
 #endregion

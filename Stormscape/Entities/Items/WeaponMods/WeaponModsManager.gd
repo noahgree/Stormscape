@@ -126,6 +126,17 @@ static func re_add_all_mods_to_weapon(weapon_stats: WeaponResource, source_entit
 			handle_weapon_mod(weapon_stats, weapon_mod_entry.values()[0], i, source_entity)
 		i += 1
 
+## Copies all mods from a weapon to the new weapon, optionally deleting them from the source afterward.
+static func copy_mods_between_weapons(original_wpn: WeaponResource, target_wpn: WeaponResource,
+											source_entity: Entity, remove_from_orig: bool) -> void:
+	var i: int = 0
+	for weapon_mod_entry: Dictionary in original_wpn.current_mods:
+		if weapon_mod_entry.values()[0] != null:
+			handle_weapon_mod(target_wpn, weapon_mod_entry.values()[0], i, source_entity)
+			if remove_from_orig:
+				remove_weapon_mod(original_wpn, weapon_mod_entry.values()[0], i, source_entity)
+		i += 1
+
 ## Removes all mods from a passed in weapon_stats resource.
 static func remove_all_mods_from_weapon(weapon_stats: WeaponResource, source_entity: Entity) -> void:
 	var i: int = 0

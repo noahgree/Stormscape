@@ -129,6 +129,15 @@ func level_up() -> int:
 	MessageManager.add_msg(name + " is now [color=white]" + max_lvl_msg  + "[/color]" + stats_msg, Globals.ui_colors.ui_glow_strong_success, inv_icon)
 	return level
 
+## Upgrades a weapon to a higher rarity, transferring all stats and mods.
+func migrate_from_rarity_upgrade(original_wpn: WeaponResource, source_entity: Entity,
+									remove_from_orig: bool = true) -> void:
+	session_uid = original_wpn.session_uid
+	WeaponModsManager.copy_mods_between_weapons(original_wpn, self, source_entity, remove_from_orig)
+	level = original_wpn.level
+	allowed_lvl = original_wpn.allowed_lvl
+	lvl_progress = original_wpn.lvl_progress
+
 #region DEBUG
 ## prints the total needed xp for each level up to the requested level.
 func print_total_needed(for_level: int) -> void:

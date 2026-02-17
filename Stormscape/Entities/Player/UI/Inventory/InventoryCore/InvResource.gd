@@ -51,8 +51,7 @@ func fill_inventory(inv_to_fill_from: Array[InvItemResource]) -> void:
 	for i: int in range(min(inv_to_fill_from.size(), max_fill_index)):
 		if inv_to_fill_from[i] != null:
 			var inv_item: InvItemResource = InvItemResource.new(
-				inv_to_fill_from[i].stats.duplicate_deep(Resource.DEEP_DUPLICATE_INTERNAL), inv_to_fill_from[i].quantity,
-				false
+					inv_to_fill_from[i].stats.duplicate_deep(), inv_to_fill_from[i].quantity,
 				).assign_unique_suid() # Need to ensure it is new and not the same as the inv to fill from
 
 			if inv_item.quantity > inv_item.stats.stack_size:
@@ -70,10 +69,9 @@ func fill_inventory_with_checks(inv_to_fill_from: Array[InvItemResource]) -> voi
 	inv.fill(null)
 	for i: int in range(min(inv_to_fill_from.size(), max_fill_index)):
 		if inv_to_fill_from[i] != null:
-			insert_from_inv_item(InvItemResource.new(
-				inv_to_fill_from[i].stats.duplicate_deep(Resource.DEEP_DUPLICATE_INTERNAL), inv_to_fill_from[i].quantity,
-				false
-				).assign_unique_suid(), true, false)
+			insert_from_inv_item(
+				InvItemResource.new(inv_to_fill_from[i].stats.duplicate_deep(), inv_to_fill_from[i].quantity
+			).assign_unique_suid(), true, false)
 
 	_emit_changes_for_all_indices()
 

@@ -232,8 +232,6 @@ func _on_auto_stack_btn_button_up() -> void:
 ## Attempts to craft whatever is shown in the output slot of the crafting UI.
 func _on_craft_btn_pressed() -> void:
 	get_node("%CraftingManager").attempt_craft()
-	var new_lvl: String = str(item_details_panel.item_viewer_slot.item.stats.level_up())
-	MessageManager.add_msg_preset(item_details_panel.item_viewer_slot.item.stats.name + " is now Level " + new_lvl, MessageManager.Presets.SUCCESS)
 func _on_craft_btn_button_down() -> void:
 	craft_btn.texture = btn_down_texture
 func _on_craft_btn_button_up() -> void:
