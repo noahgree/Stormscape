@@ -1,10 +1,10 @@
-[gd_scene load_steps=16 format=3 uid="uid://cdbf0tdqr3eww"]
+[gd_scene format=3 uid="uid://cdbf0tdqr3eww"]
 
-[ext_resource type="Script" uid="uid://ut1n80th00qw" path="res://Entities/Items/Weapons/MeleeWeapons/MeleeWeapon.gd" id="1_cxccv"]
+[ext_resource type="Script" uid="uid://ut1n80th00qw" path="res://Entities/Items/Weapons/MeleeWeapons/MeleeWeaponCore/MeleeWeapon.gd" id="1_cxccv"]
 [ext_resource type="Shader" uid="uid://cugs1eqtkjsbd" path="res://Utilities/Game/Shaders/TintAndGlow.gdshader" id="2_a1ayi"]
 [ext_resource type="Texture2D" uid="uid://c5oqm868vkvhb" path="res://Entities/Items/Weapons/MeleeWeapons/ZombieHands/ZombieHandsBaseCT.tres" id="3_nwxvl"]
 [ext_resource type="PackedScene" uid="uid://b7ckcb2xdimpo" path="res://Entities/Components/HitboxComponent/HitboxComponent.tscn" id="4_1rbak"]
-[ext_resource type="AnimationLibrary" uid="uid://dk7m82xohebji" path="res://Entities/Items/Weapons/MeleeWeapons/MeleeWeaponAnimLibrary.res" id="6_kybxr"]
+[ext_resource type="AnimationLibrary" uid="uid://dk7m82xohebji" path="res://Entities/Items/Weapons/MeleeWeapons/MeleeWeaponCore/MeleeWeaponAnimLibrary.res" id="6_kybxr"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8aqmb"]
 shader = ExtResource("2_a1ayi")

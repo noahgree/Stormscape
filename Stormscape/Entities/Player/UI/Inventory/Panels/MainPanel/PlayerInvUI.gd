@@ -188,7 +188,7 @@ func _notification(what: int) -> void:
 		trash_slot_container.show()
 
 ## When the item in the trash slot changes, if we detect that it holds something now, re-show it.
-func _on_trash_slot_item_changed(_slot: Slot, _old_item: InvItemStats, new_item: InvItemStats) -> void:
+func _on_trash_slot_item_changed(_slot: Slot, _old_item: InvItemResource, new_item: InvItemResource) -> void:
 	if new_item != null:
 		trash_slot_container.show()
 

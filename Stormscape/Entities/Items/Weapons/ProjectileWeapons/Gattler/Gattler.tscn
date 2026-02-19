@@ -1,6 +1,6 @@
-[gd_scene load_steps=28 format=3 uid="uid://c17oqm8amalvy"]
+[gd_scene format=3 uid="uid://c17oqm8amalvy"]
 
-[ext_resource type="Script" uid="uid://ca8xdltgdyjys" path="res://Entities/Items/Weapons/ProjectileWeapons/ProjectileWeapon.gd" id="1_c0tnr"]
+[ext_resource type="Script" uid="uid://ca8xdltgdyjys" path="res://Entities/Items/Weapons/ProjectileWeapons/ProjWeaponCore/ProjectileWeapon.gd" id="1_c0tnr"]
 [ext_resource type="PackedScene" uid="uid://wda4fiuxi8kh" path="res://Entities/Items/Weapons/WeaponVFX/FiringVFX/Simple/SimpleFiringVFX.tscn" id="2_ol8xj"]
 [ext_resource type="Shader" uid="uid://cugs1eqtkjsbd" path="res://Utilities/Game/Shaders/TintAndGlow.gdshader" id="3_c0tnr"]
 [ext_resource type="Texture2D" uid="uid://nmamppdlgu5h" path="res://Entities/Items/Weapons/ProjectileWeapons/Gattler/GattlerBaseCT.tres" id="4_c0tnr"]

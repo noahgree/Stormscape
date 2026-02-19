@@ -12,7 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://cqvc0w84kou6a" path="res://Entities/Items/Projectiles/Explosives/Grenade/Grenade.tscn" id="10_0b3vo"]
 [ext_resource type="Script" uid="uid://ctxa7i1mbt7ab" path="res://Entities/Player/UI/Inventory/Panels/CraftingPanel/CraftingIngredient.gd" id="10_t0njd"]
 [ext_resource type="Script" uid="uid://c2gdoebfp12dq" path="res://Entities/Stats/StatMod/StatModsCacheResource.gd" id="11_qvdyt"]
-[ext_resource type="Script" uid="uid://dvasncq3tgljs" path="res://Entities/Items/Weapons/ProjectileWeapons/ProjWeaponStats.gd" id="13_0b3vo"]
+[ext_resource type="Script" uid="uid://dvasncq3tgljs" path="res://Entities/Items/Weapons/ProjectileWeapons/ProjWeaponCore/ProjWeaponStats.gd" id="13_0b3vo"]
 
 [sub_resource type="Resource" id="Resource_slitw"]
 script = ExtResource("2_0b3vo")

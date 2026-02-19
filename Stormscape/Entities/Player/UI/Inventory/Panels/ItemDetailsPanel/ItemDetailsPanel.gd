@@ -129,7 +129,7 @@ func _on_ui_focus_closed(_node: Node) -> void:
 
 ## When the item inside a mod slot changes and the item under review isn't actively changing, we should modify
 ## the item's mods in it's stats.
-func _on_mod_slot_changed(slot: ModSlot, old_item: InvItemStats, new_item: InvItemStats) -> void:
+func _on_mod_slot_changed(slot: ModSlot, old_item: InvItemResource, new_item: InvItemResource) -> void:
 	if changing_item_viewer_slot:
 		return
 
@@ -166,7 +166,7 @@ func manually_set_item_viewer_slot(slot: Slot, reload_already_viewed_item: bool 
 	return false
 
 ## When the item under review changes, we need to conditionally enable the mod slots and update the stats view.
-func _on_item_viewer_slot_changed(_slot: Slot, _old_item: InvItemStats, new_item: InvItemStats) -> void:
+func _on_item_viewer_slot_changed(_slot: Slot, _old_item: InvItemResource, new_item: InvItemResource) -> void:
 	changing_item_viewer_slot = true
 
 	player_icon_margin.visible = false
@@ -206,7 +206,7 @@ func _on_item_viewer_slot_changed(_slot: Slot, _old_item: InvItemStats, new_item
 		var i: int = 0
 		for weapon_mod_entry: Dictionary in new_item.stats.current_mods:
 			if weapon_mod_entry.values()[0] != null:
-				mod_slots[i].item = InvItemStats.new(weapon_mod_entry.values()[0], 1)
+				mod_slots[i].item = InvItemResource.new(weapon_mod_entry.values()[0], 1)
 			i += 1
 	else:
 		_change_mod_slot_visibilities(false)
@@ -293,6 +293,6 @@ func _on_hover_delay_ended() -> void:
 			CursorManager.update_tooltip(slot.item.stats.name, Globals.ui_colors.ui_light_tan, info, Globals.rarity_colors.ui_text.get(slot.item.stats.rarity))
 	elif slot.item != null:
 		is_updating_via_hover = true
-		var temp_item: InvItemStats = InvItemStats.new(slot.item.stats, 1)
+		var temp_item: InvItemResource = InvItemResource.new(slot.item.stats, 1)
 		item_viewer_slot.set_item(temp_item)
 		is_updating_via_hover = false

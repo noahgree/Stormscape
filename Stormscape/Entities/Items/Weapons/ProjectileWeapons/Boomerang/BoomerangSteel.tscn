@@ -1,6 +1,6 @@
-[gd_scene load_steps=13 format=3 uid="uid://dq57qggohi76w"]
+[gd_scene format=3 uid="uid://dq57qggohi76w"]
 
-[ext_resource type="Script" uid="uid://b67bgqwsld0w4" path="res://Entities/Items/Weapons/ProjectileWeapons/UniqueProjWeapon.gd" id="1_tuval"]
+[ext_resource type="Script" uid="uid://b67bgqwsld0w4" path="res://Entities/Items/Weapons/ProjectileWeapons/ProjWeaponCore/UniqueProjWeapon.gd" id="1_tuval"]
 [ext_resource type="Texture2D" uid="uid://cqsoww8i0aya3" path="res://Entities/Items/Weapons/ProjectileWeapons/Boomerang/BoomerangSteelCT.tres" id="4_1pg7u"]
 [ext_resource type="Shader" uid="uid://0iw7utoi4lxy" path="res://Utilities/Game/Shaders/TintAndGlowUnshaded.gdshader" id="4_hoksd"]
 [ext_resource type="PackedScene" uid="uid://lw5fgm5pgoif" path="res://Entities/EntityCore/Sprites/EntityHandSprite.tscn" id="5_1pg7u"]

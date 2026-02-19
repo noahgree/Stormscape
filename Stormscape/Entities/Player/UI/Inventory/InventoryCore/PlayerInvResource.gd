@@ -52,7 +52,7 @@ func add_item_from_world(original_item: Item) -> void:
 ## Handles the logic needed for adding an item to the inventory from a given inventory item resource.
 ## Respects stack size. By default, any extra quantity that does not fit will be ignored and deleted.
 ## Can optionally specify to fill the hotbar before filling the main inventory slots.
-func insert_from_inv_item(original_item: InvItemStats, delete_extra: bool = true,
+func insert_from_inv_item(original_item: InvItemResource, delete_extra: bool = true,
 							hotbar_first: bool = false) -> void:
 	var remaining: int = 0
 	if original_item.stats is ProjAmmoStats:
@@ -74,25 +74,25 @@ func insert_from_inv_item(original_item: InvItemStats, delete_extra: bool = true
 	if not delete_extra and remaining != 0:
 		Item.spawn_on_ground(original_item.stats, original_item.quantity, Globals.player_node.global_position, 8, false, false, true)
 
-## Attempts to fill the hotbar with the item passed in. Can either be an Item or an InvItemStats.
+## Attempts to fill the hotbar with the item passed in. Can either be an Item or an InvItemResource.
 ## Returns any leftover quantity that did not fit.
 func _fill_hotbar(original_item: Variant) -> int:
 	return _do_add_item_checks(original_item, Globals.MAIN_PLAYER_INV_SIZE, Globals.MAIN_PLAYER_INV_SIZE + Globals.HOTBAR_SIZE)
 
-## Attempts to fill the main inventory with the item passed in. Can either be an Item or an InvItemStats.
+## Attempts to fill the main inventory with the item passed in. Can either be an Item or an InvItemResource.
 ## Returns any leftover quantity that did not fit.
 func _fill_main_inventory(original_item: Variant) -> int:
 	return _do_add_item_checks(original_item, 0, Globals.MAIN_PLAYER_INV_SIZE)
 
 ## Attempts to fill the ammo slots in the inventory with the passed in ammo. Can either be an Item or
-## an InvItemStats. Returns any leftover quantity that did not fit.
+## an InvItemResource. Returns any leftover quantity that did not fit.
 func _fill_ammo(original_item: Variant) -> int:
 	var relative_index: int = ammo_slot_manager.type_order.find(original_item.stats.ammo_type)
 	var placement_index: int = ammo_slot_manager.starting_index + relative_index
 	return _do_add_item_checks(original_item, placement_index, placement_index + 1)
 
 ## Attempts to fill the currency slots in the inventory with the passed in currency. Can either be an Item or
-## an InvItemStats. Returns any leftover quantity that did not fit.
+## an InvItemResource. Returns any leftover quantity that did not fit.
 func _fill_currency(original_item: Variant) -> int:
 	var relative_index: int = currency_slot_manager.type_order.find(original_item.stats.currency_type)
 	var placement_index: int = currency_slot_manager.starting_index + relative_index
@@ -120,7 +120,7 @@ func activate_auto_stack() -> void:
 
 ## Called in order to start sorting by rarity of items in the inventory. Does not sort hotbar if present.
 func activate_sort_by_rarity() -> void:
-	var arr: Array[InvItemStats] = inv.slice(0, Globals.MAIN_PLAYER_INV_SIZE)
+	var arr: Array[InvItemResource] = inv.slice(0, Globals.MAIN_PLAYER_INV_SIZE)
 	arr.sort_custom(_rarity_sort_logic)
 	for i: int in range(Globals.MAIN_PLAYER_INV_SIZE):
 		inv[i] = arr[i]
@@ -128,7 +128,7 @@ func activate_sort_by_rarity() -> void:
 
 ## Called in order to start sorting by type of items in the inventory. Does not sort hotbar if present.
 func activate_sort_by_type() -> void:
-	var arr: Array[InvItemStats] = inv.slice(0, Globals.MAIN_PLAYER_INV_SIZE)
+	var arr: Array[InvItemResource] = inv.slice(0, Globals.MAIN_PLAYER_INV_SIZE)
 	arr.sort_custom(_type_sort_logic)
 	for i: int in range(Globals.MAIN_PLAYER_INV_SIZE):
 		inv[i] = arr[i]
@@ -136,14 +136,14 @@ func activate_sort_by_type() -> void:
 
 ## Called in order to start sorting by name of items in the inventory. Does not sort hotbar if present.
 func activate_sort_by_name() -> void:
-	var arr: Array[InvItemStats] = inv.slice(0, Globals.MAIN_PLAYER_INV_SIZE)
+	var arr: Array[InvItemResource] = inv.slice(0, Globals.MAIN_PLAYER_INV_SIZE)
 	arr.sort_custom(_name_sort_logic)
 	for i: int in range(Globals.MAIN_PLAYER_INV_SIZE):
 		inv[i] = arr[i]
 	_emit_changes_for_all_indices()
 
 ## Implements the comparison logic for sorting by rarity.
-func _rarity_sort_logic(a: InvItemStats, b: InvItemStats) -> bool:
+func _rarity_sort_logic(a: InvItemResource, b: InvItemResource) -> bool:
 	if a == null and b == null: return false
 	if a == null: return false
 	if b == null: return true
@@ -156,7 +156,7 @@ func _rarity_sort_logic(a: InvItemStats, b: InvItemStats) -> bool:
 		return a.stats.name < b.stats.name
 
 ## Implements the comparison logic for sorting by item type.
-func _type_sort_logic(a: InvItemStats, b: InvItemStats) -> bool:
+func _type_sort_logic(a: InvItemResource, b: InvItemResource) -> bool:
 	if a == null and b == null: return false
 	if a == null: return false
 	if b == null: return true
@@ -171,7 +171,7 @@ func _type_sort_logic(a: InvItemStats, b: InvItemStats) -> bool:
 		return a.quantity > b.quantity
 
 ## Implements the comparison logic for sorting by name.
-func _name_sort_logic(a: InvItemStats, b: InvItemStats) -> bool:
+func _name_sort_logic(a: InvItemResource, b: InvItemResource) -> bool:
 	if a == null and b == null: return false
 	if a == null: return false
 	if b == null: return true
@@ -192,7 +192,7 @@ func get_more_ammo(max_amount_needed: int, take_from_inventory: bool,
 	var starting_index: int = ammo_slot_manager.starting_index
 
 	for i: int in range(starting_index, starting_index + Globals.AMMO_BAR_SIZE):
-		var item: InvItemStats = inv[i]
+		var item: InvItemResource = inv[i]
 		if item != null and (item.stats is ProjAmmoStats) and (item.stats.ammo_type == ammo_type):
 			var amount_in_slot: int = item.quantity
 			var amount_still_needed: int = max_amount_needed - ammount_collected
@@ -215,6 +215,6 @@ func grant_from_item_id(item_cache_id: StringName, count: int = 1) -> void:
 		printerr("The request to grant the item \"" + item_cache_id + "\" failed because it does not exist.")
 		return
 	insert_from_inv_item(
-		InvItemStats.new(item_resource.duplicate_deep(), count
+		InvItemResource.new(item_resource.duplicate_deep(), count
 	).assign_unique_suid(), true, false)
 #endregion

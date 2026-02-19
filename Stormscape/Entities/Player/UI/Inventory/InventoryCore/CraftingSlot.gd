@@ -8,7 +8,7 @@ signal output_changed(is_craftable: bool)
 @export var is_output_slot: bool = false ## Whether or not this crafting slot is an output slot.
 
 
-func set_item(new_item: InvItemStats) -> void:
+func set_item(new_item: InvItemResource) -> void:
 	super.set_item(new_item)
 
 	if is_output_slot:

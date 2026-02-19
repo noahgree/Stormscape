@@ -1,6 +1,6 @@
-[gd_scene load_steps=16 format=3 uid="uid://dogs4tqif0u8h"]
+[gd_scene format=3 uid="uid://dogs4tqif0u8h"]
 
-[ext_resource type="Script" uid="uid://ca8xdltgdyjys" path="res://Entities/Items/Weapons/ProjectileWeapons/ProjectileWeapon.gd" id="1_5froy"]
+[ext_resource type="Script" uid="uid://ca8xdltgdyjys" path="res://Entities/Items/Weapons/ProjectileWeapons/ProjWeaponCore/ProjectileWeapon.gd" id="1_5froy"]
 [ext_resource type="Shader" uid="uid://cugs1eqtkjsbd" path="res://Utilities/Game/Shaders/TintAndGlow.gdshader" id="2_okus0"]
 [ext_resource type="Texture2D" uid="uid://c2ul6ws6q5hxx" path="res://Entities/Items/Weapons/ProjectileWeapons/Musket/MusketBaseCT.tres" id="3_0ye6s"]
 [ext_resource type="PackedScene" uid="uid://lw5fgm5pgoif" path="res://Entities/EntityCore/Sprites/EntityHandSprite.tscn" id="4_2pn02"]

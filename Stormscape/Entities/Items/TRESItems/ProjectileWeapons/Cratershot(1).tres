@@ -13,7 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://dwyof8hbs8fxr" path="res://Entities/Items/Weapons/ProjectileWeapons/Cratershot/Cratershot.tscn" id="8_af8pb"]
 [ext_resource type="Script" uid="uid://c2gdoebfp12dq" path="res://Entities/Stats/StatMod/StatModsCacheResource.gd" id="9_yxw3n"]
 [ext_resource type="Script" uid="uid://ctxa7i1mbt7ab" path="res://Entities/Player/UI/Inventory/Panels/CraftingPanel/CraftingIngredient.gd" id="12_s5u2h"]
-[ext_resource type="Script" uid="uid://dvasncq3tgljs" path="res://Entities/Items/Weapons/ProjectileWeapons/ProjWeaponStats.gd" id="14_uecoq"]
+[ext_resource type="Script" uid="uid://dvasncq3tgljs" path="res://Entities/Items/Weapons/ProjectileWeapons/ProjWeaponCore/ProjWeaponStats.gd" id="14_uecoq"]
 
 [sub_resource type="Resource" id="Resource_7puc1"]
 script = ExtResource("1_qcxpp")

@@ -46,7 +46,7 @@ func _on_save_game(save_data: Array[SaveData]) -> void:
 		data.can_use_hunger_bars = stamina_component.can_use_hunger_bars
 
 	if inv != null:
-		for item: InvItemStats in inv.inv:
+		for item: InvItemResource in inv.inv:
 			if item != null and item.stats is WeaponStats:
 				item.stats.weapon_mods_need_to_be_readded_after_save = true
 		data.inv = inv.inv

@@ -69,7 +69,7 @@ func _preprocess_input_items(use_cache_id_in_keys: bool) -> Dictionary[StringNam
 		if slot.item == null:
 			continue
 
-		var inv_item: InvItemStats = slot.item
+		var inv_item: InvItemResource = slot.item
 		var item_id: StringName = inv_item.stats.id if not use_cache_id_in_keys else inv_item.stats.get_cache_key()
 
 		if item_id in item_quantities:
@@ -195,7 +195,7 @@ func _get_candidate_recipes() -> Array:
 
 ## When any of the input slot items change, we try and populate the previews once again just in case the mismatches
 ## were just removed. We also update the crafting result to see if our input items can result in a craft.
-func _on_input_item_changed(_slot: CraftingSlot, _old_item: InvItemStats, _new_item: InvItemStats) -> void:
+func _on_input_item_changed(_slot: CraftingSlot, _old_item: InvItemResource, _new_item: InvItemResource) -> void:
 	await get_tree().process_frame
 	_populate_previews(item_details_panel.item_viewer_slot.item)
 	_update_crafting_result()
@@ -210,7 +210,7 @@ func _update_crafting_result() -> void:
 		var item_resource: ItemStats = Items.get_item_by_id(recipe_cache_id)
 		if _is_item_craftable(item_resource):
 			output_slot.set_item(
-				InvItemStats.new(item_resource.duplicate_deep(), item_resource.output_quantity
+				InvItemResource.new(item_resource.duplicate_deep(), item_resource.output_quantity
 			).assign_unique_suid())
 
 			if output_slot.item.stats.upgrade_recipe and output_slot.item.stats is WeaponStats:
@@ -232,14 +232,14 @@ func _consume_ingredient(ingredient: CraftingIngredient, target_count: int) -> b
 				if _check_rarity_condition(ingredient.rarity_match, ingredient.item.rarity, slot.item.stats.rarity):
 					var available: int = slot.item.quantity
 					var remove_amount: int = min(available, needed)
-					slot.set_item(InvItemStats.new(slot.item.stats, available - remove_amount))
+					slot.set_item(InvItemResource.new(slot.item.stats, available - remove_amount))
 					needed -= remove_amount
 		elif ingredient.type == "Tags":
 			for tag: StringName in ingredient.tags:
 				if tag in slot.item.stats.tags:
 					var available: int = slot.item.quantity
 					var remove_amount: int = min(available, needed)
-					slot.set_item(InvItemStats.new(slot.item.stats, available - remove_amount))
+					slot.set_item(InvItemResource.new(slot.item.stats, available - remove_amount))
 					needed -= remove_amount
 					break
 
@@ -344,7 +344,7 @@ func attempt_craft() -> void:
 	var consumption_result: Dictionary[StringName, Variant] = _consume_recipe(output_slot.item.stats, amount)
 	var output_quant_per_craft: int = output_slot.item.stats.output_quantity
 	if consumption_result.successful_crafts > 0:
-		output_slot.set_item(InvItemStats.new(output_slot.item.stats, consumption_result.successful_crafts * output_quant_per_craft))
+		output_slot.set_item(InvItemResource.new(output_slot.item.stats, consumption_result.successful_crafts * output_quant_per_craft))
 
 		if output_slot.item.stats.upgrade_recipe and output_slot.item.stats is WeaponStats:
 			output_slot.item.stats.migrate_from_rarity_upgrade(consumption_result.saved_items.upgrade_origin_stats, Globals.player_node)
@@ -359,14 +359,14 @@ func attempt_craft() -> void:
 
 ## When the main viewed item is changed, we wait for it to be set for a frame and then populate the previews
 ## with its recipe if we can.
-func _on_viewed_item_changed(_slot: Slot, _old_item: InvItemStats, new_item: InvItemStats) -> void:
+func _on_viewed_item_changed(_slot: Slot, _old_item: InvItemResource, new_item: InvItemResource) -> void:
 	await get_tree().process_frame
 	_populate_previews(new_item)
 
 ## This gets the array of compatible items for each crafting ingredient in a recipe. Each ingredient can have
 ## more than one matching item if it is a "tag" ingredient. This is an array of arrays of Dictionaries, where
 ## the keys are the InvItemStatss and the values are the minimum rarities. -1 min rarity means no min rarity.
-func _get_preview_array(item: InvItemStats) -> Array[Array]:
+func _get_preview_array(item: InvItemResource) -> Array[Array]:
 	var preview_array: Array[Array] = []
 	var recipe: Array[CraftingIngredient] = item.stats.recipe
 	for ingredient: CraftingIngredient in recipe:
@@ -375,12 +375,12 @@ func _get_preview_array(item: InvItemStats) -> Array[Array]:
 			for tag: StringName in ingredient.tags:
 				var items_with_tag: Array = Items.tag_to_items.get(tag, [])
 				for item_with_tag: ItemStats in items_with_tag:
-					items_to_preview.append({ InvItemStats.new(item_with_tag, ingredient.quantity, true) : 0 })
+					items_to_preview.append({ InvItemResource.new(item_with_tag, ingredient.quantity, true) : 0 })
 		elif ingredient.type == "Item":
 			var min_rarity: int = 0
 			if ingredient.rarity_match in ["Equal", "GEQ"]:
 				min_rarity = ingredient.item.rarity
-			items_to_preview.append({ InvItemStats.new(ingredient.item, ingredient.quantity, true) : min_rarity })
+			items_to_preview.append({ InvItemResource.new(ingredient.item, ingredient.quantity, true) : min_rarity })
 
 		preview_array.append(items_to_preview)
 
@@ -390,7 +390,7 @@ func _get_preview_array(item: InvItemStats) -> Array[Array]:
 ## For each ingredient from the recipe (in order), its assigned slot will either show the preview items
 ## (if empty), or update its quantity text (if filled).
 func _update_preview_ui() -> void:
-	var viewed_item: InvItemStats = item_details_panel.item_viewer_slot.item
+	var viewed_item: InvItemResource = item_details_panel.item_viewer_slot.item
 	if viewed_item == null:
 		_clear_crafting_previews()
 		return
@@ -412,7 +412,7 @@ func _update_preview_ui() -> void:
 
 		if slot.item: # If the slot already has an item, update its quantity text
 			for candidate_dict: Dictionary[int, int] in candidates:
-				var candidate_item: InvItemStats = candidate_dict.keys()[0]
+				var candidate_item: InvItemResource = candidate_dict.keys()[0]
 				var min_rarity: int = candidate_dict.values()[0]
 				if slot.item.stats.id == candidate_item.stats.id and slot.item.stats.rarity >= min_rarity:
 					var required_qty: int = candidate_item.quantity
@@ -422,14 +422,14 @@ func _update_preview_ui() -> void:
 		else: # Empty slot, assign the candidate previews
 			slot.preview_items = candidates
 			if not candidates.is_empty():
-				var candidate_item: InvItemStats = candidates[0].keys()[0]
+				var candidate_item: InvItemResource = candidates[0].keys()[0]
 				slot.quantity.text = "0/" + str(candidate_item.quantity)
 				slot.quantity.self_modulate.a = 0.7
 
 ## Determines an assignment between the recipe’s ingredients (the preview array) and the input slots.
 ## Returns a Dictionary mapping recipe ingredient index → input slot index.
 ## If any filled slot holds an item that is not needed (i.e. unassignable), the function returns an empty dict.
-func _get_preview_assignment(viewed_item: InvItemStats) -> Dictionary[int, int]:
+func _get_preview_assignment(viewed_item: InvItemResource) -> Dictionary[int, int]:
 	var preview_array: Array = _get_preview_array(viewed_item)
 	var assignment: Dictionary[int, int] = {} # Mapping: recipe ingredient index → slot index
 	var used_slots: Array = []
@@ -444,7 +444,7 @@ func _get_preview_assignment(viewed_item: InvItemStats) -> Dictionary[int, int]:
 			var slot: CraftingSlot = input_slots[slot_index]
 			if slot.item != null:
 				for candidate_dict: Dictionary[int, int] in candidates:
-					var candidate_item: InvItemStats = candidate_dict.keys()[0]
+					var candidate_item: InvItemResource = candidate_dict.keys()[0]
 					var min_rarity: int = candidate_dict.values()[0]
 					if slot.item.stats.id == candidate_item.stats.id and slot.item.stats.rarity >= min_rarity:
 						assignment[ingredient_index] = slot_index
@@ -496,9 +496,9 @@ func _remove_altered_quantity_texts() -> void:
 				slot.quantity.text = slot.quantity.text.substr(0, index)
 
 ## Updated populate previews function to use our new preview assignment & UI update functions.
-func _populate_previews(item: InvItemStats) -> void:
+func _populate_previews(item: InvItemResource) -> void:
 	_clear_crafting_previews()
-	var viewed_item: InvItemStats = item_details_panel.item_viewer_slot.item
+	var viewed_item: InvItemResource = item_details_panel.item_viewer_slot.item
 	if viewed_item == null:
 		_remove_altered_quantity_texts()
 		return

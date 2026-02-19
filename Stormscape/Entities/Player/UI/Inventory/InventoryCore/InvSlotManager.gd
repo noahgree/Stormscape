@@ -83,7 +83,7 @@ func fill_slots_with_items() -> void:
 		i += 1
 
 ## When an index gets updated in the inventory, this is received via signal in order to update a slot here.
-func _on_inv_data_updated(index: int, item: InvItemStats) -> void:
+func _on_inv_data_updated(index: int, item: InvItemResource) -> void:
 	slots[index].set_item(item)
 	if item and synced_inv_src_node is Player:
 		synced_inv_src_node.hands.active_slot_info.calculate_inv_ammo()

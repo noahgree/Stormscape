@@ -1,6 +1,6 @@
-[gd_scene load_steps=21 format=3 uid="uid://dxv8dhn3gmufw"]
+[gd_scene format=3 uid="uid://dxv8dhn3gmufw"]
 
-[ext_resource type="Script" uid="uid://ca8xdltgdyjys" path="res://Entities/Items/Weapons/ProjectileWeapons/ProjectileWeapon.gd" id="1_7mk4f"]
+[ext_resource type="Script" uid="uid://ca8xdltgdyjys" path="res://Entities/Items/Weapons/ProjectileWeapons/ProjWeaponCore/ProjectileWeapon.gd" id="1_7mk4f"]
 [ext_resource type="Shader" uid="uid://cugs1eqtkjsbd" path="res://Utilities/Game/Shaders/TintAndGlow.gdshader" id="3_qpgmn"]
 [ext_resource type="Texture2D" uid="uid://t54taecjg640" path="res://Entities/Items/Weapons/ProjectileWeapons/FlameBlower/FlameBlowerBaseCT.tres" id="4_qpgmn"]
 [ext_resource type="Material" uid="uid://cpbrvm1tp7153" path="res://Utilities/Game/Materials/UnshadedMaterial.tres" id="4_xc27p"]

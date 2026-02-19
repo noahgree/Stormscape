@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="Wearable" format=3 uid="uid://caw1yglbt2nf6"]
+[gd_resource type="Resource" script_class="WearableStats" format=3 uid="uid://caw1yglbt2nf6"]
 
 [ext_resource type="Script" uid="uid://cowjdnic7xmkp" path="res://Entities/Player/UI/Inventory/Panels/ItemDetailsPanel/StatDetail.gd" id="1_fvnnl"]
 [ext_resource type="Texture2D" uid="uid://iqydrmrk3xs0" path="res://Entities/Items/Wearables/FrostCharm/FrostCharmCT.tres" id="2_fvnnl"]

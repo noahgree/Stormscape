@@ -12,7 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://dq57qggohi76w" path="res://Entities/Items/Weapons/ProjectileWeapons/Boomerang/BoomerangSteel.tscn" id="7_fxomq"]
 [ext_resource type="Script" uid="uid://c2gdoebfp12dq" path="res://Entities/Stats/StatMod/StatModsCacheResource.gd" id="9_o1ahq"]
 [ext_resource type="Script" uid="uid://ctxa7i1mbt7ab" path="res://Entities/Player/UI/Inventory/Panels/CraftingPanel/CraftingIngredient.gd" id="11_abng5"]
-[ext_resource type="Script" uid="uid://dvasncq3tgljs" path="res://Entities/Items/Weapons/ProjectileWeapons/ProjWeaponStats.gd" id="13_rmhbo"]
+[ext_resource type="Script" uid="uid://dvasncq3tgljs" path="res://Entities/Items/Weapons/ProjectileWeapons/ProjWeaponCore/ProjWeaponStats.gd" id="13_rmhbo"]
 
 [sub_resource type="Resource" id="Resource_etijc"]
 script = ExtResource("1_pnsqi")

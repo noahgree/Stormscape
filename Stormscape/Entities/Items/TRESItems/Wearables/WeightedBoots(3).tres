@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="Wearable" format=3 uid="uid://nbgi8l36xcgl"]
+[gd_resource type="Resource" script_class="WearableStats" format=3 uid="uid://nbgi8l36xcgl"]
 
 [ext_resource type="Script" uid="uid://cowjdnic7xmkp" path="res://Entities/Player/UI/Inventory/Panels/ItemDetailsPanel/StatDetail.gd" id="1_e25ye"]
 [ext_resource type="Texture2D" uid="uid://dhaxi1e4w3258" path="res://Entities/Items/Wearables/WeightedBoots/WeightedBootsCT.tres" id="2_e25ye"]

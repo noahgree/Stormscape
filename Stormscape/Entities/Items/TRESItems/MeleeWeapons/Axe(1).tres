@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://c8mku0yilyape" path="res://Entities/Items/Weapons/MeleeWeapons/Axe/AxeWoodCT.tres" id="6_tm0oq"]
 [ext_resource type="PackedScene" uid="uid://4jfk7na2inix" path="res://Entities/Items/Weapons/MeleeWeapons/Axe/AxeWood.tscn" id="7_tm0oq"]
 [ext_resource type="Script" uid="uid://ctxa7i1mbt7ab" path="res://Entities/Player/UI/Inventory/Panels/CraftingPanel/CraftingIngredient.gd" id="8_ib65y"]
-[ext_resource type="Script" uid="uid://djlk3y511igng" path="res://Entities/Items/Weapons/MeleeWeapons/MeleeWeaponStats.gd" id="10_tm0oq"]
+[ext_resource type="Script" uid="uid://djlk3y511igng" path="res://Entities/Items/Weapons/MeleeWeapons/MeleeWeaponCore/MeleeWeaponStats.gd" id="10_tm0oq"]
 
 [sub_resource type="Resource" id="Resource_klx1g"]
 script = ExtResource("1_x4rfe")

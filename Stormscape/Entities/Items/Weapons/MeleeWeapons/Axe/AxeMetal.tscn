@@ -1,11 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://bgj0b83wrmlon"]
+[gd_scene format=3 uid="uid://bgj0b83wrmlon"]
 
-[ext_resource type="Script" uid="uid://ut1n80th00qw" path="res://Entities/Items/Weapons/MeleeWeapons/MeleeWeapon.gd" id="1_a35yr"]
+[ext_resource type="Script" uid="uid://ut1n80th00qw" path="res://Entities/Items/Weapons/MeleeWeapons/MeleeWeaponCore/MeleeWeapon.gd" id="1_a35yr"]
 [ext_resource type="Shader" uid="uid://cugs1eqtkjsbd" path="res://Utilities/Game/Shaders/TintAndGlow.gdshader" id="2_su1ax"]
 [ext_resource type="Texture2D" uid="uid://brmpeymhp2hix" path="res://Entities/Items/Weapons/MeleeWeapons/Axe/AxeMetalCT.tres" id="3_hem48"]
 [ext_resource type="PackedScene" uid="uid://b7ckcb2xdimpo" path="res://Entities/Components/HitboxComponent/HitboxComponent.tscn" id="4_eb8fm"]
 [ext_resource type="PackedScene" uid="uid://lw5fgm5pgoif" path="res://Entities/EntityCore/Sprites/EntityHandSprite.tscn" id="5_f4nuf"]
-[ext_resource type="AnimationLibrary" uid="uid://dk7m82xohebji" path="res://Entities/Items/Weapons/MeleeWeapons/MeleeWeaponAnimLibrary.res" id="6_ji5yi"]
+[ext_resource type="AnimationLibrary" uid="uid://dk7m82xohebji" path="res://Entities/Items/Weapons/MeleeWeapons/MeleeWeaponCore/MeleeWeaponAnimLibrary.res" id="6_ji5yi"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8aqmb"]
 shader = ExtResource("2_su1ax")

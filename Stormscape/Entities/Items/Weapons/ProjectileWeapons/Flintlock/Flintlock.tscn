@@ -1,6 +1,6 @@
-[gd_scene load_steps=22 format=3 uid="uid://ciyhsebv1hjye"]
+[gd_scene format=3 uid="uid://ciyhsebv1hjye"]
 
-[ext_resource type="Script" uid="uid://ca8xdltgdyjys" path="res://Entities/Items/Weapons/ProjectileWeapons/ProjectileWeapon.gd" id="1_q5mir"]
+[ext_resource type="Script" uid="uid://ca8xdltgdyjys" path="res://Entities/Items/Weapons/ProjectileWeapons/ProjWeaponCore/ProjectileWeapon.gd" id="1_q5mir"]
 [ext_resource type="Shader" uid="uid://cugs1eqtkjsbd" path="res://Utilities/Game/Shaders/TintAndGlow.gdshader" id="2_u874v"]
 [ext_resource type="Texture2D" uid="uid://bbdipwnbjrss3" path="res://Entities/Items/Weapons/ProjectileWeapons/Flintlock/FlintlockBaseCT.tres" id="3_lnu1l"]
 [ext_resource type="PackedScene" uid="uid://lw5fgm5pgoif" path="res://Entities/EntityCore/Sprites/EntityHandSprite.tscn" id="4_2376o"]

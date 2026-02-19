@@ -1,6 +1,6 @@
-[gd_scene load_steps=19 format=3 uid="uid://baxpb3crwepc0"]
+[gd_scene format=3 uid="uid://baxpb3crwepc0"]
 
-[ext_resource type="Script" uid="uid://ca8xdltgdyjys" path="res://Entities/Items/Weapons/ProjectileWeapons/ProjectileWeapon.gd" id="1_v8yes"]
+[ext_resource type="Script" uid="uid://ca8xdltgdyjys" path="res://Entities/Items/Weapons/ProjectileWeapons/ProjWeaponCore/ProjectileWeapon.gd" id="1_v8yes"]
 [ext_resource type="Shader" uid="uid://cugs1eqtkjsbd" path="res://Utilities/Game/Shaders/TintAndGlow.gdshader" id="3_w5kxq"]
 [ext_resource type="Texture2D" uid="uid://d4fispahsus1d" path="res://Entities/Items/Weapons/ProjectileWeapons/LaserGun/LaserGunBaseCT.tres" id="4_w5kxq"]
 [ext_resource type="Texture2D" uid="uid://cw1i138jhqftk" path="res://Entities/Items/Weapons/ProjectileWeapons/LaserGun/LaserGunBaseMagCT.tres" id="7_nv3qp"]

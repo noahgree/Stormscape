@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="WorldResourceResource" format=3 uid="uid://8uj8fwadqlk0"]
+[gd_resource type="Resource" script_class="WorldResourceStats" format=3 uid="uid://8uj8fwadqlk0"]
 
 [ext_resource type="Script" uid="uid://cowjdnic7xmkp" path="res://Entities/Player/UI/Inventory/Panels/ItemDetailsPanel/StatDetail.gd" id="1_0xb1x"]
 [ext_resource type="Texture2D" uid="uid://dhr6ujbdy31nl" path="res://Entities/Items/WorldResources/Stick/StickCT.tres" id="1_svgfi"]

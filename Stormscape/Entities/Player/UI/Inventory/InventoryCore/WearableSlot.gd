@@ -30,7 +30,7 @@ func _drop_data(at_position: Vector2, data: Variant) -> void:
 
 	if item != null:
 		if item.quantity > 1:
-			var extra_items: InvItemStats = InvItemStats.new(item.stats, item.quantity - 1)
+			var extra_items: InvItemResource = InvItemResource.new(item.stats, item.quantity - 1)
 			synced_inv.insert_from_inv_item(extra_items, false, false)
 			item.quantity = 1
 			pause_changed_signals = true

@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="Wearable" format=3 uid="uid://dw5jtfoba6mwy"]
+[gd_resource type="Resource" script_class="WearableStats" format=3 uid="uid://dw5jtfoba6mwy"]
 
 [ext_resource type="Script" uid="uid://cowjdnic7xmkp" path="res://Entities/Player/UI/Inventory/Panels/ItemDetailsPanel/StatDetail.gd" id="1_y3gsb"]
 [ext_resource type="Texture2D" uid="uid://cn5hqfioewj4j" path="res://Entities/Items/Wearables/PoisonCharm/PoisonCharmCT.tres" id="2_y3gsb"]

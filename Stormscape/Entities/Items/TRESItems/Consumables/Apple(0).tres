@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="ConsumableResource" format=3 uid="uid://cx1ydw2jde1y8"]
+[gd_resource type="Resource" script_class="ConsumableStats" format=3 uid="uid://cx1ydw2jde1y8"]
 
 [ext_resource type="Script" uid="uid://dkfssottmsrch" path="res://Entities/Stats/EffectSystemResources/EffectSources/EffectSource.gd" id="1_bn713"]
 [ext_resource type="Script" uid="uid://5qg77uqxh5yw" path="res://Entities/Items/Consumables/ConsumableStats.gd" id="1_jepoi"]

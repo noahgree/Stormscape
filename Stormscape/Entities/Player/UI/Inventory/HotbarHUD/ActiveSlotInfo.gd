@@ -56,7 +56,7 @@ func calculate_inv_ammo() -> void:
 			var count: int = 0
 			var start_index: int = Globals.player_node.inv.ammo_slot_manager.starting_index
 			for i: int in range(start_index, start_index + Globals.AMMO_BAR_SIZE):
-				var item: InvItemStats = Globals.player_node.inv.inv[i]
+				var item: InvItemResource = Globals.player_node.inv.inv[i]
 				if item != null and (item.stats is ProjAmmoStats) and (item.stats.ammo_type == current_item_stats.ammo_type):
 					count += item.quantity
 			count_str = str(count)
@@ -65,10 +65,10 @@ func calculate_inv_ammo() -> void:
 		elif current_item_stats.ammo_type == ProjWeaponStats.ProjAmmoType.SELF:
 			var count: int = 0
 			for i: int in range(0, Globals.MAIN_PLAYER_INV_SIZE + Globals.HOTBAR_SIZE):
-				var item: InvItemStats = Globals.player_node.inv.inv[i]
+				var item: InvItemResource = Globals.player_node.inv.inv[i]
 				if item != null and (item.stats.id == current_item_stats.id):
 					count += item.quantity
-			var equipped_inv_item: InvItemStats = Globals.player_node.inv.inv[Globals.player_node.hands.equipped_item.inv_index]
+			var equipped_inv_item: InvItemResource = Globals.player_node.inv.inv[Globals.player_node.hands.equipped_item.inv_index]
 			count -= equipped_inv_item.quantity if equipped_inv_item else 0
 			count_str = str(count) if count != 0 else ""
 	update_inv_ammo_ui(count_str)

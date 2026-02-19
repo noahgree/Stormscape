@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="WeaponMod" format=3 uid="uid://de6d4b7xfr4am"]
+[gd_resource type="Resource" script_class="WeaponModStats" format=3 uid="uid://de6d4b7xfr4am"]
 
 [ext_resource type="Script" uid="uid://boo31eu083dqd" path="res://Entities/Stats/EffectSystemResources/StatusEffects/StatusEffect.gd" id="1_4sejx"]
 [ext_resource type="Script" uid="uid://cowjdnic7xmkp" path="res://Entities/Player/UI/Inventory/Panels/ItemDetailsPanel/StatDetail.gd" id="3_jrpdv"]

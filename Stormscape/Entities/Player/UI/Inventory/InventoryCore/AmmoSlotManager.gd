@@ -22,7 +22,7 @@ func setup_slots(inventory_ui: PlayerInvUI) -> void:
 		i += 1
 
 ## Pulses the ammo type that the currently viewed projectile weapon requires.
-func pulse_ammo_type(_slot: Slot, _old_item: InvItemStats, new_item: InvItemStats) -> void:
+func pulse_ammo_type(_slot: Slot, _old_item: InvItemResource, new_item: InvItemResource) -> void:
 	for child: AmmoSlot in ammo_slots_grid.get_children():
 		child.get_node("OverlayMargins/OverlayTexture").modulate = Color.WHITE
 	if pulse_tween and pulse_tween.is_valid():
