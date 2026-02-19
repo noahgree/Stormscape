@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="ProjWeaponResource" format=3 uid="uid://bnc4tbhdxpauy"]
+[gd_resource type="Resource" script_class="ProjWeaponStats" format=3 uid="uid://bnc4tbhdxpauy"]
 
 [ext_resource type="Texture2D" uid="uid://bm570hawaupxe" path="res://Entities/Items/Weapons/WeaponVFX/Casings/small_casing.png" id="1_hjiec"]
 [ext_resource type="Script" uid="uid://boo31eu083dqd" path="res://Entities/Stats/EffectSystemResources/StatusEffects/StatusEffect.gd" id="3_o52iq"]
@@ -6,15 +6,15 @@
 [ext_resource type="Script" uid="uid://cowjdnic7xmkp" path="res://Entities/Player/UI/Inventory/Panels/ItemDetailsPanel/StatDetail.gd" id="4_bhfuw"]
 [ext_resource type="Resource" uid="uid://o8dc73c74md6" path="res://Entities/Player/PlayerCore/PlayerCamera/CamFXPresets/4(NoFreeze).tres" id="5_o52iq"]
 [ext_resource type="Texture2D" uid="uid://c2ul6ws6q5hxx" path="res://Entities/Items/Weapons/ProjectileWeapons/Musket/MusketBaseCT.tres" id="7_hjiec"]
-[ext_resource type="Script" uid="uid://cje5bobi6o8bo" path="res://Entities/Items/Hitscans/HitscanResource.gd" id="9_fhpo5"]
+[ext_resource type="Script" uid="uid://cje5bobi6o8bo" path="res://Entities/Items/Hitscans/HitscanStats.gd" id="9_fhpo5"]
 [ext_resource type="PackedScene" uid="uid://dogs4tqif0u8h" path="res://Entities/Items/Weapons/ProjectileWeapons/Musket/Musket.tscn" id="11_hjiec"]
-[ext_resource type="Script" uid="uid://bj3r5oopspj6l" path="res://Entities/Items/Projectiles/ProjectileCore/ProjectileResource.gd" id="12_ma2xb"]
+[ext_resource type="Script" uid="uid://bj3r5oopspj6l" path="res://Entities/Items/Projectiles/ProjectileCore/ProjStats.gd" id="12_ma2xb"]
 [ext_resource type="PackedScene" uid="uid://bqkyplubhsx43" path="res://Entities/Items/Projectiles/Bullets/SmallBullet/SmallBullet.tscn" id="13_jo86x"]
 [ext_resource type="Script" uid="uid://ctxa7i1mbt7ab" path="res://Entities/Player/UI/Inventory/Panels/CraftingPanel/CraftingIngredient.gd" id="14_cya72"]
 [ext_resource type="Resource" uid="uid://8uj8fwadqlk0" path="res://Entities/Items/TRESItems/WorldResources/Stick(0).tres" id="14_iahun"]
 [ext_resource type="Script" uid="uid://c2gdoebfp12dq" path="res://Entities/Stats/StatMod/StatModsCacheResource.gd" id="15_c2f42"]
 [ext_resource type="Resource" uid="uid://bta1hncad1hd2" path="res://Entities/Items/TRESItems/WeaponMods/ExtendedMag(1).tres" id="15_ipoav"]
-[ext_resource type="Script" uid="uid://dvasncq3tgljs" path="res://Entities/Items/Weapons/ProjectileWeapons/ProjWeaponResource.gd" id="16_58fh8"]
+[ext_resource type="Script" uid="uid://dvasncq3tgljs" path="res://Entities/Items/Weapons/ProjectileWeapons/ProjWeaponStats.gd" id="15_o52iq"]
 
 [sub_resource type="Curve" id="Curve_hjiec"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
@@ -79,7 +79,7 @@ metadata/_custom_type_script = "uid://ctxa7i1mbt7ab"
 script = ExtResource("15_c2f42")
 
 [resource]
-script = ExtResource("16_58fh8")
+script = ExtResource("15_o52iq")
 proj_weapon_type = 3
 projectile_scn = ExtResource("13_jo86x")
 firing_duration = 0.11

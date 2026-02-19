@@ -2,7 +2,7 @@ extends MarginContainer
 class_name AmmoSlotManager
 ## Handles the storing and displaying of ammo for the player inside the player's inv UI.
 
-@export var type_order: Array[ProjWeaponResource.ProjAmmoType] ## Defines ordering of ammo slots by type.
+@export var type_order: Array[ProjWeaponStats.ProjAmmoType] ## Defines ordering of ammo slots by type.
 
 @onready var ammo_slots_grid: HBoxContainer = %AmmoSlotsGrid ## Reference to the grid of slots.
 
@@ -22,12 +22,12 @@ func setup_slots(inventory_ui: PlayerInvUI) -> void:
 		i += 1
 
 ## Pulses the ammo type that the currently viewed projectile weapon requires.
-func pulse_ammo_type(_slot: Slot, _old_item: InvItemResource, new_item: InvItemResource) -> void:
+func pulse_ammo_type(_slot: Slot, _old_item: InvItemStats, new_item: InvItemStats) -> void:
 	for child: AmmoSlot in ammo_slots_grid.get_children():
 		child.get_node("OverlayMargins/OverlayTexture").modulate = Color.WHITE
 	if pulse_tween and pulse_tween.is_valid():
 		pulse_tween.kill()
-	if new_item == null or new_item.stats is not ProjWeaponResource:
+	if new_item == null or new_item.stats is not ProjWeaponStats:
 		return
 
 	pulse_tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_loops()

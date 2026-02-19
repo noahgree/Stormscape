@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="ProjWeaponResource" format=3 uid="uid://cuwmealupx71f"]
+[gd_resource type="Resource" script_class="ProjWeaponStats" format=3 uid="uid://cuwmealupx71f"]
 
 [ext_resource type="Texture2D" uid="uid://bm570hawaupxe" path="res://Entities/Items/Weapons/WeaponVFX/Casings/small_casing.png" id="1_03tgm"]
 [ext_resource type="Script" uid="uid://dkfssottmsrch" path="res://Entities/Stats/EffectSystemResources/EffectSources/EffectSource.gd" id="2_hhopu"]
@@ -7,11 +7,11 @@
 [ext_resource type="Resource" uid="uid://b5dad578bsduf" path="res://Entities/Player/PlayerCore/PlayerCamera/CamFXPresets/3(NoFreeze).tres" id="5_wf6n8"]
 [ext_resource type="Texture2D" uid="uid://bvbokmfcccs5v" path="res://Entities/Items/Weapons/ProjectileWeapons/RifleX/RifleXBaseCT.tres" id="6_eeeuw"]
 [ext_resource type="PackedScene" uid="uid://3d4ghsubde4w" path="res://Entities/Items/Weapons/ProjectileWeapons/RifleX/RifleX.tscn" id="7_fptmn"]
-[ext_resource type="Script" uid="uid://bj3r5oopspj6l" path="res://Entities/Items/Projectiles/ProjectileCore/ProjectileResource.gd" id="8_6rtmy"]
+[ext_resource type="Script" uid="uid://bj3r5oopspj6l" path="res://Entities/Items/Projectiles/ProjectileCore/ProjStats.gd" id="8_6rtmy"]
 [ext_resource type="PackedScene" uid="uid://bqkyplubhsx43" path="res://Entities/Items/Projectiles/Bullets/SmallBullet/SmallBullet.tscn" id="9_7av10"]
 [ext_resource type="Script" uid="uid://ctxa7i1mbt7ab" path="res://Entities/Player/UI/Inventory/Panels/CraftingPanel/CraftingIngredient.gd" id="10_f2085"]
 [ext_resource type="Script" uid="uid://c2gdoebfp12dq" path="res://Entities/Stats/StatMod/StatModsCacheResource.gd" id="11_wog7e"]
-[ext_resource type="Script" uid="uid://dvasncq3tgljs" path="res://Entities/Items/Weapons/ProjectileWeapons/ProjWeaponResource.gd" id="12_4gfd0"]
+[ext_resource type="Script" uid="uid://dvasncq3tgljs" path="res://Entities/Items/Weapons/ProjectileWeapons/ProjWeaponStats.gd" id="12_03tgm"]
 
 [sub_resource type="Curve" id="Curve_kfl3v"]
 _data = [Vector2(0, 0.22981), 0.0, 0.0, 0, 0, Vector2(0.745387, 0.402089), 0.0, 0.0, 0, 0, Vector2(1, 1), 2.89929, 0.0, 0, 0]
@@ -71,7 +71,7 @@ aoe_effect_falloff_curve = SubResource("Curve_iybck")
 script = ExtResource("11_wog7e")
 
 [resource]
-script = ExtResource("12_4gfd0")
+script = ExtResource("12_03tgm")
 proj_weapon_type = 4
 firing_mode = 1
 projectile_scn = ExtResource("9_7av10")

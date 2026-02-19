@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://1t1qwr4iklu0" path="res://Entities/Items/Ammo/Shell/ShellAmmoThumbCT.tres" id="1_kme5u"]
 [ext_resource type="Texture2D" uid="uid://d3xj606lsbvfm" path="res://Entities/Items/Ammo/Shell/shell_ammo.png" id="2_ptjmx"]
 [ext_resource type="Script" uid="uid://ctxa7i1mbt7ab" path="res://Entities/Player/UI/Inventory/Panels/CraftingPanel/CraftingIngredient.gd" id="3_dyvxa"]
-[ext_resource type="Script" uid="uid://bpc1cwr4a6lgo" path="res://Entities/Items/Ammo/ProjAmmoResource.gd" id="4_j07wo"]
+[ext_resource type="Script" uid="uid://bpc1cwr4a6lgo" path="res://Entities/Items/Ammo/ProjAmmoStats.gd" id="4_j07wo"]
 
 [resource]
 script = ExtResource("4_j07wo")

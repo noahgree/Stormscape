@@ -1,10 +1,10 @@
-[gd_resource type="Resource" script_class="ProjAmmoResource" load_steps=6 format=3 uid="uid://bdjhfsluk53lc"]
+[gd_resource type="Resource" script_class="ProjAmmoResource" format=3 uid="uid://bdjhfsluk53lc"]
 
 [ext_resource type="Script" uid="uid://cowjdnic7xmkp" path="res://Entities/Player/UI/Inventory/Panels/ItemDetailsPanel/StatDetail.gd" id="1_aww0t"]
 [ext_resource type="Texture2D" uid="uid://dm4207hijonur" path="res://Entities/Items/Ammo/Bullet/BulletAmmoThumbCT.tres" id="1_xy8oh"]
 [ext_resource type="Texture2D" uid="uid://bj8cxp5cf4lw0" path="res://Entities/Items/Ammo/Bullet/bullet_ammo.png" id="2_6f2gy"]
 [ext_resource type="Script" uid="uid://ctxa7i1mbt7ab" path="res://Entities/Player/UI/Inventory/Panels/CraftingPanel/CraftingIngredient.gd" id="4_oastn"]
-[ext_resource type="Script" uid="uid://bpc1cwr4a6lgo" path="res://Entities/Items/Ammo/ProjAmmoResource.gd" id="4_yhhkm"]
+[ext_resource type="Script" uid="uid://bpc1cwr4a6lgo" path="res://Entities/Items/Ammo/ProjAmmoStats.gd" id="4_yhhkm"]
 
 [resource]
 script = ExtResource("4_yhhkm")

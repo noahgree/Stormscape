@@ -146,7 +146,7 @@ func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
 ## Runs the logic for what to do when we can drop an item slot's data at the current moment.
 ## Creates physical items on the ground.
 func _drop_data(_at_position: Vector2, data: Variant) -> void:
-	var ground_item_res: ItemResource = data.item.stats
+	var ground_item_res: ItemStats = data.item.stats
 	var ground_item_quantity: int = 1
 	if ground_item_res and data:
 		if data.dragging_only_one:
@@ -170,7 +170,7 @@ func _drop_data(_at_position: Vector2, data: Variant) -> void:
 		Item.spawn_on_ground(ground_item_res, ground_item_quantity, Globals.player_node.global_position, 15, true, false, true)
 		MessageManager.add_msg("[color=white]Dropped " + str(ground_item_quantity) + "[/color] " + ground_item_res.name, Globals.rarity_colors.ui_text.get(ground_item_res.rarity), MessageManager.default_icon, Color.WHITE, MessageManager.default_display_time, true)
 
-		if ground_item_res is ProjAmmoResource:
+		if ground_item_res is ProjAmmoStats:
 			synced_inv_src_node.hands.active_slot_info.calculate_inv_ammo()
 
 	data._on_mouse_exited()
@@ -188,7 +188,7 @@ func _notification(what: int) -> void:
 		trash_slot_container.show()
 
 ## When the item in the trash slot changes, if we detect that it holds something now, re-show it.
-func _on_trash_slot_item_changed(_slot: Slot, _old_item: InvItemResource, new_item: InvItemResource) -> void:
+func _on_trash_slot_item_changed(_slot: Slot, _old_item: InvItemStats, new_item: InvItemStats) -> void:
 	if new_item != null:
 		trash_slot_container.show()
 
@@ -239,7 +239,7 @@ func _on_craft_btn_button_up() -> void:
 
 ## Handling the tooltip and button pressing of the level up button.
 func _on_lvl_up_btn_pressed() -> void:
-	var item_stats: WeaponResource = item_details_panel.item_viewer_slot.item.stats
+	var item_stats: WeaponStats = item_details_panel.item_viewer_slot.item.stats
 	if item_stats.level_up() >= item_stats.allowed_lvl:
 		lvl_up_inner_margin.hide()
 	item_details_panel.manually_set_item_viewer_slot(item_details_panel.item_viewer_slot, true)

@@ -1,6 +1,6 @@
 @icon("res://Utilities/Debug/EditorIcons/consumable_resource.png")
-extends ItemResource
-class_name ConsumableResource
+extends ItemStats
+class_name ConsumableStats
 
 @export_group("General Consumable Details")
 @export var effect_source: EffectSource = EffectSource.new() ## The resource that defines what happens to the entity that consumes this consumable. Includes things like damage and status effects.

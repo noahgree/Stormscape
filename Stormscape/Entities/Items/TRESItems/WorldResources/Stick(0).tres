@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://cowjdnic7xmkp" path="res://Entities/Player/UI/Inventory/Panels/ItemDetailsPanel/StatDetail.gd" id="1_0xb1x"]
 [ext_resource type="Texture2D" uid="uid://dhr6ujbdy31nl" path="res://Entities/Items/WorldResources/Stick/StickCT.tres" id="1_svgfi"]
 [ext_resource type="PackedScene" uid="uid://bhmmr2f1hs8mk" path="res://Entities/Items/WorldResources/WorldResource.tscn" id="3_kf8ve"]
-[ext_resource type="Script" uid="uid://crlmvnjkf7c3g" path="res://Entities/Items/WorldResources/WorldResourceResource.gd" id="4_xv5sp"]
+[ext_resource type="Script" uid="uid://crlmvnjkf7c3g" path="res://Entities/Items/WorldResources/WorldResourceStats.gd" id="4_xv5sp"]
 [ext_resource type="Script" uid="uid://ctxa7i1mbt7ab" path="res://Entities/Player/UI/Inventory/Panels/CraftingPanel/CraftingIngredient.gd" id="5_npuiu"]
 
 [sub_resource type="Resource" id="Resource_svgfi"]

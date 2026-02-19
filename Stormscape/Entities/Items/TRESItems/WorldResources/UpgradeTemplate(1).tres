@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://cowjdnic7xmkp" path="res://Entities/Player/UI/Inventory/Panels/ItemDetailsPanel/StatDetail.gd" id="1_sjhsl"]
 [ext_resource type="Texture2D" uid="uid://onmoe4xkeqqd" path="res://Entities/Items/Currency/Stormshine/stormshine.png" id="2_kvrnn"]
 [ext_resource type="Script" uid="uid://ctxa7i1mbt7ab" path="res://Entities/Player/UI/Inventory/Panels/CraftingPanel/CraftingIngredient.gd" id="2_r6bbm"]
-[ext_resource type="Script" uid="uid://crlmvnjkf7c3g" path="res://Entities/Items/WorldResources/WorldResourceResource.gd" id="3_kvrnn"]
+[ext_resource type="Script" uid="uid://crlmvnjkf7c3g" path="res://Entities/Items/WorldResources/WorldResourceStats.gd" id="3_kvrnn"]
 
 [resource]
 script = ExtResource("3_kvrnn")

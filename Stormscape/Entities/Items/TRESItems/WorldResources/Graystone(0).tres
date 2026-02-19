@@ -1,10 +1,10 @@
-[gd_resource type="Resource" script_class="WorldResourceResource" load_steps=6 format=3 uid="uid://dkx627k2ek8ew"]
+[gd_resource type="Resource" script_class="WorldResourceResource" format=3 uid="uid://dkx627k2ek8ew"]
 
 [ext_resource type="Script" uid="uid://cowjdnic7xmkp" path="res://Entities/Player/UI/Inventory/Panels/ItemDetailsPanel/StatDetail.gd" id="1_cbk0u"]
 [ext_resource type="Texture2D" uid="uid://cryjjhlygvi04" path="res://Entities/Items/WorldResources/Stones/GraystoneCT.tres" id="2_4sjr7"]
 [ext_resource type="PackedScene" uid="uid://bhmmr2f1hs8mk" path="res://Entities/Items/WorldResources/WorldResource.tscn" id="3_xvdka"]
 [ext_resource type="Script" uid="uid://ctxa7i1mbt7ab" path="res://Entities/Player/UI/Inventory/Panels/CraftingPanel/CraftingIngredient.gd" id="4_fgce5"]
-[ext_resource type="Script" uid="uid://crlmvnjkf7c3g" path="res://Entities/Items/WorldResources/WorldResourceResource.gd" id="5_ecyig"]
+[ext_resource type="Script" uid="uid://crlmvnjkf7c3g" path="res://Entities/Items/WorldResources/WorldResourceStats.gd" id="5_ecyig"]
 
 [resource]
 script = ExtResource("5_ecyig")

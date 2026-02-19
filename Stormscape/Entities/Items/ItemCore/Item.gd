@@ -5,7 +5,7 @@ class_name Item
 
 static var item_scene: PackedScene = preload("res://Entities/Items/ItemCore/Item.tscn") ## The item scene to be instantiated when items are dropped onto the ground.
 
-@export_storage var stats: ItemResource = null: set = _set_item ## The item resource driving the stats and type of item.
+@export_storage var stats: ItemStats = null: set = _set_item ## The item resource driving the stats and type of item.
 @export_storage var quantity: int = 1: ## The quantity associated with the physical item.
 	set(new_quantity):
 		quantity = new_quantity
@@ -30,7 +30,7 @@ var final_seconds_timer: Timer = TimerHelpers.create_one_shot_timer(self, BLINK_
 var is_tweening_up: bool = true
 
 
-func _set_item(item_stats: ItemResource) -> void:
+func _set_item(item_stats: ItemStats) -> void:
 	stats = item_stats
 	if stats and icon:
 		$CollisionShape2D.shape.radius = stats.pickup_radius
@@ -46,7 +46,7 @@ func _set_item(item_stats: ItemResource) -> void:
 ## Spawns an item with the passed in details on the ground. Keep suid means we should duplicate
 ## the item's stats and pass the old session uid along to it. Can also choose to let items spawn with
 ## higher than stack quantities.
-static func spawn_on_ground(item_stats: ItemResource, quant: int, location: Vector2,
+static func spawn_on_ground(item_stats: ItemStats, quant: int, location: Vector2,
 							location_range: float, keep_suid: bool = true, respect_max_stack: bool = false,
 							auto_pickup_delay: bool = true) -> void:
 	var quantity_count: int = quant

@@ -12,7 +12,7 @@ func _on_save_game(_save_data: Array[SaveData]) -> void:
 	# Weapons need to have their mods reloaded into the new duplicated stats instance after a game is loaded, so before we save the game we mark all weapon resources on the ground as needing to have this done. Because the weapons themselves get freed then reinstantiated, the world items component has to call this logic from here (and not do it in each weapon, because they get freed on load). This is also called in the item receiver component script.
 	for grid_pos: Vector2i in grid.keys():
 		for item: Item in grid[grid_pos]:
-			if item.stats is WeaponResource:
+			if item.stats is WeaponStats:
 				item.stats.weapon_mods_need_to_be_readded_after_save = true
 
 func _on_before_load_game() -> void:
@@ -95,7 +95,7 @@ func _combine_items(item_1: Item, item_2: Item) -> void:
 
 #region Debug
 func spawn_on_ground_by_id(item_cache_id: StringName, count: int = 1) -> void:
-	var item: ItemResource = Items.get_item_by_id(item_cache_id, true)
+	var item: ItemStats = Items.get_item_by_id(item_cache_id, true)
 	if item == null:
 		printerr("The requested item \"" + item_cache_id + "\" does not exist.")
 		return

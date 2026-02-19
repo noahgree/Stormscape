@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="ProjWeaponResource" format=3 uid="uid://c05ujhrdtx4r5"]
+[gd_resource type="Resource" script_class="ProjWeaponStats" format=3 uid="uid://c05ujhrdtx4r5"]
 
 [ext_resource type="Texture2D" uid="uid://bm570hawaupxe" path="res://Entities/Items/Weapons/WeaponVFX/Casings/small_casing.png" id="1_wvxhv"]
 [ext_resource type="Script" uid="uid://dkfssottmsrch" path="res://Entities/Stats/EffectSystemResources/EffectSources/EffectSource.gd" id="3_iqgpm"]
@@ -8,10 +8,10 @@
 [ext_resource type="Resource" uid="uid://obbfs1l3errg" path="res://Entities/Player/PlayerCore/PlayerCamera/CamFXPresets/8.tres" id="6_wvxhv"]
 [ext_resource type="PackedScene" uid="uid://yaawws6setsr" path="res://Entities/Items/Weapons/ProjectileWeapons/Blunderbuss/Blunderbuss.tscn" id="9_ha6iu"]
 [ext_resource type="Script" uid="uid://ctxa7i1mbt7ab" path="res://Entities/Player/UI/Inventory/Panels/CraftingPanel/CraftingIngredient.gd" id="10_e6ffy"]
-[ext_resource type="Script" uid="uid://bj3r5oopspj6l" path="res://Entities/Items/Projectiles/ProjectileCore/ProjectileResource.gd" id="12_7ishm"]
+[ext_resource type="Script" uid="uid://bj3r5oopspj6l" path="res://Entities/Items/Projectiles/ProjectileCore/ProjStats.gd" id="12_7ishm"]
+[ext_resource type="Script" uid="uid://dvasncq3tgljs" path="res://Entities/Items/Weapons/ProjectileWeapons/ProjWeaponStats.gd" id="12_msrdt"]
 [ext_resource type="PackedScene" uid="uid://bqkyplubhsx43" path="res://Entities/Items/Projectiles/Bullets/SmallBullet/SmallBullet.tscn" id="13_icdbk"]
 [ext_resource type="Script" uid="uid://c2gdoebfp12dq" path="res://Entities/Stats/StatMod/StatModsCacheResource.gd" id="15_jciqd"]
-[ext_resource type="Script" uid="uid://dvasncq3tgljs" path="res://Entities/Items/Weapons/ProjectileWeapons/ProjWeaponResource.gd" id="16_q0xjt"]
 
 [sub_resource type="Resource" id="Resource_3mxcx"]
 script = ExtResource("3_iqgpm")
@@ -49,7 +49,7 @@ split_cam_fx = null
 script = ExtResource("15_jciqd")
 
 [resource]
-script = ExtResource("16_q0xjt")
+script = ExtResource("12_msrdt")
 proj_weapon_type = 1
 projectile_scn = ExtResource("13_icdbk")
 firing_duration = 0.25

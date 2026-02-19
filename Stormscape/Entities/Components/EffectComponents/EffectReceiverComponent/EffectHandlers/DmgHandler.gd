@@ -57,7 +57,7 @@ func handle_instant_damage(effect_source: EffectSource, lvl: int, life_steal_per
 
 	var final_xp: int = final_damage
 	if final_damage >= affected_entity.health_component.health + affected_entity.health_component.shield:
-		final_xp += WeaponResource.LARGE_XP
+		final_xp += WeaponStats.LARGE_XP
 
 	_send_handled_dmg("basic_damage", effect_source.dmg_affected_stats, final_damage, effect_source.multishot_id, life_steal_percent, is_crit)
 	return final_xp

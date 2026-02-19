@@ -1,7 +1,7 @@
 extends Node
 ## The autoload responsible for caching all items in the game. Provides methods for said access.
 
-var cached_items: Dictionary[StringName, ItemResource] = {} ## All items keyed by their unique item id.
+var cached_items: Dictionary[StringName, ItemStats] = {} ## All items keyed by their unique item id.
 var item_to_recipes: Dictionary[StringName, Array] = {} ## Maps items to the list of recipes that include them.
 var tag_to_recipes: Dictionary[StringName, Array] = {} ## Maps tags to the list of recipes that include them.
 var tag_to_items: Dictionary[StringName, Array] = {} ## Maps tags to the list of items that have that tag.
@@ -26,7 +26,7 @@ func _cache_recipes(folder: String) -> void:
 				_cache_recipes(folder + "/" + file_name)
 		elif file_name.ends_with(".tres"):
 			var file_path: String = folder + "/" + file_name
-			var item_resource: ItemResource = load(file_path)
+			var item_resource: ItemStats = load(file_path)
 			item_resource.session_uid = 0 # Trigger the setter to assign an suid
 			cached_items[item_resource.get_cache_key()] = item_resource
 
@@ -50,18 +50,18 @@ func _cache_recipes(folder: String) -> void:
 	dir.list_dir_end()
 
 ## Gets and returns an item resource by its id.
-func get_item_by_id(item_cache_id: StringName, block_error_messages: bool = false) -> ItemResource:
-	var item_resource: ItemResource = cached_items.get(item_cache_id, null)
+func get_item_by_id(item_cache_id: StringName, block_error_messages: bool = false) -> ItemStats:
+	var item_resource: ItemStats = cached_items.get(item_cache_id, null)
 	if item_resource == null and not block_error_messages:
 		push_error("The Items cacher did not have \"" + item_cache_id + "\" in its cache.")
 	return item_resource
 
 ## Gets a dictionary of all item mods, keyed by item id. Note that this is not a copy, it directly references
 ## the original items in the cache.
-func get_all_wpn_mods() -> Dictionary[StringName, WeaponMod]:
-	var results: Dictionary[StringName, WeaponMod]
+func get_all_wpn_mods() -> Dictionary[StringName, WeaponModStats]:
+	var results: Dictionary[StringName, WeaponModStats]
 	for item_id: StringName in cached_items:
-		var item: ItemResource = cached_items[item_id]
-		if item is WeaponMod:
+		var item: ItemStats = cached_items[item_id]
+		if item is WeaponModStats:
 			results[item_id] = item
 	return results

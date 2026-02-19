@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://boo31eu083dqd" path="res://Entities/Stats/EffectSystemResources/StatusEffects/StatusEffect.gd" id="1_v76ny"]
 [ext_resource type="Script" uid="uid://cowjdnic7xmkp" path="res://Entities/Player/UI/Inventory/Panels/ItemDetailsPanel/StatDetail.gd" id="2_ed86i"]
 [ext_resource type="Texture2D" uid="uid://oxy626mdjjor" path="res://Entities/Items/WeaponMods/Foregrip/ForegripBaseCT.tres" id="3_ed86i"]
-[ext_resource type="Script" uid="uid://ct7n8wo1p3b20" path="res://Entities/Items/WeaponMods/WeaponMod.gd" id="4_uwrdt"]
+[ext_resource type="Script" uid="uid://ct7n8wo1p3b20" path="res://Entities/Items/WeaponMods/WeaponModStats.gd" id="4_uwrdt"]
 [ext_resource type="Script" uid="uid://ctxa7i1mbt7ab" path="res://Entities/Player/UI/Inventory/Panels/CraftingPanel/CraftingIngredient.gd" id="4_xkqit"]
 [ext_resource type="Script" uid="uid://bcjwesiannbd0" path="res://Entities/Stats/StatMod/StatMod.gd" id="5_w7u81"]
 

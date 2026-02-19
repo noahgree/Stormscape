@@ -11,10 +11,10 @@ func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
 		return false
 	if is_same_slot_as(data):
 		return false
-	if data.item.stats is not WorldResourceResource:
+	if data.item.stats is not WorldResourceStats:
 		CursorManager.update_tooltip("Must be Fuel!", Globals.ui_colors.ui_glow_strong_fail)
 		return false
-	elif data.item.stats is WorldResourceResource and data.item.stats.fuel_amount <= 0:
+	elif data.item.stats is WorldResourceStats and data.item.stats.fuel_amount <= 0:
 		CursorManager.update_tooltip("Must be Fuel!", Globals.ui_colors.ui_glow_strong_fail)
 		return false
 

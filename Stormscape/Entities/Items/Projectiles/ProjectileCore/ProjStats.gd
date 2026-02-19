@@ -1,5 +1,6 @@
 extends Resource
-class_name ProjectileResource
+class_name ProjStats
+## The base projectile stats resource.
 
 @export_group("General")
 @export var speed: int = 350 ## The highest speed the projectile can travel in.

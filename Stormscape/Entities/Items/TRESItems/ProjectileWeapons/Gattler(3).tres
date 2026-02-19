@@ -1,20 +1,20 @@
-[gd_resource type="Resource" script_class="ProjWeaponResource" format=3 uid="uid://1q7rlned2r23"]
+[gd_resource type="Resource" script_class="ProjWeaponStats" format=3 uid="uid://1q7rlned2r23"]
 
 [ext_resource type="Script" uid="uid://dkfssottmsrch" path="res://Entities/Stats/EffectSystemResources/EffectSources/EffectSource.gd" id="1_lbh37"]
 [ext_resource type="Texture2D" uid="uid://bm570hawaupxe" path="res://Entities/Items/Weapons/WeaponVFX/Casings/small_casing.png" id="1_pxe5r"]
 [ext_resource type="SpriteFrames" uid="uid://cyfl1jof4do4a" path="res://Entities/Items/Weapons/ProjectileWeapons/Gattler/GattlerCursors.tres" id="2_huwqf"]
-[ext_resource type="Script" uid="uid://dvasncq3tgljs" path="res://Entities/Items/Weapons/ProjectileWeapons/ProjWeaponResource.gd" id="2_mpv0r"]
 [ext_resource type="Script" uid="uid://boo31eu083dqd" path="res://Entities/Stats/EffectSystemResources/StatusEffects/StatusEffect.gd" id="4_81caf"]
 [ext_resource type="Texture2D" uid="uid://b1cms5yjmoiqi" path="res://Entities/Items/Weapons/ProjectileWeapons/Gattler/GattlerBaseFrameCT.tres" id="4_ajwg5"]
 [ext_resource type="Texture2D" uid="uid://dmuwcjpos2kl8" path="res://Entities/Items/Weapons/ProjectileWeapons/Gattler/gattler_base_frame.png" id="4_g5312"]
-[ext_resource type="Script" uid="uid://cje5bobi6o8bo" path="res://Entities/Items/Hitscans/HitscanResource.gd" id="5_ajwg5"]
+[ext_resource type="Script" uid="uid://cje5bobi6o8bo" path="res://Entities/Items/Hitscans/HitscanStats.gd" id="5_ajwg5"]
 [ext_resource type="Script" uid="uid://cowjdnic7xmkp" path="res://Entities/Player/UI/Inventory/Panels/ItemDetailsPanel/StatDetail.gd" id="5_d4fbp"]
 [ext_resource type="Resource" uid="uid://jdmp0abbwxm5" path="res://Entities/Player/PlayerCore/PlayerCamera/CamFXPresets/1(NoFreeze).tres" id="6_d4fbp"]
 [ext_resource type="PackedScene" uid="uid://c17oqm8amalvy" path="res://Entities/Items/Weapons/ProjectileWeapons/Gattler/Gattler.tscn" id="6_huwqf"]
-[ext_resource type="Script" uid="uid://bj3r5oopspj6l" path="res://Entities/Items/Projectiles/ProjectileCore/ProjectileResource.gd" id="8_evybt"]
+[ext_resource type="Script" uid="uid://bj3r5oopspj6l" path="res://Entities/Items/Projectiles/ProjectileCore/ProjStats.gd" id="8_evybt"]
 [ext_resource type="Script" uid="uid://c2gdoebfp12dq" path="res://Entities/Stats/StatMod/StatModsCacheResource.gd" id="11_ojoph"]
 [ext_resource type="PackedScene" uid="uid://bqkyplubhsx43" path="res://Entities/Items/Projectiles/Bullets/SmallBullet/SmallBullet.tscn" id="12_evybt"]
 [ext_resource type="Script" uid="uid://ctxa7i1mbt7ab" path="res://Entities/Player/UI/Inventory/Panels/CraftingPanel/CraftingIngredient.gd" id="13_fpmbm"]
+[ext_resource type="Script" uid="uid://dvasncq3tgljs" path="res://Entities/Items/Weapons/ProjectileWeapons/ProjWeaponStats.gd" id="15_81caf"]
 
 [sub_resource type="Curve" id="Curve_upocd"]
 _data = [Vector2(0, 0.00289726), 0.0, 0.0, 0, 0, Vector2(0.149254, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
@@ -89,7 +89,7 @@ _data = [Vector2(0, 0.055), 0.0, -0.00308283, 0, 0, Vector2(0.994403, 0.0911858)
 point_count = 2
 
 [resource]
-script = ExtResource("2_mpv0r")
+script = ExtResource("15_81caf")
 proj_weapon_type = 9
 firing_mode = 1
 projectile_scn = ExtResource("12_evybt")

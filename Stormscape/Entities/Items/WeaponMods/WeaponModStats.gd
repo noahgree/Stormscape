@@ -1,11 +1,11 @@
 @icon("res://Utilities/Debug/EditorIcons/weapon_mod.svg")
-extends ItemResource
-class_name WeaponMod
+extends ItemStats
+class_name WeaponModStats
 ## Class for all weapon mods in the game.
 
 @export_group("Whitelist")
-@export var allowed_proj_wpns: Array[ProjWeaponResource.ProjWeaponType] = Globals.all_proj_weapons ## The allowed types of projectile weapons that can have this mod attached. Has all types allowed by default.
-@export var allowed_melee_wpns: Array[MeleeWeaponResource.MeleeWeaponType] = Globals.all_melee_wpns ## The allowed types of melee weapons that can have this mod attached. Has all types allowed by default.
+@export var allowed_proj_wpns: Array[ProjWeaponStats.ProjWeaponType] = Globals.all_proj_weapons ## The allowed types of projectile weapons that can have this mod attached. Has all types allowed by default.
+@export var allowed_melee_wpns: Array[MeleeWeaponStats.MeleeWeaponType] = Globals.all_melee_wpns ## The allowed types of melee weapons that can have this mod attached. Has all types allowed by default.
 
 @export_group("Blacklist")
 @export var blocked_mutuals: Array[StringName] = [] ## The mods that cannot be placed on the same weapon as this mod. In other words, only one of the mods in this list and this mod itself can be on a weapon at a time.
@@ -28,9 +28,9 @@ class_name WeaponMod
 
 
 ## Intended to be overridden. This is called immediately after this mod is added.
-func on_added(_weapon_stats: WeaponResource, _equipped_item: EquippableItem) -> void:
+func on_added(_weapon_stats: WeaponStats, _equipped_item: EquippableItem) -> void:
 	pass
 
 ## Intended to be overridden. This is called immediately after this mod is removed.
-func on_removal(_weapon_stats: WeaponResource, _equipped_item: EquippableItem) -> void:
+func on_removal(_weapon_stats: WeaponStats, _equipped_item: EquippableItem) -> void:
 	pass

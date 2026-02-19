@@ -153,7 +153,7 @@ func unequip_current_item() -> void:
 		equipped_item = null
 
 ## Handles positioning of the hands for the newly equipped item and then lets physics process take over.
-func on_equipped_item_change(stats: ItemResource, inv_index: int) -> void:
+func on_equipped_item_change(stats: ItemStats, inv_index: int) -> void:
 	unequip_current_item()
 
 	if stats == null or stats.item_scene == null:
@@ -209,7 +209,7 @@ func on_equipped_item_change(stats: ItemResource, inv_index: int) -> void:
 	set_process(true)
 
 ## Returns whether or not the stats to check match that of a currently equipped item.
-func do_these_stats_match_equipped_item(stats_to_check: ItemResource) -> bool:
+func do_these_stats_match_equipped_item(stats_to_check: ItemStats) -> bool:
 	if equipped_item and equipped_item.stats == stats_to_check:
 		return true
 	return false
@@ -217,7 +217,7 @@ func do_these_stats_match_equipped_item(stats_to_check: ItemResource) -> bool:
 ## Based on the current anim vector, we artificially move the rotation of the hands over before
 ## the items to simulate a pullout animation.
 func _prep_for_pullout_anim() -> void:
-	if equipped_item.stats is WeaponResource and equipped_item.stats.s_mods.get_stat("pullout_delay") == 0:
+	if equipped_item.stats is WeaponStats and equipped_item.stats.s_mods.get_stat("pullout_delay") == 0:
 		return
 
 	hands_anchor.global_rotation = _get_facing_dir().angle()
@@ -375,7 +375,7 @@ func _change_y_sort(facing_dir: Vector2) -> void:
 
 ## Handles lerping the y scale when we cross over the y axis.
 func _handle_y_scale_lerping(facing_dir: Vector2) -> void:
-	var snaps: bool = equipped_item.stats is WeaponResource and equipped_item.stats.snap_to_six_dirs
+	var snaps: bool = equipped_item.stats is WeaponStats and equipped_item.stats.snap_to_six_dirs
 	if equipped_item and equipped_item.stats.stay_flat_on_rotate:
 		current_x_direction = 1
 	elif facing_dir.x > (0.12 if not snaps else 0.005):
@@ -414,8 +414,8 @@ func _get_facing_dir() -> Vector2:
 func _check_is_holding_weapon() -> bool:
 	if not Globals.player_node.hands.equipped_item:
 		return false
-	var equipped_stats: ItemResource = Globals.player_node.hands.equipped_item.stats
-	if equipped_stats is not WeaponResource:
+	var equipped_stats: ItemStats = Globals.player_node.hands.equipped_item.stats
+	if equipped_stats is not WeaponStats:
 		return false
 	return true
 
@@ -423,9 +423,9 @@ func _check_is_holding_weapon() -> bool:
 func add_mod_to_weapon_by_id(mod_cache_id: StringName) -> void:
 	if not _check_is_holding_weapon():
 		return
-	var equipped_stats: ItemResource = Globals.player_node.hands.equipped_item.stats
-	var mod: ItemResource = Items.get_item_by_id(mod_cache_id, true)
-	if mod == null or mod is not WeaponMod:
+	var equipped_stats: ItemStats = Globals.player_node.hands.equipped_item.stats
+	var mod: ItemStats = Items.get_item_by_id(mod_cache_id, true)
+	if mod == null or mod is not WeaponModStats:
 		printerr("The mod of id \"" + mod_cache_id + "\" does not exist.")
 		return
 	WeaponModsManager.handle_weapon_mod(
@@ -436,7 +436,7 @@ func add_mod_to_weapon_by_id(mod_cache_id: StringName) -> void:
 func toggle_hitscan() -> void:
 	if not _check_is_holding_weapon():
 		return
-	var equipped_stats: ItemResource = Globals.player_node.hands.equipped_item.stats
+	var equipped_stats: ItemStats = Globals.player_node.hands.equipped_item.stats
 	equipped_stats.is_hitscan = not equipped_stats.is_hitscan
 
 ## Tries to add xp to the current weapon.
@@ -450,6 +450,6 @@ func add_weapon_xp(amount: int) -> void:
 func debug_print_xp_needed_for_lvl(lvl: int) -> void:
 	if not _check_is_holding_weapon():
 		return
-	var equipped_stats: ItemResource = Globals.player_node.hands.equipped_item.stats
+	var equipped_stats: ItemStats = Globals.player_node.hands.equipped_item.stats
 	equipped_stats.print_total_needed(lvl)
 #endregion

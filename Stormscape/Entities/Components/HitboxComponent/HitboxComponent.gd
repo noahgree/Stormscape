@@ -11,7 +11,7 @@ class_name HitboxComponent
 @onready var collider: CollisionShape2D = $CollisionShape2D ## The collision shape for this hitbox.
 
 var movement_direction: Vector2 = Vector2.ZERO ## The current movement direction for this hitbox.
-var source_weapon: WeaponResource ## The reference to the weapon that produced this effect source, if any.
+var source_weapon: WeaponStats ## The reference to the weapon that produced this effect source, if any.
 
 
 ## Setup the area detection signal and turn on monitorable just in case it was toggled off somewhere. It needs

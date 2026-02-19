@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://dwu1ysi53om1u" path="res://Entities/Items/WorldResources/OakLog/OakLogCT.tres" id="1_m3y15"]
 [ext_resource type="Script" uid="uid://cowjdnic7xmkp" path="res://Entities/Player/UI/Inventory/Panels/ItemDetailsPanel/StatDetail.gd" id="1_tox3f"]
-[ext_resource type="Script" uid="uid://crlmvnjkf7c3g" path="res://Entities/Items/WorldResources/WorldResourceResource.gd" id="1_xl3qb"]
+[ext_resource type="Script" uid="uid://crlmvnjkf7c3g" path="res://Entities/Items/WorldResources/WorldResourceStats.gd" id="1_xl3qb"]
 [ext_resource type="Script" uid="uid://ctxa7i1mbt7ab" path="res://Entities/Player/UI/Inventory/Panels/CraftingPanel/CraftingIngredient.gd" id="2_7glxp"]
 [ext_resource type="Texture2D" uid="uid://bptqv05di5d2o" path="res://Entities/Items/WorldResources/OakLog/oak_log.png" id="2_tox3f"]
 [ext_resource type="PackedScene" uid="uid://bhmmr2f1hs8mk" path="res://Entities/Items/WorldResources/WorldResource.tscn" id="2_ud1xk"]

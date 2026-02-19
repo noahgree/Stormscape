@@ -3,7 +3,7 @@ class_name WearablesManager
 
 
 ## Checks the compatibility of a wearable with the entity who wants to equip it.
-static func check_wearable_compatibility(entity: Entity, wearable: Wearable) -> bool:
+static func check_wearable_compatibility(entity: Entity, wearable: WearableStats) -> bool:
 	for wearable_entry: Dictionary in entity.wearables:
 		if wearable_entry.values()[0] != null:
 			if wearable_entry.keys()[0] in wearable.blocked_mutuals:
@@ -12,7 +12,7 @@ static func check_wearable_compatibility(entity: Entity, wearable: Wearable) -> 
 	return true
 
 ## Handles an incoming wearable, checking its compatibility and eventually adding it if it can.
-static func handle_wearable(entity: Entity, wearable: Wearable, index: int) -> void:
+static func handle_wearable(entity: Entity, wearable: WearableStats, index: int) -> void:
 	if not check_wearable_compatibility(entity, wearable):
 		return
 
@@ -29,7 +29,7 @@ static func handle_wearable(entity: Entity, wearable: Wearable, index: int) -> v
 	add_wearable(entity, wearable, index)
 
 ## Adds a wearable to the dictionary.
-static func add_wearable(entity: Entity, wearable: Wearable, index: int) -> void:
+static func add_wearable(entity: Entity, wearable: WearableStats, index: int) -> void:
 	if DebugFlags.wearable_changes:
 		print_rich("-------[color=green]Adding[/color][b] " + str(wearable.name) + " (" + str(wearable.rarity) + ")[/b][color=gray] to " + entity.name + " (slot " + str(index) + ")" + "-------")
 
@@ -41,7 +41,7 @@ static func add_wearable(entity: Entity, wearable: Wearable, index: int) -> void
 	AudioManager.play_global(wearable.equipping_audio)
 
 ## Removes the wearable from the dictionary.
-static func remove_wearable(entity: Entity, wearable: Wearable, index: int) -> void:
+static func remove_wearable(entity: Entity, wearable: WearableStats, index: int) -> void:
 	if DebugFlags.wearable_changes and WearablesManager.has_wearable(entity, wearable.id, index):
 		print_rich("-------[color=red]Removed[/color][b] " + str(wearable.name) + " (" + str(wearable.rarity) + ")[/b][color=gray] from " + entity.name + " (slot " + str(index) + ")" + "-------")
 

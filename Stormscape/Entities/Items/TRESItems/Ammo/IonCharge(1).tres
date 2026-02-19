@@ -1,10 +1,10 @@
-[gd_resource type="Resource" script_class="ProjAmmoResource" load_steps=6 format=3 uid="uid://c5jim46mul7ex"]
+[gd_resource type="Resource" script_class="ProjAmmoResource" format=3 uid="uid://c5jim46mul7ex"]
 
 [ext_resource type="Script" uid="uid://cowjdnic7xmkp" path="res://Entities/Player/UI/Inventory/Panels/ItemDetailsPanel/StatDetail.gd" id="1_8qamx"]
 [ext_resource type="Texture2D" uid="uid://damxkqnfy7nie" path="res://Entities/Items/Ammo/IonCharge/IonChargeThumbCT.tres" id="2_cttpe"]
 [ext_resource type="Texture2D" uid="uid://egdmabwj4ceh" path="res://Entities/Items/Ammo/IonCharge/ion_charge.png" id="3_nhafd"]
 [ext_resource type="Script" uid="uid://ctxa7i1mbt7ab" path="res://Entities/Player/UI/Inventory/Panels/CraftingPanel/CraftingIngredient.gd" id="4_xn2mq"]
-[ext_resource type="Script" uid="uid://bpc1cwr4a6lgo" path="res://Entities/Items/Ammo/ProjAmmoResource.gd" id="5_8nruk"]
+[ext_resource type="Script" uid="uid://bpc1cwr4a6lgo" path="res://Entities/Items/Ammo/ProjAmmoStats.gd" id="5_8nruk"]
 
 [resource]
 script = ExtResource("5_8nruk")

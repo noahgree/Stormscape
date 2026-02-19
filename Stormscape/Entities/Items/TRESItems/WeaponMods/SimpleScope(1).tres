@@ -1,10 +1,10 @@
-[gd_resource type="Resource" script_class="WeaponMod" load_steps=10 format=3 uid="uid://bsq8lhqy8j1i7"]
+[gd_resource type="Resource" script_class="WeaponMod" format=3 uid="uid://bsq8lhqy8j1i7"]
 
 [ext_resource type="Script" uid="uid://cowjdnic7xmkp" path="res://Entities/Player/UI/Inventory/Panels/ItemDetailsPanel/StatDetail.gd" id="1_20sk7"]
 [ext_resource type="Script" uid="uid://boo31eu083dqd" path="res://Entities/Stats/EffectSystemResources/StatusEffects/StatusEffect.gd" id="1_66lcn"]
 [ext_resource type="Script" uid="uid://ctxa7i1mbt7ab" path="res://Entities/Player/UI/Inventory/Panels/CraftingPanel/CraftingIngredient.gd" id="2_1qhq7"]
 [ext_resource type="Texture2D" uid="uid://cyb6hr0nf70e5" path="res://Entities/Items/WeaponMods/Scopes/SimpleScope/SimpleScopeBaseCT.tres" id="2_20sk7"]
-[ext_resource type="Script" uid="uid://ct7n8wo1p3b20" path="res://Entities/Items/WeaponMods/WeaponMod.gd" id="3_20sk7"]
+[ext_resource type="Script" uid="uid://ct7n8wo1p3b20" path="res://Entities/Items/WeaponMods/WeaponModStats.gd" id="3_20sk7"]
 [ext_resource type="Script" uid="uid://bcjwesiannbd0" path="res://Entities/Stats/StatMod/StatMod.gd" id="4_2mri6"]
 
 [sub_resource type="Resource" id="Resource_1qhq7"]

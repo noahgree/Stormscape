@@ -2,7 +2,7 @@ class_name InitializationHelpers
 
 
 ## Sets up the base values for the stat mod cache so that weapon mods can be added and managed properly.
-static func initialize_proj_wpn_stats_resource(stats_resource: ProjWeaponResource) -> void:
+static func initialize_proj_wpn_stats_resource(stats_resource: ProjWeaponStats) -> void:
 	stats_resource.s_mods = stats_resource.s_mods.duplicate()
 	stats_resource.effect_source = stats_resource.effect_source.duplicate()
 	stats_resource.original_status_effects = stats_resource.effect_source.status_effects.duplicate()
@@ -60,7 +60,7 @@ static func initialize_proj_wpn_stats_resource(stats_resource: ProjWeaponResourc
 		}
 		stats_resource.s_mods.add_moddable_stats(aoe_effect_source_moddable_stats)
 
-	if (stats_resource.ammo_in_mag == -1) and (stats_resource.ammo_type != ProjWeaponResource.ProjAmmoType.STAMINA):
+	if (stats_resource.ammo_in_mag == -1) and (stats_resource.ammo_type != ProjWeaponStats.ProjAmmoType.STAMINA):
 		stats_resource.ammo_in_mag = int(stats_resource.s_mods.get_stat("mag_size"))
 
 	if stats_resource.weapon_mods_need_to_be_readded_after_save:
@@ -68,7 +68,7 @@ static func initialize_proj_wpn_stats_resource(stats_resource: ProjWeaponResourc
 		stats_resource.weapon_mods_need_to_be_readded_after_save = false
 
 ## Sets up the base values for the stat mod cache so that weapon mods can be added and managed properly.
-static func initialize_melee_wpn_stats_resource(stats_resource: MeleeWeaponResource) -> void:
+static func initialize_melee_wpn_stats_resource(stats_resource: MeleeWeaponStats) -> void:
 	stats_resource.s_mods = stats_resource.s_mods.duplicate()
 	stats_resource.effect_source = stats_resource.effect_source.duplicate()
 	stats_resource.charge_effect_source = stats_resource.charge_effect_source.duplicate()

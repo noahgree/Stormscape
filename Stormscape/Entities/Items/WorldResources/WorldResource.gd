@@ -4,7 +4,7 @@ class_name WorldResource
 ## The EquippableItem definition for WorldResource.
 
 
-func _set_stats(new_stats: ItemResource) -> void:
+func _set_stats(new_stats: ItemStats) -> void:
 	super._set_stats(new_stats)
 
 	if sprite:

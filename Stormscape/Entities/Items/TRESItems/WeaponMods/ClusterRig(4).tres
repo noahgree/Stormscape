@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://cowjdnic7xmkp" path="res://Entities/Player/UI/Inventory/Panels/ItemDetailsPanel/StatDetail.gd" id="3_jrpdv"]
 [ext_resource type="Texture2D" uid="uid://uw5lhqydwiy3" path="res://Entities/Items/WeaponMods/Igniter/IgniterBaseCT.tres" id="5_u8pd8"]
 [ext_resource type="Script" uid="uid://ctxa7i1mbt7ab" path="res://Entities/Player/UI/Inventory/Panels/CraftingPanel/CraftingIngredient.gd" id="6_7la06"]
-[ext_resource type="Script" uid="uid://ct7n8wo1p3b20" path="res://Entities/Items/WeaponMods/WeaponMod.gd" id="7_rcwbr"]
+[ext_resource type="Script" uid="uid://ct7n8wo1p3b20" path="res://Entities/Items/WeaponMods/WeaponModStats.gd" id="7_rcwbr"]
 [ext_resource type="Script" uid="uid://bcjwesiannbd0" path="res://Entities/Stats/StatMod/StatMod.gd" id="8_c2cdw"]
 
 [sub_resource type="Resource" id="Resource_x6clt"]

@@ -1,10 +1,10 @@
-[gd_resource type="Resource" script_class="CurrencyResource" load_steps=6 format=3 uid="uid://cqqpudayew03k"]
+[gd_resource type="Resource" script_class="CurrencyResource" format=3 uid="uid://cqqpudayew03k"]
 
 [ext_resource type="Script" uid="uid://cowjdnic7xmkp" path="res://Entities/Player/UI/Inventory/Panels/ItemDetailsPanel/StatDetail.gd" id="1_jkf8y"]
 [ext_resource type="Texture2D" uid="uid://onmoe4xkeqqd" path="res://Entities/Items/Currency/Stormshine/stormshine.png" id="2_0mntj"]
 [ext_resource type="Texture2D" uid="uid://crvukuxg13b6" path="res://Entities/Items/Currency/Stormshine/StormshineThumbCT.tres" id="2_fopsv"]
 [ext_resource type="Script" uid="uid://ctxa7i1mbt7ab" path="res://Entities/Player/UI/Inventory/Panels/CraftingPanel/CraftingIngredient.gd" id="2_ryqut"]
-[ext_resource type="Script" uid="uid://bc2i3t4ngq3g7" path="res://Entities/Items/Currency/CurrencyResource.gd" id="3_0mntj"]
+[ext_resource type="Script" uid="uid://bc2i3t4ngq3g7" path="res://Entities/Items/Currency/CurrencyStats.gd" id="3_0mntj"]
 
 [resource]
 script = ExtResource("3_0mntj")

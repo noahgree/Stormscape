@@ -1,18 +1,18 @@
-[gd_resource type="Resource" script_class="ProjWeaponResource" format=3 uid="uid://kmidnuyti5xi"]
+[gd_resource type="Resource" script_class="ProjWeaponStats" format=3 uid="uid://kmidnuyti5xi"]
 
 [ext_resource type="Script" uid="uid://dkfssottmsrch" path="res://Entities/Stats/EffectSystemResources/EffectSources/EffectSource.gd" id="1_pnsqi"]
 [ext_resource type="Resource" uid="uid://y5iqfraea8ry" path="res://Entities/Player/PlayerCore/PlayerCamera/CamFXPresets/2(NoFreeze).tres" id="2_o0qyt"]
-[ext_resource type="Script" uid="uid://cje5bobi6o8bo" path="res://Entities/Items/Hitscans/HitscanResource.gd" id="3_46awu"]
+[ext_resource type="Script" uid="uid://cje5bobi6o8bo" path="res://Entities/Items/Hitscans/HitscanStats.gd" id="3_46awu"]
 [ext_resource type="Script" uid="uid://boo31eu083dqd" path="res://Entities/Stats/EffectSystemResources/StatusEffects/StatusEffect.gd" id="3_rmhbo"]
-[ext_resource type="Script" uid="uid://bj3r5oopspj6l" path="res://Entities/Items/Projectiles/ProjectileCore/ProjectileResource.gd" id="4_7qce5"]
+[ext_resource type="Script" uid="uid://bj3r5oopspj6l" path="res://Entities/Items/Projectiles/ProjectileCore/ProjStats.gd" id="4_7qce5"]
 [ext_resource type="Texture2D" uid="uid://cqsoww8i0aya3" path="res://Entities/Items/Weapons/ProjectileWeapons/Boomerang/BoomerangSteelCT.tres" id="4_gupq0"]
 [ext_resource type="Script" uid="uid://cowjdnic7xmkp" path="res://Entities/Player/UI/Inventory/Panels/ItemDetailsPanel/StatDetail.gd" id="4_ws34s"]
 [ext_resource type="PackedScene" uid="uid://dna63yojpqy2n" path="res://Entities/Items/Projectiles/Boomerangs/BoomerangSteelProj.tscn" id="5_23285"]
 [ext_resource type="Texture2D" uid="uid://1cupq4qi2cjx" path="res://Entities/Items/Weapons/ProjectileWeapons/Boomerang/boomerang_steel.png" id="6_2lgcn"]
 [ext_resource type="PackedScene" uid="uid://dq57qggohi76w" path="res://Entities/Items/Weapons/ProjectileWeapons/Boomerang/BoomerangSteel.tscn" id="7_fxomq"]
 [ext_resource type="Script" uid="uid://c2gdoebfp12dq" path="res://Entities/Stats/StatMod/StatModsCacheResource.gd" id="9_o1ahq"]
-[ext_resource type="Script" uid="uid://dvasncq3tgljs" path="res://Entities/Items/Weapons/ProjectileWeapons/ProjWeaponResource.gd" id="10_y8hgr"]
 [ext_resource type="Script" uid="uid://ctxa7i1mbt7ab" path="res://Entities/Player/UI/Inventory/Panels/CraftingPanel/CraftingIngredient.gd" id="11_abng5"]
+[ext_resource type="Script" uid="uid://dvasncq3tgljs" path="res://Entities/Items/Weapons/ProjectileWeapons/ProjWeaponStats.gd" id="13_rmhbo"]
 
 [sub_resource type="Resource" id="Resource_etijc"]
 script = ExtResource("1_pnsqi")
@@ -70,7 +70,7 @@ split_cam_fx = null
 script = ExtResource("9_o1ahq")
 
 [resource]
-script = ExtResource("10_y8hgr")
+script = ExtResource("13_rmhbo")
 proj_weapon_type = 8
 projectile_scn = ExtResource("5_23285")
 firing_duration = 0.12

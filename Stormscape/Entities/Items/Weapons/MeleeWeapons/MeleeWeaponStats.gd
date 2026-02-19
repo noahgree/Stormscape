@@ -1,6 +1,6 @@
 @icon("res://Utilities/Debug/EditorIcons/melee_weapon_resource.png")
-extends WeaponResource
-class_name MeleeWeaponResource
+extends WeaponStats
+class_name MeleeWeaponStats
 ## The resource that defines all stats for a melee weapon. Passing this around essentially passes the weapon around.
 
 enum MeleeWeaponType { TOOL, PHYSICAL, COMBAT } ## The kinds of melee weapons.

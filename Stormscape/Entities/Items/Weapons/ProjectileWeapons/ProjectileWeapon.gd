@@ -48,7 +48,7 @@ func _ready() -> void:
 
 	if source_entity is Player:
 		# Update the ammo UI when stamina changes
-		if (stats.ammo_type == ProjWeaponResource.ProjAmmoType.STAMINA) and (not stats.hide_ammo_ui):
+		if (stats.ammo_type == ProjWeaponStats.ProjAmmoType.STAMINA) and (not stats.hide_ammo_ui):
 				source_entity.stamina_component.stamina_changed.connect(
 					func(_new_stamina: float, _old_stamina: float) -> void: update_ammo_ui()
 					)
@@ -220,7 +220,7 @@ func _can_activate_at_all() -> bool:
 			reload()
 			return false
 		WeaponState.RELOADING:
-			if stats.reload_type == ProjWeaponResource.ReloadType.SINGLE and not stats.must_reload_fully:
+			if stats.reload_type == ProjWeaponStats.ReloadType.SINGLE and not stats.must_reload_fully:
 				if ensure_enough_ammo():
 					return true
 			return false
@@ -236,7 +236,7 @@ func activate() -> void:
 			AudioManager.play_2d(stats.empty_mag_sound, global_position)
 		return
 
-	if stats.firing_mode == ProjWeaponResource.FiringType.SEMI_AUTO:
+	if stats.firing_mode == ProjWeaponStats.FiringType.SEMI_AUTO:
 		start_firing_sequence()
 
 ## Called for every frame that a trigger is pressed.
@@ -251,12 +251,12 @@ func hold_activate(delta: float) -> void:
 	hold_time += delta
 
 	match stats.firing_mode:
-		ProjWeaponResource.FiringType.SEMI_AUTO:
+		ProjWeaponStats.FiringType.SEMI_AUTO:
 			hold_time = 0
-		ProjWeaponResource.FiringType.AUTO:
+		ProjWeaponStats.FiringType.AUTO:
 			hold_time = 0
 			start_firing_sequence()
-		ProjWeaponResource.FiringType.CHARGE:
+		ProjWeaponStats.FiringType.CHARGE:
 			if (not is_charging) and (stats.charging_stat_effect != null):
 				var effect: StatusEffect = stats.charging_stat_effect.duplicate()
 				effect.mod_time = 100000000
@@ -275,7 +275,7 @@ func release_hold_activate() -> void:
 	if not _can_activate_at_all():
 		return
 
-	if stats.firing_mode == ProjWeaponResource.FiringType.CHARGE:
+	if stats.firing_mode == ProjWeaponStats.FiringType.CHARGE:
 		if stats.charging_stat_effect != null:
 			source_entity.effects.request_effect_removal_by_source(stats.charging_stat_effect.id, Globals.StatusEffectSourceType.FROM_SELF)
 		is_charging = false
@@ -313,9 +313,9 @@ func start_firing_sequence() -> void:
 
 	# ---Hitscan Release Check---
 	if stats.is_hitscan:
-		if stats.firing_mode == ProjWeaponResource.FiringType.CHARGE and stats.reset_charge_on_fire:
+		if stats.firing_mode == ProjWeaponStats.FiringType.CHARGE and stats.reset_charge_on_fire:
 			_clean_up_hitscans()
-		elif not stats.hitscan_logic.continuous_beam or has_released or stats.firing_mode == ProjWeaponResource.FiringType.SEMI_AUTO:
+		elif not stats.hitscan_logic.continuous_beam or has_released or stats.firing_mode == ProjWeaponStats.FiringType.SEMI_AUTO:
 			_clean_up_hitscans()
 
 	# ---Check Ammo Again---
@@ -347,10 +347,10 @@ func ensure_enough_ammo() -> bool:
 		ammo_needed = 1
 
 	match stats.ammo_type:
-		ProjWeaponResource.ProjAmmoType.STAMINA:
+		ProjWeaponStats.ProjAmmoType.STAMINA:
 			var stamina_needed: float = ammo_needed * stats.stamina_use_per_proj
 			has_needed_ammo = source_entity.stamina_component.has_enough_stamina(stamina_needed)
-		ProjWeaponResource.ProjAmmoType.SELF:
+		ProjWeaponStats.ProjAmmoType.SELF:
 			has_needed_ammo = true
 		_:
 			has_needed_ammo = (stats.ammo_in_mag >= ammo_needed)
@@ -371,14 +371,14 @@ func update_ammo_ui() -> void:
 
 	var count_str: String
 	match stats.ammo_type:
-		ProjWeaponResource.ProjAmmoType.SELF:
+		ProjWeaponStats.ProjAmmoType.SELF:
 			if source_entity.inv.inv[inv_index] == null or source_entity.inv.inv[inv_index].stats == null:
 				count_str = ""
 			else:
 				count_str = str(source_entity.inv.inv[inv_index].quantity)
-		ProjWeaponResource.ProjAmmoType.STAMINA:
+		ProjWeaponStats.ProjAmmoType.STAMINA:
 			count_str = str(floori(source_entity.stamina_component.stamina))
-		ProjWeaponResource.ProjAmmoType.NONE when stats.dont_consume_ammo:
+		ProjWeaponStats.ProjAmmoType.NONE when stats.dont_consume_ammo:
 			count_str = "∞"
 		_:
 			count_str = str(stats.ammo_in_mag)

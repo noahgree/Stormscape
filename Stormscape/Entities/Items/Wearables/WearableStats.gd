@@ -1,6 +1,6 @@
 @icon("res://Utilities/Debug/EditorIcons/wearable.svg")
-extends ItemResource
-class_name Wearable
+extends ItemStats
+class_name WearableStats
 ## The class for all wearable gear and items that provide status effects or stat modifications to the wearer.
 
 

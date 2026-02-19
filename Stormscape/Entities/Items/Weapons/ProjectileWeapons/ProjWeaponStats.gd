@@ -1,6 +1,6 @@
 @icon("res://Utilities/Debug/EditorIcons/proj_weapon_resource.png")
-extends WeaponResource
-class_name ProjWeaponResource
+extends WeaponStats
+class_name ProjWeaponStats
 ## The resource that defines all stats for a projectile weapon. Passing this around essentially passes the weapon around.
 
 enum ProjWeaponType { ## The kinds of projectile weapons.
@@ -61,12 +61,12 @@ enum ReloadType { ## The kinds of reloads the weapon can have.
 @export var empty_mag_sound: String ## The sound to play when trying to fire with no ammo left.
 
 @export_group("Effect & Logic Resources")
-@export var projectile_logic: ProjectileResource ## The logic for each spawned projectile determining how it behaves.
-@export var hitscan_logic: HitscanResource = HitscanResource.new() ## The resource containing information on how to fire and operate the hitscan.
+@export var projectile_logic: ProjStats ## The logic for each spawned projectile determining how it behaves.
+@export var hitscan_logic: HitscanStats = HitscanStats.new() ## The resource containing information on how to fire and operate the hitscan.
 @export var effect_source: EffectSource ## The resource that defines what happens to the entity that is hit by this weapon. Includes things like damage and status effects.
 
 @export_group("Ammo & Reloading")
-@export var ammo_type: ProjWeaponResource.ProjAmmoType = ProjAmmoType.NONE ## The kind of ammo to consume on use.
+@export var ammo_type: ProjWeaponStats.ProjAmmoType = ProjAmmoType.NONE ## The kind of ammo to consume on use.
 @export var mag_size: int = 30  ## Number of normal attack executions that can happen before a reload is needed.
 @export var reload_type: ReloadType = ReloadType.MAGAZINE ## Whether to reload over time or all at once at the end.
 @export_custom(PROPERTY_HINT_NONE, "suffix:seconds") var reload_delay: float ## An additional delay that occurs before the reload begins. This determines the runtime of the "before_single_reload" animation.

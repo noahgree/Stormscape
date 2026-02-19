@@ -3,7 +3,7 @@ class_name EquippableItem
 ## The base class for all items that can be used by the HandsComponent. In order to be equipped and shown on screen in
 ## some place other than the inventory, the item resource must have an associated equippable item scene.
 
-@export_storage var stats: ItemResource = null: set = _set_stats ## The resource driving the stats and type of item.
+@export_storage var stats: ItemStats = null: set = _set_stats ## The resource driving the stats and type of item.
 @export var sprites_to_tint: Array[Node2D] ## All sprites that should be affected by tinting during events such as "disable".
 
 @onready var sprite: Node2D = $ItemSprite ## The main sprite for the equippable item. Should have the entity effect shader attached.
@@ -31,7 +31,7 @@ var enabled: bool = true: ## When false, any activation or reload actions are bl
 
 
 ## Creates an equippable item to be used via the inv index it is currently in.
-static func create_from_inv_index(item_stats: ItemResource, entity: Entity, index: int) -> EquippableItem:
+static func create_from_inv_index(item_stats: ItemStats, entity: Entity, index: int) -> EquippableItem:
 	var item: EquippableItem = item_stats.item_scene.instantiate()
 	item.inv_index = index
 	item.source_entity = entity
@@ -40,7 +40,7 @@ static func create_from_inv_index(item_stats: ItemResource, entity: Entity, inde
 	return item
 
 ## Sets the item stats when changed. Can be overridden by child classes to do specific things on change.
-func _set_stats(new_stats: ItemResource) -> void:
+func _set_stats(new_stats: ItemStats) -> void:
 	if not stats_already_duplicated:
 		stats = new_stats.duplicate_with_suid()
 	source_entity.inv.inv[inv_index].stats = stats

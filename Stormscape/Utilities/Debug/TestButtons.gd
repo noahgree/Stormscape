@@ -2,8 +2,8 @@ extends Control
 ## Debugging script for having buttons on screen that do test actions.
 
 @export var health_component: HealthComponent
-@export var mods: Array[WeaponMod]
-@export var wearables: Array[Wearable]
+@export var mods: Array[WeaponModStats]
+@export var wearables: Array[WearableStats]
 
 
 func _on_test_hurt_btn_pressed() -> void:
@@ -22,7 +22,7 @@ func _on_test_music_btn_pressed() -> void:
 
 func _on_test_mod_btn_1_pressed() -> void:
 	var i: int = 0
-	for mod: WeaponMod in mods:
+	for mod: WeaponModStats in mods:
 		if Globals.player_node.hands.equipped_item:
 			WeaponModsManager.handle_weapon_mod(
 				Globals.player_node.hands.equipped_item.stats, mod, i, Globals.player_node
@@ -31,7 +31,7 @@ func _on_test_mod_btn_1_pressed() -> void:
 
 func _on_test_mod_btn_2_pressed() -> void:
 	var i: int = 0
-	for mod: WeaponMod in mods:
+	for mod: WeaponModStats in mods:
 		if Globals.player_node.hands.equipped_item:
 			WeaponModsManager.remove_weapon_mod(
 				Globals.player_node.hands.equipped_item.stats, mod, i, Globals.player_node
@@ -40,13 +40,13 @@ func _on_test_mod_btn_2_pressed() -> void:
 
 func _on_test_mod_btn_3_pressed() -> void:
 	var i: int = 0
-	for wearable: Wearable in wearables:
+	for wearable: WearableStats in wearables:
 		WearablesManager.handle_wearable(Globals.player_node, wearable, i)
 		i += 1
 
 func _on_test_mod_btn_4_pressed() -> void:
 	var i: int = 0
-	for wearable: Wearable in wearables:
+	for wearable: WearableStats in wearables:
 		WearablesManager.remove_wearable(Globals.player_node, wearable, i)
 		i += 1
 

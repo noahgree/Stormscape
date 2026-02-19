@@ -190,7 +190,7 @@ func get_overheat(item_id: StringName) -> float:
 
 #region Recharges
 ## Adds a recharge request to the dictionary.
-func request_recharge(item_id: StringName, stats: WeaponResource) -> void:
+func request_recharge(item_id: StringName, stats: WeaponStats) -> void:
 	if item_id in recharges:
 		recharges[item_id].stats = stats
 	else:
@@ -225,7 +225,7 @@ func _update_recharges(delta: float) -> void:
 				ammo_needed = min(ammo_needed, auto_ammo_count)
 
 				if current.stats.recharge_uses_inv:
-					if current.stats.ammo_type == ProjWeaponResource.ProjAmmoType.CHARGES:
+					if current.stats.ammo_type == ProjWeaponStats.ProjAmmoType.CHARGES:
 						current.stats.ammo_in_mag += ammo_needed
 					else:
 						var retrieved_ammo: int = inv.get_more_ammo(ammo_needed, true, current.stats.ammo_type)

@@ -43,7 +43,7 @@ func _setup_slots() -> void:
 
 ## When any item in the hotbar changes, potentially update the hands about a new active item.
 ## This also triggers the full setup for active item changes including vfx and hotbar tint progresses.
-func _on_hotbar_slot_item_changed(slot: Slot, old_item: InvItemResource, new_item: InvItemResource) -> void:
+func _on_hotbar_slot_item_changed(slot: Slot, old_item: InvItemStats, new_item: InvItemStats) -> void:
 	if (old_item != null and new_item != null) and new_item.stats.is_same_as(old_item.stats):
 		_default_ammo_update_method()
 		return # Returning if all we did was change the quantity, since we don't need to tell the hands about that
@@ -162,7 +162,7 @@ func _setup_after_active_slot_change() -> void:
 ## UI for the new item name. This must happen here since the signal's order isn't guaranteed,
 ## and we need the active slot to update first.
 func _update_hands_about_new_active_item() -> void:
-	var stats_to_send: ItemResource = active_slot.item.stats if active_slot.item else null
+	var stats_to_send: ItemStats = active_slot.item.stats if active_slot.item else null
 	Globals.player_node.hands.on_equipped_item_change(stats_to_send, active_slot.index)
 	if active_slot.item != null:
 		active_slot_info.update_item_name(active_slot.item.stats.name)

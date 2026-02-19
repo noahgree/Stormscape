@@ -1,7 +1,7 @@
 extends Resource
 class_name LootTableEntry
 
-@export var item: ItemResource = null
+@export var item: ItemStats = null
 @export var quantity: int = 1
 @export var weighting: float = 1.0
 

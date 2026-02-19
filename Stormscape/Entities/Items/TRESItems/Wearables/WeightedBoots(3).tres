@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://cowjdnic7xmkp" path="res://Entities/Player/UI/Inventory/Panels/ItemDetailsPanel/StatDetail.gd" id="1_e25ye"]
 [ext_resource type="Texture2D" uid="uid://dhaxi1e4w3258" path="res://Entities/Items/Wearables/WeightedBoots/WeightedBootsCT.tres" id="2_e25ye"]
 [ext_resource type="Script" uid="uid://ctxa7i1mbt7ab" path="res://Entities/Player/UI/Inventory/Panels/CraftingPanel/CraftingIngredient.gd" id="3_dwr3g"]
-[ext_resource type="Script" uid="uid://317ipeo41y3c" path="res://Entities/Items/Wearables/Wearable.gd" id="4_2ev72"]
+[ext_resource type="Script" uid="uid://317ipeo41y3c" path="res://Entities/Items/Wearables/WearableStats.gd" id="4_2ev72"]
 [ext_resource type="Script" uid="uid://bcjwesiannbd0" path="res://Entities/Stats/StatMod/StatMod.gd" id="5_n7lqf"]
 
 [sub_resource type="Resource" id="Resource_e25ye"]

@@ -33,14 +33,14 @@ func _ready() -> void:
 func link_fuel_slot(fuel_slot: Slot) -> void:
 	fuel_slot.item_changed.connect(_on_fuel_slot_item_changed)
 
-func _on_fuel_slot_item_changed(slot: Slot, _old_item: InvItemResource, new_item: InvItemResource) -> void:
+func _on_fuel_slot_item_changed(slot: Slot, _old_item: InvItemStats, new_item: InvItemStats) -> void:
 	if new_item:
 		var total_new_fuel: int = new_item.quantity * new_item.stats.fuel_amount
 		var fuel_space: int = max_fuel - fuel
 		var extra_fuel: int = total_new_fuel - fuel_space
 		if extra_fuel > 0:
 			var extra_item_quant: int = floori(extra_fuel / new_item.stats.fuel_amount)
-			var extra_items: InvItemResource = InvItemResource.new(new_item.stats, extra_item_quant)
+			var extra_items: InvItemStats = InvItemStats.new(new_item.stats, extra_item_quant)
 			Globals.player_node.inv.insert_from_inv_item(extra_items, false, false)
 		fuel += total_new_fuel
 

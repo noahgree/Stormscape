@@ -13,7 +13,7 @@ class_name Projectile
 
 #region Local Vars
 const MAX_AOE_RADIUS: float = 85.0
-var stats: ProjectileResource ## The logic for how to operate this projectile.
+var stats: ProjStats ## The logic for how to operate this projectile.
 var s_mods: StatModsCacheResource ## The cache containing the current numerical values for firing metrics.
 var lifetime_timer: Timer = TimerHelpers.create_one_shot_timer(self, -1, _on_lifetime_timer_timeout_or_reached_max_distance) ## The timer tracking how long the projectile has left to exist.
 var aoe_delay_timer: Timer = TimerHelpers.create_one_shot_timer(self) ## The timer tracking how long after starting an AOE do we wait before enabling damage again.
@@ -55,7 +55,7 @@ func _on_before_load_game() -> void:
 
 #region Core
 ## Creates a projectile and assigns its needed variables in a specific order. Then it returns it.
-static func create(wpn_stats: ProjWeaponResource, src_entity: Entity, pos: Vector2, rot: float) -> Projectile:
+static func create(wpn_stats: ProjWeaponStats, src_entity: Entity, pos: Vector2, rot: float) -> Projectile:
 	var proj_scene: PackedScene = wpn_stats.projectile_scn
 	var proj: Projectile = proj_scene.instantiate()
 	proj.split_proj_scene = proj_scene

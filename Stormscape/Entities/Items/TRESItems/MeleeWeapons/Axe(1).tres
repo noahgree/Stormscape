@@ -1,6 +1,5 @@
-[gd_resource type="Resource" script_class="MeleeWeaponResource" format=3 uid="uid://bper7kxtsf7f1"]
+[gd_resource type="Resource" script_class="MeleeWeaponStats" format=3 uid="uid://bper7kxtsf7f1"]
 
-[ext_resource type="Script" uid="uid://djlk3y511igng" path="res://Entities/Items/Weapons/MeleeWeapons/MeleeWeaponResource.gd" id="1_0xu6s"]
 [ext_resource type="Resource" uid="uid://b5dad578bsduf" path="res://Entities/Player/PlayerCore/PlayerCamera/CamFXPresets/3(NoFreeze).tres" id="1_8vcks"]
 [ext_resource type="Script" uid="uid://dkfssottmsrch" path="res://Entities/Stats/EffectSystemResources/EffectSources/EffectSource.gd" id="1_x4rfe"]
 [ext_resource type="Script" uid="uid://boo31eu083dqd" path="res://Entities/Stats/EffectSystemResources/StatusEffects/StatusEffect.gd" id="3_tm0oq"]
@@ -10,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://c8mku0yilyape" path="res://Entities/Items/Weapons/MeleeWeapons/Axe/AxeWoodCT.tres" id="6_tm0oq"]
 [ext_resource type="PackedScene" uid="uid://4jfk7na2inix" path="res://Entities/Items/Weapons/MeleeWeapons/Axe/AxeWood.tscn" id="7_tm0oq"]
 [ext_resource type="Script" uid="uid://ctxa7i1mbt7ab" path="res://Entities/Player/UI/Inventory/Panels/CraftingPanel/CraftingIngredient.gd" id="8_ib65y"]
+[ext_resource type="Script" uid="uid://djlk3y511igng" path="res://Entities/Items/Weapons/MeleeWeapons/MeleeWeaponStats.gd" id="10_tm0oq"]
 
 [sub_resource type="Resource" id="Resource_klx1g"]
 script = ExtResource("1_x4rfe")
@@ -36,7 +36,7 @@ metadata/_custom_type_script = ExtResource("1_x4rfe")
 script = ExtResource("6_iunw2")
 
 [resource]
-script = ExtResource("1_0xu6s")
+script = ExtResource("10_tm0oq")
 effect_source = SubResource("Resource_c7rci")
 use_cooldown = 0.18
 swing_angle = 115

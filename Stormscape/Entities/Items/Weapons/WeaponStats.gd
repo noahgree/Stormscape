@@ -1,5 +1,5 @@
-extends ItemResource
-class_name WeaponResource
+extends ItemStats
+class_name WeaponStats
 ## The base resource for all weapons.
 
 const BASE_XP_FOR_LVL: int = 500
@@ -36,14 +36,14 @@ const EFFECT_AMOUNT_XP_MULT: float = 0.35 ## Multiplies effect src amounts (dmg,
 @export_storage var original_aoe_status_effects: Array[StatusEffect] = [] ## The original status effect list of the aoe effect source before any mods are applied.
 
 ## Returns the amount of xp we need to attain the next level that we aren't at yet.
-static func xp_needed_for_lvl(weapon_stats: WeaponResource, lvl: int) -> int:
+static func xp_needed_for_lvl(weapon_stats: WeaponStats, lvl: int) -> int:
 	var rarity_mult: float = 1 + (weapon_stats.rarity * RARITY_LEVELING_FACTOR)
 
 	# Subtract one iteration at the end since we start at level 1
 	return int(BASE_XP_FOR_LVL * pow(lvl, LVL_SCALING_EXPONENT) * rarity_mult) - int(BASE_XP_FOR_LVL * rarity_mult)
 
 ## Returns the percent progress to the next allowed level, 0 - 1.
-static func visual_percent_of_lvl_progress(weapon_stats: WeaponResource) -> float:
+static func visual_percent_of_lvl_progress(weapon_stats: WeaponStats) -> float:
 	if weapon_stats.level < weapon_stats.allowed_lvl:
 		return 1.0
 	var xp_needed: int = xp_needed_for_lvl(weapon_stats, weapon_stats.allowed_lvl + 1)
@@ -51,7 +51,7 @@ static func visual_percent_of_lvl_progress(weapon_stats: WeaponResource) -> floa
 
 ## Whether the weapon is the same as another weapon when called externally to compare.
 ## Overrides base method to also compare weapon mods and SUID if cooldowns are based on it.
-func is_same_as(other_item: ItemResource) -> bool:
+func is_same_as(other_item: ItemStats) -> bool:
 	var initial_checks: bool = (str(self) == str(other_item)) and (self.current_mods == other_item.current_mods)
 	if cooldowns_per_suid:
 		return (self.session_uid == other_item.session_uid) and initial_checks
@@ -130,7 +130,7 @@ func level_up() -> int:
 	return level
 
 ## Upgrades a weapon to a higher rarity, transferring all stats and mods.
-func migrate_from_rarity_upgrade(original_wpn: WeaponResource, source_entity: Entity,
+func migrate_from_rarity_upgrade(original_wpn: WeaponStats, source_entity: Entity,
 									remove_from_orig: bool = true) -> void:
 	session_uid = original_wpn.session_uid
 	WeaponModsManager.copy_mods_between_weapons(original_wpn, self, source_entity, remove_from_orig)

@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cvuqjp8xvpr3i" path="res://Entities/Items/WorldResources/SpruceLog/SpruceLogCT.tres" id="1_hnjw2"]
 [ext_resource type="PackedScene" uid="uid://bhmmr2f1hs8mk" path="res://Entities/Items/WorldResources/WorldResource.tscn" id="2_a84rt"]
 [ext_resource type="Texture2D" uid="uid://1q78rueqnvgr" path="res://Entities/Items/WorldResources/SpruceLog/spruce_log.png" id="2_hnhwf"]
-[ext_resource type="Script" uid="uid://crlmvnjkf7c3g" path="res://Entities/Items/WorldResources/WorldResourceResource.gd" id="3_iauve"]
+[ext_resource type="Script" uid="uid://crlmvnjkf7c3g" path="res://Entities/Items/WorldResources/WorldResourceStats.gd" id="3_iauve"]
 [ext_resource type="Script" uid="uid://ctxa7i1mbt7ab" path="res://Entities/Player/UI/Inventory/Panels/CraftingPanel/CraftingIngredient.gd" id="4_ryo35"]
 
 [resource]

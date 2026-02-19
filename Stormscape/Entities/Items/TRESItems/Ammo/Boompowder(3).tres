@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://cowjdnic7xmkp" path="res://Entities/Player/UI/Inventory/Panels/ItemDetailsPanel/StatDetail.gd" id="1_uogpn"]
 [ext_resource type="Texture2D" uid="uid://cepsvnuehxcog" path="res://Entities/Items/Ammo/Boompowder/BoompowderThumbCT.tres" id="2_sfwph"]
 [ext_resource type="Texture2D" uid="uid://bdu8wnpqnlkdi" path="res://Entities/Items/Ammo/Boompowder/boompowder.png" id="3_7eytm"]
-[ext_resource type="Script" uid="uid://bpc1cwr4a6lgo" path="res://Entities/Items/Ammo/ProjAmmoResource.gd" id="3_sfwph"]
+[ext_resource type="Script" uid="uid://bpc1cwr4a6lgo" path="res://Entities/Items/Ammo/ProjAmmoStats.gd" id="3_sfwph"]
 [ext_resource type="Script" uid="uid://ctxa7i1mbt7ab" path="res://Entities/Player/UI/Inventory/Panels/CraftingPanel/CraftingIngredient.gd" id="4_sfwph"]
 
 [resource]

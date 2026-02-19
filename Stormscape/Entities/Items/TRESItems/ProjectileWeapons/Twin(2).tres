@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="ProjWeaponResource" format=3 uid="uid://dy8rwyeyusim7"]
+[gd_resource type="Resource" script_class="ProjWeaponStats" format=3 uid="uid://dy8rwyeyusim7"]
 
 [ext_resource type="Texture2D" uid="uid://bm570hawaupxe" path="res://Entities/Items/Weapons/WeaponVFX/Casings/small_casing.png" id="1_iu0as"]
 [ext_resource type="Script" uid="uid://boo31eu083dqd" path="res://Entities/Stats/EffectSystemResources/StatusEffects/StatusEffect.gd" id="3_qaa2o"]
@@ -8,10 +8,10 @@
 [ext_resource type="Texture2D" uid="uid://d05er482r6c5u" path="res://Entities/Items/Weapons/ProjectileWeapons/Twin/TwinBaseCT.tres" id="6_lo1fw"]
 [ext_resource type="PackedScene" uid="uid://cclotxo1c628r" path="res://Entities/Items/Weapons/ProjectileWeapons/Twin/Twin.tscn" id="10_8mtfe"]
 [ext_resource type="Script" uid="uid://ctxa7i1mbt7ab" path="res://Entities/Player/UI/Inventory/Panels/CraftingPanel/CraftingIngredient.gd" id="10_nfelq"]
-[ext_resource type="Script" uid="uid://bj3r5oopspj6l" path="res://Entities/Items/Projectiles/ProjectileCore/ProjectileResource.gd" id="13_82v8g"]
+[ext_resource type="Script" uid="uid://dvasncq3tgljs" path="res://Entities/Items/Weapons/ProjectileWeapons/ProjWeaponStats.gd" id="12_qaa2o"]
+[ext_resource type="Script" uid="uid://bj3r5oopspj6l" path="res://Entities/Items/Projectiles/ProjectileCore/ProjStats.gd" id="13_82v8g"]
 [ext_resource type="PackedScene" uid="uid://bqkyplubhsx43" path="res://Entities/Items/Projectiles/Bullets/SmallBullet/SmallBullet.tscn" id="14_nrwym"]
 [ext_resource type="Script" uid="uid://c2gdoebfp12dq" path="res://Entities/Stats/StatMod/StatModsCacheResource.gd" id="16_ecu5v"]
-[ext_resource type="Script" uid="uid://dvasncq3tgljs" path="res://Entities/Items/Weapons/ProjectileWeapons/ProjWeaponResource.gd" id="17_rdcr6"]
 
 [sub_resource type="Resource" id="Resource_m86me"]
 script = ExtResource("3_vp4wp")
@@ -50,7 +50,7 @@ metadata/_custom_type_script = ExtResource("13_82v8g")
 script = ExtResource("16_ecu5v")
 
 [resource]
-script = ExtResource("17_rdcr6")
+script = ExtResource("12_qaa2o")
 proj_weapon_type = 1
 projectile_scn = ExtResource("14_nrwym")
 fire_cooldown = 0.11

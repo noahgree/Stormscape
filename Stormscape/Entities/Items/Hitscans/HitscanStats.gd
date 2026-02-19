@@ -1,5 +1,5 @@
 extends Resource
-class_name HitscanResource
+class_name HitscanStats
 ## The resource defining the parameters for how the hitscan beam acts and looks (if using vfx override).
 
 @export_group("General")

@@ -75,8 +75,8 @@ enum ItemType {
 enum CurrencyType {
 	STORMSHINE, SCRAP, TOKEN
 }
-const all_proj_weapons: Array[ProjWeaponResource.ProjWeaponType] = [ProjWeaponResource.ProjWeaponType.PISTOL, ProjWeaponResource.ProjWeaponType.SHOTGUN, ProjWeaponResource.ProjWeaponType.SUBMACHINE, ProjWeaponResource.ProjWeaponType.SNIPER, ProjWeaponResource.ProjWeaponType.RIFLE, ProjWeaponResource.ProjWeaponType.EXPLOSIVE, ProjWeaponResource.ProjWeaponType.PRIMITIVE_WEAPON, ProjWeaponResource.ProjWeaponType.MAGIC, ProjWeaponResource.ProjWeaponType.THROWABLE, ProjWeaponResource.ProjWeaponType.SPECIAL_WEAPON]
-const all_melee_wpns: Array[MeleeWeaponResource.MeleeWeaponType] = [MeleeWeaponResource.MeleeWeaponType.TOOL, MeleeWeaponResource.MeleeWeaponType.PHYSICAL, MeleeWeaponResource.MeleeWeaponType.COMBAT]
+const all_proj_weapons: Array[ProjWeaponStats.ProjWeaponType] = [ProjWeaponStats.ProjWeaponType.PISTOL, ProjWeaponStats.ProjWeaponType.SHOTGUN, ProjWeaponStats.ProjWeaponType.SUBMACHINE, ProjWeaponStats.ProjWeaponType.SNIPER, ProjWeaponStats.ProjWeaponType.RIFLE, ProjWeaponStats.ProjWeaponType.EXPLOSIVE, ProjWeaponStats.ProjWeaponType.PRIMITIVE_WEAPON, ProjWeaponStats.ProjWeaponType.MAGIC, ProjWeaponStats.ProjWeaponType.THROWABLE, ProjWeaponStats.ProjWeaponType.SPECIAL_WEAPON]
+const all_melee_wpns: Array[MeleeWeaponStats.MeleeWeaponType] = [MeleeWeaponStats.MeleeWeaponType.TOOL, MeleeWeaponStats.MeleeWeaponType.PHYSICAL, MeleeWeaponStats.MeleeWeaponType.COMBAT]
 
 enum ItemRarity {
 	COMMON,  ## [b][color=darkgray]0[/color][/b]

@@ -28,7 +28,7 @@ func _init(parent_weapon: ProjectileWeapon) -> void:
 ## The main starting point for reloads, checks for the necessary conditions and then potentially proceeds.
 ## This function waits for the "reload_ended" signal before returning (unless the initial checks fail).
 func attempt_reload() -> void:
-	if weapon.stats.ammo_type in [ProjWeaponResource.ProjAmmoType.STAMINA, ProjWeaponResource.ProjAmmoType.SELF, ProjWeaponResource.ProjAmmoType.CHARGES]:
+	if weapon.stats.ammo_type in [ProjWeaponStats.ProjAmmoType.STAMINA, ProjWeaponStats.ProjAmmoType.SELF, ProjWeaponStats.ProjAmmoType.CHARGES]:
 		return
 	if _get_more_reload_ammo(1, false) == 0:
 		return
@@ -52,9 +52,9 @@ func _start_reload_dur_timer() -> void:
 
 	var total_reload_duration: float = weapon.stats.reload_delay
 	match weapon.stats.reload_type:
-		ProjWeaponResource.ReloadType.MAGAZINE:
+		ProjWeaponStats.ReloadType.MAGAZINE:
 			total_reload_duration += weapon.stats.s_mods.get_stat("mag_reload_time")
-		ProjWeaponResource.ReloadType.SINGLE:
+		ProjWeaponStats.ReloadType.SINGLE:
 			var needed: int = _get_needed_single_reloads_count()
 			var single_proj_reload_time: float = weapon.stats.s_mods.get_stat("single_proj_reload_time")
 			total_reload_duration += (needed * single_proj_reload_time)
@@ -71,12 +71,12 @@ func end_reload() -> void:
 func _start_reload_delay() -> void:
 	var delay_time: float = weapon.stats.reload_delay
 	match weapon.stats.reload_type:
-		ProjWeaponResource.ReloadType.MAGAZINE:
+		ProjWeaponStats.ReloadType.MAGAZINE:
 			if delay_time <= 0:
 				_start_magazine_reload()
 			else:
 				reload_delay_timer.start(delay_time)
-		ProjWeaponResource.ReloadType.SINGLE:
+		ProjWeaponStats.ReloadType.SINGLE:
 			if delay_time <= 0:
 				_start_single_reload()
 			elif anim_player.has_animation("before_single_reload"):
@@ -87,9 +87,9 @@ func _start_reload_delay() -> void:
 ## When the reload delay timer ends, start the appropriate reload method.
 func _on_reload_delay_timer_timeout() -> void:
 	match weapon.stats.reload_type:
-		ProjWeaponResource.ReloadType.MAGAZINE:
+		ProjWeaponStats.ReloadType.MAGAZINE:
 			_start_magazine_reload()
-		ProjWeaponResource.ReloadType.SINGLE:
+		ProjWeaponStats.ReloadType.SINGLE:
 			_start_single_reload()
 
 ## This is the entry point for starting a magazine reload sequence.
@@ -198,7 +198,7 @@ func _on_ammo_recharge_delay_completed(item_id: StringName) -> void:
 ## Searches through the source entity's inventory for more ammo to fill the magazine.
 ## Can optionally be used to only check for ammo when told not to take from the inventory when found.
 func _get_more_reload_ammo(max_amount_needed: int, take_from_inventory: bool = true) -> int:
-	if weapon.stats.ammo_type == ProjWeaponResource.ProjAmmoType.NONE:
+	if weapon.stats.ammo_type == ProjWeaponStats.ProjAmmoType.NONE:
 		return max_amount_needed
 	else:
 		var amount_found: int = weapon.source_entity.inv.get_more_ammo(max_amount_needed, take_from_inventory, weapon.stats.ammo_type)
@@ -213,7 +213,7 @@ func restart_ammo_recharge_delay() -> void:
 
 ## This is called (usually after firing) to request a new ammo recharge instance.
 func request_ammo_recharge() -> void:
-	if weapon.stats.ammo_type in [ProjWeaponResource.ProjAmmoType.SELF, ProjWeaponResource.ProjAmmoType.STAMINA]:
+	if weapon.stats.ammo_type in [ProjWeaponStats.ProjAmmoType.SELF, ProjWeaponStats.ProjAmmoType.STAMINA]:
 		return
 	if weapon.stats.ammo_in_mag >= weapon.stats.s_mods.get_stat("mag_size"):
 		return

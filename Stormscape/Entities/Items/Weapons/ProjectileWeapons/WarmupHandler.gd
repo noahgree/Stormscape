@@ -36,7 +36,7 @@ func start_warmup() -> void:
 func add_warmup() -> void:
 	if weapon.stats.s_mods.get_stat("initial_fire_rate_delay") <= 0:
 		return
-	if weapon.stats.firing_mode != ProjWeaponResource.FiringType.AUTO:
+	if weapon.stats.firing_mode != ProjWeaponStats.FiringType.AUTO:
 		return
 
 	var current_warmup: float = auto_decrementer.get_warmup(str(weapon.stats.session_uid))

@@ -1,20 +1,20 @@
-[gd_resource type="Resource" script_class="ProjWeaponResource" format=3 uid="uid://duc0xfejpfs1"]
+[gd_resource type="Resource" script_class="ProjWeaponStats" format=3 uid="uid://duc0xfejpfs1"]
 
 [ext_resource type="Texture2D" uid="uid://bm570hawaupxe" path="res://Entities/Items/Weapons/WeaponVFX/Casings/small_casing.png" id="1_6mhsi"]
 [ext_resource type="Script" uid="uid://dkfssottmsrch" path="res://Entities/Stats/EffectSystemResources/EffectSources/EffectSource.gd" id="1_hh3cs"]
 [ext_resource type="Texture2D" uid="uid://on5kqhtv8tmw" path="res://Entities/Items/Weapons/ProjectileWeapons/EagleEye/eagle_eye_base.png" id="1_jqvl6"]
 [ext_resource type="SpriteFrames" uid="uid://85w3h1wajacl" path="res://Entities/Items/Weapons/ProjectileWeapons/EagleEye/EagleEyeCursors.tres" id="2_efc0d"]
-[ext_resource type="Script" uid="uid://dvasncq3tgljs" path="res://Entities/Items/Weapons/ProjectileWeapons/ProjWeaponResource.gd" id="3_3lc2b"]
-[ext_resource type="Script" uid="uid://cje5bobi6o8bo" path="res://Entities/Items/Hitscans/HitscanResource.gd" id="3_f7syj"]
+[ext_resource type="Script" uid="uid://cje5bobi6o8bo" path="res://Entities/Items/Hitscans/HitscanStats.gd" id="3_f7syj"]
 [ext_resource type="PackedScene" uid="uid://btaigaokvm7qx" path="res://Entities/Items/Weapons/ProjectileWeapons/EagleEye/EagleEye.tscn" id="3_uuh4c"]
 [ext_resource type="Texture2D" uid="uid://bfoy8x1f7gqq7" path="res://Entities/Items/Weapons/ProjectileWeapons/EagleEye/EagleEyeBaseCT.tres" id="4_ghyeh"]
 [ext_resource type="Script" uid="uid://boo31eu083dqd" path="res://Entities/Stats/EffectSystemResources/StatusEffects/StatusEffect.gd" id="4_khfji"]
-[ext_resource type="Script" uid="uid://bj3r5oopspj6l" path="res://Entities/Items/Projectiles/ProjectileCore/ProjectileResource.gd" id="4_w4cid"]
+[ext_resource type="Script" uid="uid://bj3r5oopspj6l" path="res://Entities/Items/Projectiles/ProjectileCore/ProjStats.gd" id="4_w4cid"]
 [ext_resource type="Script" uid="uid://cowjdnic7xmkp" path="res://Entities/Player/UI/Inventory/Panels/ItemDetailsPanel/StatDetail.gd" id="5_4ip00"]
 [ext_resource type="PackedScene" uid="uid://bqkyplubhsx43" path="res://Entities/Items/Projectiles/Bullets/SmallBullet/SmallBullet.tscn" id="5_58e3c"]
 [ext_resource type="Resource" uid="uid://cev0y0oe3igus" path="res://Entities/Player/PlayerCore/PlayerCamera/CamFXPresets/6.tres" id="5_ihh7l"]
 [ext_resource type="Script" uid="uid://c2gdoebfp12dq" path="res://Entities/Stats/StatMod/StatModsCacheResource.gd" id="10_v3ja1"]
 [ext_resource type="Script" uid="uid://ctxa7i1mbt7ab" path="res://Entities/Player/UI/Inventory/Panels/CraftingPanel/CraftingIngredient.gd" id="13_ysd46"]
+[ext_resource type="Script" uid="uid://dvasncq3tgljs" path="res://Entities/Items/Weapons/ProjectileWeapons/ProjWeaponStats.gd" id="15_khfji"]
 
 [sub_resource type="Resource" id="Resource_3mxcx"]
 script = ExtResource("1_hh3cs")
@@ -57,7 +57,7 @@ split_cam_fx = null
 script = ExtResource("10_v3ja1")
 
 [resource]
-script = ExtResource("3_3lc2b")
+script = ExtResource("15_khfji")
 proj_weapon_type = 3
 projectile_scn = ExtResource("5_58e3c")
 firing_duration = 0.08

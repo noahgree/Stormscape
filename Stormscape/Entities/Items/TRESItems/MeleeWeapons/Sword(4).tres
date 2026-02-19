@@ -1,7 +1,6 @@
-[gd_resource type="Resource" script_class="MeleeWeaponResource" format=3 uid="uid://dk3vlbvu2b7eq"]
+[gd_resource type="Resource" script_class="MeleeWeaponStats" format=3 uid="uid://dk3vlbvu2b7eq"]
 
 [ext_resource type="Resource" uid="uid://o8dc73c74md6" path="res://Entities/Player/PlayerCore/PlayerCamera/CamFXPresets/4(NoFreeze).tres" id="1_e5g0w"]
-[ext_resource type="Script" uid="uid://djlk3y511igng" path="res://Entities/Items/Weapons/MeleeWeapons/MeleeWeaponResource.gd" id="2_k1y1s"]
 [ext_resource type="Script" uid="uid://dkfssottmsrch" path="res://Entities/Stats/EffectSystemResources/EffectSources/EffectSource.gd" id="3_67eer"]
 [ext_resource type="Script" uid="uid://boo31eu083dqd" path="res://Entities/Stats/EffectSystemResources/StatusEffects/StatusEffect.gd" id="3_e5g0w"]
 [ext_resource type="Resource" uid="uid://y5iqfraea8ry" path="res://Entities/Player/PlayerCore/PlayerCamera/CamFXPresets/2(NoFreeze).tres" id="4_e5g0w"]
@@ -10,6 +9,7 @@
 [ext_resource type="Script" uid="uid://cowjdnic7xmkp" path="res://Entities/Player/UI/Inventory/Panels/ItemDetailsPanel/StatDetail.gd" id="5_oxyfa"]
 [ext_resource type="Script" uid="uid://c2gdoebfp12dq" path="res://Entities/Stats/StatMod/StatModsCacheResource.gd" id="8_3cchv"]
 [ext_resource type="Script" uid="uid://ctxa7i1mbt7ab" path="res://Entities/Player/UI/Inventory/Panels/CraftingPanel/CraftingIngredient.gd" id="8_mpt70"]
+[ext_resource type="Script" uid="uid://djlk3y511igng" path="res://Entities/Items/Weapons/MeleeWeapons/MeleeWeaponStats.gd" id="10_e5g0w"]
 
 [sub_resource type="Resource" id="Resource_67eer"]
 script = ExtResource("3_67eer")
@@ -35,7 +35,7 @@ script = ExtResource("8_3cchv")
 metadata/_custom_type_script = ExtResource("8_3cchv")
 
 [resource]
-script = ExtResource("2_k1y1s")
+script = ExtResource("10_e5g0w")
 melee_weapon_type = 2
 effect_source = SubResource("Resource_chlgx")
 use_cooldown = 0.3

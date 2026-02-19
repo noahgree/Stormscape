@@ -8,7 +8,7 @@ class_name Consumable
 @onready var food_particles: CPUParticles2D = $FoodParticles ## The particles that fire off when the consumable is consumed.
 
 
-func _set_stats(new_stats: ItemResource) -> void:
+func _set_stats(new_stats: ItemStats) -> void:
 	super._set_stats(new_stats)
 
 	if sprite:

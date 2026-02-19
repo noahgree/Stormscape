@@ -54,7 +54,7 @@ func _ready() -> void:
 
 ## Handles an incoming effect source, passing it to present receivers for further processing before changing
 ## entity stats.
-func handle_effect_source(effect_source: EffectSource, source_entity: Entity, source_weapon: WeaponResource,
+func handle_effect_source(effect_source: EffectSource, source_entity: Entity, source_weapon: WeaponStats,
 							process_status_effects: bool = true) -> void:
 	# --- Applying Cam FX & Hit Sound ----
 	_handle_cam_fx(effect_source)
@@ -120,7 +120,7 @@ func handle_effect_source(effect_source: EffectSource, source_entity: Entity, so
 
 	# --- Applying Resulting Weapon XP ---
 	if source_entity is Player and source_weapon and is_instance_valid(source_weapon):
-		var xp_to_add: int = ceili(WeaponResource.EFFECT_AMOUNT_XP_MULT * xp)
+		var xp_to_add: int = ceili(WeaponStats.EFFECT_AMOUNT_XP_MULT * xp)
 		source_weapon.add_xp(xp_to_add)
 
 	# --- Start of Status Effect Processing Chain ---

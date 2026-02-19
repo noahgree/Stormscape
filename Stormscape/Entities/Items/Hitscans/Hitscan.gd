@@ -9,7 +9,7 @@ class_name Hitscan
 @onready var impact_particles: CPUParticles2D = $ImpactParticles ## The particles emitting at each impact site.
 @onready var beam_particles: CPUParticles2D = $BeamParticles ## The particles emitting along the beam or ray of the hitscan.
 
-var stats: HitscanResource ## The stats driving this hitscan.
+var stats: HitscanStats ## The stats driving this hitscan.
 var s_mods: StatModsCacheResource ## The stat mods resource used to retrieve modified, updated stats for calculations and logic.
 var source_weapon_item: ProjectileWeapon ## The weapon item that produced this hitscan.
 var rotation_offset: float ## The offset to rotate the hitscan by, determined by the source weapon.

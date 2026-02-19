@@ -19,7 +19,7 @@ class Factor:
 
 
 ## Parses the item passed in based on its type and returns an array of strings as the resulting details.
-func parse_item(stats: ItemResource) -> Array[String]:
+func parse_item(stats: ItemStats) -> Array[String]:
 	var strings: Array[String] = []
 
 	match stats.item_type:
@@ -53,7 +53,7 @@ func parse_item(stats: ItemResource) -> Array[String]:
 			strings.append(_get_charge_status_effects(stats))
 
 	strings.append_array(_get_extra_details(stats, stats.extra_details, false, false))
-	if stats is WeaponResource:
+	if stats is WeaponStats:
 		strings.append_array(_get_weapon_mod_extra_details(stats))
 
 	strings = strings.filter(func(string: String) -> bool: return string != "")
@@ -68,7 +68,7 @@ func parse_player() -> Array[String]:
 	strings.append(_get_title("MAX HUNGER BARS") + _get_player_sum(["max_hunger_bars"], true))
 
 	for wearable_dict: Dictionary in Globals.player_node.wearables:
-		var wearable: Wearable = wearable_dict.values()[0]
+		var wearable: WearableStats = wearable_dict.values()[0]
 		if wearable != null:
 			strings.append_array(_get_extra_details(wearable, wearable.applied_details, true, true))
 
@@ -76,7 +76,7 @@ func parse_player() -> Array[String]:
 	return strings
 
 ## Gets an array of additional detail strings created by the mods attached to the weapon.
-func _get_weapon_mod_extra_details(stats: WeaponResource) -> Array[String]:
+func _get_weapon_mod_extra_details(stats: WeaponStats) -> Array[String]:
 	var strings: Array[String] = []
 	for weapon_mod_entry: Dictionary in stats.current_mods:
 		if weapon_mod_entry.values()[0] != null:
@@ -85,7 +85,7 @@ func _get_weapon_mod_extra_details(stats: WeaponResource) -> Array[String]:
 	return strings
 
 ## Returns an array of additional detail strings from given StatDetail resources.
-func _get_extra_details(stats: ItemResource, extra_details_array: Array[StatDetail],
+func _get_extra_details(stats: ItemStats, extra_details_array: Array[StatDetail],
 							highlight_when_title_only: bool, for_entity_stats: bool = false) -> Array[String]:
 	var strings: Array[String] = []
 	for detail: StatDetail in extra_details_array:
@@ -105,12 +105,12 @@ func _get_extra_details(stats: ItemResource, extra_details_array: Array[StatDeta
 	return strings
 
 ## Gets the damage details.
-func _get_damage(stats: ItemResource) -> String:
+func _get_damage(stats: ItemStats) -> String:
 	var string: String = _get_title("DMG")
-	var proj_count: int = stats.s_mods.get_stat("barrage_count") * stats.s_mods.get_stat("projectiles_per_fire") if stats is ProjWeaponResource else 1.0
+	var proj_count: int = stats.s_mods.get_stat("barrage_count") * stats.s_mods.get_stat("projectiles_per_fire") if stats is ProjWeaponStats else 1.0
 
 	var lvl_mult: float = 1.0
-	if stats is WeaponResource:
+	if stats is WeaponStats:
 		lvl_mult = ((floori(stats.level / 10.0) * stats.effect_source.lvl_dmg_scalar) / 100.0) + 1
 
 	# Applying the lvl mult to the original so we don't get a green up arrow bc of its increase
@@ -119,7 +119,7 @@ func _get_damage(stats: ItemResource) -> String:
 	var crit_mult: String = str(stats.effect_source.crit_multiplier) + "x"
 
 	string += dmg
-	if stats is WeaponResource and stats.s_mods.get_stat("crit_chance") > 0:
+	if stats is WeaponStats and stats.s_mods.get_stat("crit_chance") > 0:
 		string += " (" + crit_mult + " crit)"
 	elif stats.effect_source.crit_chance > 0:
 		string += " (" + crit_mult + " crit)"
@@ -130,8 +130,8 @@ func _get_damage(stats: ItemResource) -> String:
 	return string
 
 ## Gets the charge damage details for melee weapons.
-func _get_charge_damage(stats: ItemResource) -> String:
-	if not stats is MeleeWeaponResource:
+func _get_charge_damage(stats: ItemStats) -> String:
+	if not stats is MeleeWeaponStats:
 		return ""
 	elif not stats.can_do_charge_use:
 		return ""
@@ -151,12 +151,12 @@ func _get_charge_damage(stats: ItemResource) -> String:
 	return string
 
 ## Gets the healing details.
-func _get_healing(stats: ItemResource) -> String:
+func _get_healing(stats: ItemStats) -> String:
 	var string: String = _get_title("HEAL")
-	var proj_count: int = stats.s_mods.get_stat("barrage_count") * stats.s_mods.get_stat("projectiles_per_fire") if stats is ProjWeaponResource else 1.0
+	var proj_count: int = stats.s_mods.get_stat("barrage_count") * stats.s_mods.get_stat("projectiles_per_fire") if stats is ProjWeaponStats else 1.0
 
 	var lvl_mult: float = 1.0
-	if stats is WeaponResource:
+	if stats is WeaponStats:
 		lvl_mult = ((floori(stats.level / 10.0) * stats.effect_source.lvl_heal_scalar) / 100.0) + 1
 
 	# Applying the lvl mult to the original so we don't get a green up arrow bc of its increase
@@ -171,8 +171,8 @@ func _get_healing(stats: ItemResource) -> String:
 	return string
 
 ## Gets the charge healing details for melee weapons.
-func _get_charge_healing(stats: ItemResource) -> String:
-	if not stats is MeleeWeaponResource:
+func _get_charge_healing(stats: ItemStats) -> String:
+	if not stats is MeleeWeaponStats:
 		return ""
 	elif not stats.can_do_charge_use:
 		return ""
@@ -189,41 +189,41 @@ func _get_charge_healing(stats: ItemResource) -> String:
 	return string
 
 ## Gets the details for a change in health bars.
-func _get_health_bars_change(stats: ItemResource) -> String:
+func _get_health_bars_change(stats: ItemStats) -> String:
 	var string: String = _get_title("SATURATION")
 	string += _get_item_sums(stats, ["hunger_bar_gain"], true)
 	return string
 
 ## Gets the attack speed details.
-func _get_use_speed(stats: ItemResource) -> String:
+func _get_use_speed(stats: ItemStats) -> String:
 	var string: String
 
-	if stats is ProjWeaponResource:
+	if stats is ProjWeaponStats:
 		string = _get_title("FIRE RATE")
 		var sum: String
-		if stats.firing_mode != ProjWeaponResource.FiringType.CHARGE:
+		if stats.firing_mode != ProjWeaponStats.FiringType.CHARGE:
 			sum = _get_item_sums(stats, ["firing_duration", "fire_cooldown"], false, "s")
 		else:
 			sum = _get_item_sums(stats, ["firing_duration", "fire_cooldown", "min_charge_time"], false, "s")
 		string += StringHelpers.remove_trailing_zero(sum)
-	elif stats is MeleeWeaponResource:
+	elif stats is MeleeWeaponStats:
 		string = _get_title("USE SPEED")
 		string += _get_item_sums(stats, ["use_speed", "use_cooldown"], false, "s")
 
 		if stats.can_do_charge_use:
 			var chg_sum: String = _get_item_sums(stats, ["min_charge_time", "charge_use_speed", "charge_use_cooldown"], false, "s")
 			string += " (" + chg_sum + " chrg)"
-	elif stats is ConsumableResource:
+	elif stats is ConsumableStats:
 		string = _get_title("CONSUMPTION SPEED")
 		string += _get_item_sums(stats, ["consumption_time", "consumption_cooldown"], false, "s")
 
 	return string
 
 ## Gets the magazine ammo and reload time details. Gets stamina use for melee weapons.
-func _get_mag_and_reload(stats: ItemResource) -> String:
+func _get_mag_and_reload(stats: ItemStats) -> String:
 	var string: String = _get_title("MAG")
 
-	if stats is MeleeWeaponResource:
+	if stats is MeleeWeaponStats:
 		string = _get_title("STAMINA USE")
 		string += _get_item_sums(stats, ["stamina_cost"], false)
 
@@ -239,40 +239,40 @@ func _get_mag_and_reload(stats: ItemResource) -> String:
 	var ammo: String = _get_item_sums(stats, ["mag_size"], true)
 	var reload: String
 
-	if stats.reload_type == ProjWeaponResource.ReloadType.SINGLE:
+	if stats.reload_type == ProjWeaponStats.ReloadType.SINGLE:
 		var times_needed_to_reload: float = ceilf(stats.s_mods.get_stat("mag_size") / stats.s_mods.get_stat("single_reload_quantity"))
 		reload = _get_item_sums(stats, ["single_proj_reload_time"], false, "s", [Factor.new(times_needed_to_reload, false, true)], [Factor.new(stats.reload_delay, false, true)])
 	else:
 		reload = _get_item_sums(stats, ["mag_reload_time", "reload_delay"], false, "s")
 
-	if stats.mag_size == -1 and stats.ammo_type != ProjWeaponResource.ProjAmmoType.STAMINA:
+	if stats.mag_size == -1 and stats.ammo_type != ProjWeaponStats.ProjAmmoType.STAMINA:
 		return _get_title("RELOAD") + reload
-	elif stats.ammo_type == ProjWeaponResource.ProjAmmoType.STAMINA:
+	elif stats.ammo_type == ProjWeaponStats.ProjAmmoType.STAMINA:
 		return _get_title("STAMINA USE") + _get_item_sums(stats, ["stamina_use_per_proj"], false)
 
 	return string + ammo + " (" + reload + " [char=21BA])"
 
 ## Gets the bloom details.
-func _get_bloom(stats: ItemResource) -> String:
-	if stats is MeleeWeaponResource or stats.max_bloom == 0:
+func _get_bloom(stats: ItemStats) -> String:
+	if stats is MeleeWeaponStats or stats.max_bloom == 0:
 		return ""
 
 	return _get_title("MAX BLOOM") + _get_item_sums(stats, ["max_bloom"], false, "[char=00B0]")
 
 ## Gets the status effects from the normal effect source.
-func _get_status_effects(stats: ItemResource) -> String:
+func _get_status_effects(stats: ItemStats) -> String:
 	var string: String = _get_title("EFFECTS")
 	var effect_array: Array[StatusEffect]
-	if stats is WeaponResource:
+	if stats is WeaponStats:
 		effect_array = stats.effect_source.status_effects
-	elif stats is WeaponMod:
+	elif stats is WeaponModStats:
 		effect_array = stats.status_effects
 
 	if effect_array.is_empty():
 		return ""
 
 	for effect: StatusEffect in effect_array:
-		if stats is WeaponResource and effect not in stats.original_status_effects:
+		if stats is WeaponStats and effect not in stats.original_status_effects:
 			string += "[color=Lawngreen]" + effect.get_pretty_string() + "[/color], "
 		else:
 			string += effect.get_pretty_string() + ", "
@@ -281,14 +281,14 @@ func _get_status_effects(stats: ItemResource) -> String:
 	return string
 
 ## Gets the status effects from the charged effect source.
-func _get_charge_status_effects(stats: ItemResource) -> String:
+func _get_charge_status_effects(stats: ItemStats) -> String:
 	var string: String = _get_title("CHRG EFFECTS")
 	var effect_array: Array[StatusEffect]
-	if stats is MeleeWeaponResource:
+	if stats is MeleeWeaponStats:
 		effect_array = stats.charge_effect_source.status_effects
 		if not stats.can_do_charge_use:
 			return ""
-	elif stats is WeaponMod:
+	elif stats is WeaponModStats:
 		effect_array = stats.status_effects
 	else:
 		return ""
@@ -297,7 +297,7 @@ func _get_charge_status_effects(stats: ItemResource) -> String:
 		return ""
 
 	for effect: StatusEffect in effect_array:
-		if stats is MeleeWeaponResource and effect not in stats.original_charge_status_effects:
+		if stats is MeleeWeaponStats and effect not in stats.original_charge_status_effects:
 			string += "[color=Lawngreen]" + effect.get_pretty_string() + "[/color], "
 		else:
 			string += effect.get_pretty_string() + ", "
@@ -306,8 +306,8 @@ func _get_charge_status_effects(stats: ItemResource) -> String:
 	return string
 
 ## Gets the aoe radius for the weapon if it can do aoe.
-func _get_aoe_stats(stats: WeaponResource) -> Array[String]:
-	if stats is not ProjWeaponResource:
+func _get_aoe_stats(stats: WeaponStats) -> Array[String]:
+	if stats is not ProjWeaponStats:
 		return [""]
 	elif stats.s_mods.get_stat("proj_aoe_radius") == 0:
 		return [""]
@@ -338,7 +338,7 @@ func _get_aoe_stats(stats: WeaponResource) -> Array[String]:
 	return strings
 
 ## Gets the stats that the mod changes that need to be displayed.
-func _get_mod_stats(stats: WeaponMod) -> Array[String]:
+func _get_mod_stats(stats: WeaponModStats) -> Array[String]:
 	var strings: Array[String] = []
 	for stat_mod: StatMod in stats.wpn_stat_mods:
 		if stat_mod.panel_title != "":
@@ -366,7 +366,7 @@ func _get_mod_stats(stats: WeaponMod) -> Array[String]:
 	return strings
 
 ## Gets the fuel amount for the world resource.
-func _get_fuel_amount(stats: WorldResourceResource) -> String:
+func _get_fuel_amount(stats: WorldResourceStats) -> String:
 	if stats.fuel_amount == 0:
 		return ""
 	var string: String = _get_title("FUEL VALUE")
@@ -378,7 +378,7 @@ func _get_title(title: String) -> String:
 	return "[outline_color=1f0900ab][color=f5e4e1]" + title + ":[/color]" + Globals.invis_char + "[/outline_color][outline_color=1f090066]"
 
 ## Gets the sum (index 0) and original sum (index 1) for a list of stats inside an item.
-func _get_item_stat_sums(stats: ItemResource, list: Array[String]) -> Array[float]:
+func _get_item_stat_sums(stats: ItemStats, list: Array[String]) -> Array[float]:
 	var sum: float = 0
 	var original_sum: float = 0
 
@@ -401,7 +401,7 @@ func _get_players_stat_sums(list: Array[String]) -> Array[float]:
 
 ## Gets a sum of an array of stat ids and compares it to the original sum. Mods that lower or raise sums will
 ## result in an arrow at the end in the direction of change, colored based on whether higher is better or not.
-func _get_item_sums(stats: ItemResource, list: Array[String], up_is_good: bool, suffix: String = "",
+func _get_item_sums(stats: ItemStats, list: Array[String], up_is_good: bool, suffix: String = "",
 				mults: Array[Factor] = [], additions: Array[Factor] = [],
 				fraction_of_original: bool = false) -> String:
 	var sums: Array[float] = _get_item_stat_sums(stats, list)

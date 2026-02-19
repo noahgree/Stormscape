@@ -1,6 +1,6 @@
 extends Resource
-class_name ItemResource
-## The top level resource class for all items in the game.
+class_name ItemStats
+## The top level resource stats class for all items in the game.
 
 @export var id: String ## The unique identifier for the item.
 @export var name: String ## The item's string name.
@@ -108,14 +108,14 @@ func get_item_type_string(_exact_weapon_type: bool = false) -> String:
 	return str(Globals.ItemType.keys()[item_type]).capitalize()
 
 ## Whether the item is the same as another item when called externally to compare.
-func is_same_as(other_item: ItemResource) -> bool:
+func is_same_as(other_item: ItemStats) -> bool:
 	return (str(self) == str(other_item))
 
 ## Custom duplication method that passes the old session_uid as a negative in order to trick the setter
 ## function to keeping it.
-func duplicate_with_suid() -> ItemResource:
+func duplicate_with_suid() -> ItemStats:
 	# This will generate a new incremented session UID from the static var holding the counter
-	var duplicated: ItemResource = self.duplicate()
+	var duplicated: ItemStats = self.duplicate()
 	# But this makes that obsolete by just setting it to the negative of what it used to be so that it can stay as its original (the setter sees a negative and makes it positive without generating a UID again)
 	duplicated.session_uid = -session_uid
 	return duplicated

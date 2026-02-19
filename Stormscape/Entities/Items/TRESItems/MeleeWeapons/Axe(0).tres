@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="MeleeWeaponResource" load_steps=19 format=3 uid="uid://o4jrwlfkertl"]
+[gd_resource type="Resource" script_class="MeleeWeaponResource" format=3 uid="uid://o4jrwlfkertl"]
 
 [ext_resource type="Resource" uid="uid://b5dad578bsduf" path="res://Entities/Player/PlayerCore/PlayerCamera/CamFXPresets/3(NoFreeze).tres" id="1_ef0fw"]
 [ext_resource type="Script" uid="uid://dkfssottmsrch" path="res://Entities/Stats/EffectSystemResources/EffectSources/EffectSource.gd" id="2_bfhbg"]
@@ -11,7 +11,7 @@
 [ext_resource type="Script" uid="uid://ctxa7i1mbt7ab" path="res://Entities/Player/UI/Inventory/Panels/CraftingPanel/CraftingIngredient.gd" id="9_gpb85"]
 [ext_resource type="Script" uid="uid://c2gdoebfp12dq" path="res://Entities/Stats/StatMod/StatModsCacheResource.gd" id="10_dwct0"]
 [ext_resource type="Resource" uid="uid://ddtvqrt702vcs" path="res://Entities/Items/TRESItems/WorldResources/Twine(0).tres" id="10_r1oeb"]
-[ext_resource type="Script" uid="uid://djlk3y511igng" path="res://Entities/Items/Weapons/MeleeWeapons/MeleeWeaponResource.gd" id="11_4pa72"]
+[ext_resource type="Script" uid="uid://djlk3y511igng" path="res://Entities/Items/Weapons/MeleeWeapons/MeleeWeaponStats.gd" id="11_4pa72"]
 
 [sub_resource type="Resource" id="Resource_bfhbg"]
 script = ExtResource("2_bfhbg")
