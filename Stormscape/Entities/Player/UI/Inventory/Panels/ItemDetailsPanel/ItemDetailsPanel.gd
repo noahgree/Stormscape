@@ -83,7 +83,7 @@ func hide_player_stats() -> void:
 
 ## Received when any drag ends to hide the panel if the viewer slot is now null.
 func _notification(what: int) -> void:
-	if what == NOTIFICATION_DRAG_END and item_viewer_slot.item == null:
+	if what == NOTIFICATION_DRAG_END and item_viewer_slot.ii == null:
 		visible = false
 	if what == NOTIFICATION_DRAG_BEGIN and PlayerInvUI.is_dragging_slot(get_viewport()):
 		if not pinned:
@@ -106,8 +106,8 @@ func _on_slot_not_hovered() -> void:
 	item_hover_delay_timer.stop()
 	if not pinned:
 		is_updating_via_hover = true
-		if item_viewer_slot.item != null: # Don't want to trigger a clearing of crafting previews otherwise
-			item_viewer_slot.set_item(null)
+		if item_viewer_slot.ii != null: # Don't want to trigger a clearing of crafting previews otherwise
+			item_viewer_slot.set_ii(null)
 		is_updating_via_hover = false
 
 ## When the player inv UI opens, automatically put the currently equipped item into the viewer slot.
@@ -122,43 +122,43 @@ func _on_ui_focus_opened(node: Node) -> void:
 ## When the focused UI is closed, we should empty out the crafting input slots and drop them on the
 ## ground if the inventory is now full.
 func _on_ui_focus_closed(_node: Node) -> void:
-	if item_viewer_slot.item != null:
-		Globals.player_node.inv.insert_from_inv_item(item_viewer_slot.item, false, true)
-		item_viewer_slot.set_item(null)
+	if item_viewer_slot.ii != null:
+		Globals.player_node.inv.insert_from_inv_item(item_viewer_slot.ii, false, true)
+		item_viewer_slot.set_ii(null)
 	item_hover_delay_timer.stop()
 
 ## When the item inside a mod slot changes and the item under review isn't actively changing, we should modify
 ## the item's mods in it's stats.
-func _on_mod_slot_changed(slot: ModSlot, old_item: InvItemResource, new_item: InvItemResource) -> void:
+func _on_mod_slot_changed(slot: ModSlot, old_ii: II, new_ii: II) -> void:
 	if changing_item_viewer_slot:
 		return
 
-	if item_viewer_slot.item.stats is WeaponStats:
-		if old_item != null:
-			WeaponModsManager.remove_weapon_mod(item_viewer_slot.item.stats, old_item.stats, slot.mod_slot_index, Globals.player_node)
-			_assign_item_details(item_viewer_slot.item.stats)
+	if item_viewer_slot.ii.stats is WeaponStats:
+		if old_ii != null:
+			WeaponModsManager.remove_weapon_mod(item_viewer_slot.ii.stats, old_ii.stats, slot.mod_slot_index, Globals.player_node)
+			_assign_item_details(item_viewer_slot.ii.stats)
 
-		if new_item != null:
+		if new_ii != null:
 			await get_tree().process_frame # Let the drag and drop finish and the removal happen before re-adding
-			WeaponModsManager.handle_weapon_mod(item_viewer_slot.item.stats, new_item.stats, slot.mod_slot_index, Globals.player_node)
-			_assign_item_details(item_viewer_slot.item.stats)
+			WeaponModsManager.handle_weapon_mod(item_viewer_slot.ii.stats, new_ii.stats, slot.mod_slot_index, Globals.player_node)
+			_assign_item_details(item_viewer_slot.ii.stats)
 
-		item_viewer_slot.update_corner_icons(item_viewer_slot.item)
+		item_viewer_slot.update_corner_icons(item_viewer_slot.ii)
 
 ## Manually sets the item viewer slot. If the slot to set it to is the item viewer slot itself, remove the item
 ## in it if there is one. Returns if the slot was set to the item viewer or not.
 func manually_set_item_viewer_slot(slot: Slot, reload_already_viewed_item: bool = false) -> bool:
-	if slot == item_viewer_slot and slot.item != null:
+	if slot == item_viewer_slot and slot.ii != null:
 		if not reload_already_viewed_item:
-			slot.synced_inv.insert_from_inv_item(slot.item, false, true)
-			slot.set_item(null)
+			slot.synced_inv.insert_from_inv_item(slot.ii, false, true)
+			slot.set_ii(null)
 			CursorManager.hide_tooltip()
 			return false
 		else:
-			item_viewer_slot.set_item(slot.item)
+			item_viewer_slot.set_ii(slot.ii)
 	if item_viewer_slot._can_drop_data(Vector2.ZERO, slot):
 		if not pinned:
-			item_viewer_slot.set_item(null)
+			item_viewer_slot.set_ii(null)
 		item_viewer_slot._drop_data(Vector2.ZERO, slot)
 		CursorManager.hide_tooltip()
 		return true
@@ -166,14 +166,14 @@ func manually_set_item_viewer_slot(slot: Slot, reload_already_viewed_item: bool 
 	return false
 
 ## When the item under review changes, we need to conditionally enable the mod slots and update the stats view.
-func _on_item_viewer_slot_changed(_slot: Slot, _old_item: InvItemResource, new_item: InvItemResource) -> void:
+func _on_item_viewer_slot_changed(_slot: Slot, _old_ii: II, new_ii: II) -> void:
 	changing_item_viewer_slot = true
 
 	player_icon_margin.visible = false
 	item_lvl_margin.visible = false
 	lvl_up_inner_margin.visible = false
 
-	if new_item == null:
+	if new_ii == null:
 		_change_mod_slot_visibilities(false)
 		item_rarity_margin.visible = false
 		info_margin.visible = false
@@ -189,36 +189,36 @@ func _on_item_viewer_slot_changed(_slot: Slot, _old_item: InvItemResource, new_i
 		changing_item_viewer_slot = false
 		return
 	else:
-		_show_and_update_item_title(new_item.stats.name)
+		_show_and_update_item_title(new_ii.stats.name)
 		main_item_viewer_margin.visible = true
-		var item_type_string: String = new_item.stats.get_rarity_string().to_upper() + " " + new_item.stats.get_item_type_string(true) + "  "
-		var type_color_hex: String = Globals.rarity_colors.ui_text.get(new_item.stats.rarity).to_html(false)
+		var item_type_string: String = new_ii.stats.get_rarity_string().to_upper() + " " + new_ii.stats.get_item_type_string(true) + "  "
+		var type_color_hex: String = Globals.rarity_colors.ui_text.get(new_ii.stats.rarity).to_html(false)
 		item_rarity_label.text = Globals.invis_char + "[color=" + type_color_hex + "]" + item_type_string + "[/color]"
 		item_rarity_margin.visible = true
-		info_label.text = new_item.stats.info
+		info_label.text = new_ii.stats.info
 		info_margin.visible = true
-		_assign_item_details(new_item.stats)
+		_assign_item_details(new_ii.stats)
 		if not is_updating_via_hover:
 			pinned = true
 
-	if (new_item.stats is WeaponStats) and (new_item.stats.max_mods_override != 0):
-		_change_mod_slot_visibilities(true, new_item.stats)
+	if (new_ii.stats is WeaponStats) and (new_ii.stats.max_mods_override != 0):
+		_change_mod_slot_visibilities(true, new_ii.stats)
 		var i: int = 0
-		for weapon_mod_entry: Dictionary in new_item.stats.current_mods:
+		for weapon_mod_entry: Dictionary in new_ii.stats.current_mods:
 			if weapon_mod_entry.values()[0] != null:
-				mod_slots[i].item = InvItemResource.new(weapon_mod_entry.values()[0], 1)
+				mod_slots[i].ii = weapon_mod_entry.values()[0].create_ii(1)
 			i += 1
 	else:
 		_change_mod_slot_visibilities(false)
 
-	if new_item.stats is WeaponStats:
-		if not new_item.stats.no_levels:
-			var level: int = new_item.stats.level
-			item_level_label.text = str(level) if level != WeaponStats.MAX_LEVEL else "MAX LEVEL"
-			if level < WeaponStats.MAX_LEVEL:
+	if new_ii.stats is WeaponStats:
+		if not new_ii.stats.no_levels:
+			var level: int = new_ii.stats.level
+			item_level_label.text = str(level) if level != WeaponII.MAX_LEVEL else "MAX LEVEL"
+			if level < WeaponII.MAX_LEVEL:
 				lvl_progress_margins.show()
-				item_lvl_margin.get_node("%ItemLvlProgressBar").value = WeaponStats.visual_percent_of_lvl_progress(new_item.stats) * 100.0
-				if new_item.stats.allowed_lvl > level:
+				item_lvl_margin.get_node("%ItemLvlProgressBar").value = WeaponII.visual_percent_of_lvl_progress(new_ii.stats) * 100.0
+				if new_ii.stats.allowed_lvl > level:
 					lvl_up_inner_margin.show()
 			else:
 				lvl_progress_margins.hide()
@@ -229,7 +229,7 @@ func _on_item_viewer_slot_changed(_slot: Slot, _old_item: InvItemResource, new_i
 ## Changes the visibility of the mod slots depending on whether we have a moddable weapon under review.
 func _change_mod_slot_visibilities(shown: bool, stats: WeaponStats = null) -> void:
 	for slot: ModSlot in mod_slots:
-		slot.set_item(null)
+		slot.set_ii(null)
 		slot.is_hidden = not shown
 		mod_slots_margin.visible = shown
 
@@ -286,13 +286,13 @@ func _on_hover_delay_ended() -> void:
 	if pinned:
 		if slot.hide_hover_tooltip:
 			return
-		if slot.item != null:
-			var info: String = slot.item.stats.get_item_type_string(true)
-			if slot.item.stats is WeaponStats and not slot.item.stats.no_levels:
-				info += " (Lvl. " + str(slot.item.stats.level) + ")"
-			CursorManager.update_tooltip(slot.item.stats.name, Globals.ui_colors.ui_light_tan, info, Globals.rarity_colors.ui_text.get(slot.item.stats.rarity))
-	elif slot.item != null:
+		if slot.ii != null:
+			var info: String = slot.ii.stats.get_item_type_string(true)
+			if slot.ii.stats is WeaponStats and not slot.ii.stats.no_levels:
+				info += " (Lvl. " + str(slot.ii.stats.level) + ")"
+			CursorManager.update_tooltip(slot.ii.stats.name, Globals.ui_colors.ui_light_tan, info, Globals.rarity_colors.ui_text.get(slot.ii.stats.rarity))
+	elif slot.ii != null:
 		is_updating_via_hover = true
-		var temp_item: InvItemResource = InvItemResource.new(slot.item.stats, 1)
-		item_viewer_slot.set_item(temp_item)
+		var temp_item: II = slot.ii.duplicate()
+		item_viewer_slot.set_ii(temp_item)
 		is_updating_via_hover = false

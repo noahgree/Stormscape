@@ -28,11 +28,11 @@ func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
 func _drop_data(at_position: Vector2, data: Variant) -> void:
 	super._drop_data(at_position, data)
 
-	if item != null:
-		if item.quantity > 1:
-			var extra_items: InvItemResource = InvItemResource.new(item.stats, item.quantity - 1)
+	if ii != null:
+		if ii.q > 1:
+			var extra_items: II = ii.stats.create_ii(ii.q - 1)
 			synced_inv.insert_from_inv_item(extra_items, false, false)
-			item.quantity = 1
+			ii.q = 1
 			pause_changed_signals = true
-			set_item(item)
+			set_ii(ii)
 			pause_changed_signals = false

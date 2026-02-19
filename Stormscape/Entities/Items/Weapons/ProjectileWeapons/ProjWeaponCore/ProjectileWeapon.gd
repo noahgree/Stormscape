@@ -65,7 +65,7 @@ func _register_preloaded_sounds() -> void:
 ## Called when the weapon is enabled, usually because it stopped clipping with an object.
 func enable() -> void:
 	# When re-enabling, see if we stil are in overheat penalty and need to show the visuals again
-	if source_entity.inv.auto_decrementer.get_cooldown_source_title(stats.get_cooldown_id()) == "overheat_penalty":
+	if source_entity.inv.auto_decrementer.get_cooldown_source_title(ii.get_cooldown_id()) == "overheat_penalty":
 		overheat_handler.start_max_overheat_visuals(true)
 
 ## Called when the weapon is disabled, usually because it started clipping with an object.
@@ -88,7 +88,7 @@ func enter() -> void:
 		update_ammo_ui()
 
 	# When entering, see if we stil are in overheat penalty and need to show the visuals again
-	if source_entity.inv.auto_decrementer.get_cooldown_source_title(stats.get_cooldown_id()) == "overheat_penalty":
+	if source_entity.inv.auto_decrementer.get_cooldown_source_title(ii.get_cooldown_id()) == "overheat_penalty":
 		overheat_handler.start_max_overheat_visuals(true)
 
 ## Called when the weapon is about to queue_free, but before the _exit_tree function.
@@ -210,7 +210,7 @@ func _can_activate_at_all() -> bool:
 	if not pullout_delay_timer.is_stopped():
 		return false
 	if get_cooldown() > 0:
-		if source_entity.inv.auto_decrementer.get_cooldown_source_title(stats.get_cooldown_id()) == "default":
+		if source_entity.inv.auto_decrementer.get_cooldown_source_title(ii.get_cooldown_id()) == "default":
 			recent_holding_cooldown_check = false
 		return false
 	match state:
@@ -393,8 +393,8 @@ func _update_cursor_cooldown_ui() -> void:
 		CursorManager.update_vertical_tint_progress(100.0)
 		return
 
-	if source_entity.inv.auto_decrementer.get_cooldown_source_title(stats.get_cooldown_id()) in stats.shown_cooldown_fills:
-		var tint_progress: float = source_entity.inv.auto_decrementer.get_cooldown_percent(stats.get_cooldown_id(), true)
+	if source_entity.inv.auto_decrementer.get_cooldown_source_title(ii.get_cooldown_id()) in stats.shown_cooldown_fills:
+		var tint_progress: float = source_entity.inv.auto_decrementer.get_cooldown_percent(ii.get_cooldown_id(), true)
 		CursorManager.update_vertical_tint_progress(tint_progress * 100.0)
 
 ## Spawns a simulated ejected casing to fall to the ground. Requires a Marker2D in the scene called

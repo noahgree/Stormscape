@@ -1,15 +1,18 @@
 @tool
 extends Area2D
-class_name Item
+class_name WorldItem
 ## Base class for all items in the game. Defines logic for interacting with entities that can pick it up.
 
-static var item_scene: PackedScene = preload("res://Entities/Items/ItemCore/Item.tscn") ## The item scene to be instantiated when items are dropped onto the ground.
+static var item_scene: PackedScene = preload("res://Entities/Items/ItemCore/WorldItem.tscn") ## The item scene to be instantiated when items are dropped onto the ground.
 
-@export_storage var stats: ItemStats = null: set = _set_item ## The item resource driving the stats and type of item.
-@export_storage var quantity: int = 1: ## The quantity associated with the physical item.
-	set(new_quantity):
-		quantity = new_quantity
-		_update_multiple_indicator_sprite()
+@export var ii: II: ## The item instance resource representing this ground item.
+	set(new_ii):
+		if ii:
+			ii.stats_changed.disconnect(_set_ii)
+			ii.q_changed.disconnect(_update_multiple_indicator_sprite)
+		ii = new_ii
+		ii.stats_changed.connect(_set_ii)
+		ii.q_changed.connect(_update_multiple_indicator_sprite)
 
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D ## The active collision shape for the item to be interacted with.
 @onready var icon: Sprite2D = $Sprite ## The sprite that shows the item's texture.
@@ -30,37 +33,34 @@ var final_seconds_timer: Timer = TimerHelpers.create_one_shot_timer(self, BLINK_
 var is_tweening_up: bool = true
 
 
-func _set_item(item_stats: ItemStats) -> void:
-	stats = item_stats
-	if stats and icon:
-		$CollisionShape2D.shape.radius = stats.pickup_radius
-		icon.texture = stats.ground_icon
+func _set_ii(new_ii: II) -> void:
+	if new_ii and icon:
+		$CollisionShape2D.shape.radius = new_ii.stats.pickup_radius
+		icon.texture = new_ii.stats.ground_icon
 		icon.position.y = -icon.texture.get_height() / 2.0
-		_update_multiple_indicator_sprite()
+		_update_multiple_indicator_sprite(new_ii.q)
 
 		if ground_glow:
 			ground_glow.scale.x = 0.05 * (icon.texture.get_width() / 16.0)
 			ground_glow.scale.y = 0.05 * (icon.texture.get_height() / 32.0)
 			ground_glow.position.y = ceil(icon.texture.get_height() / 2.0) + ceil(7.0 / 2.0) - 2 + icon.position.y
 
-## Spawns an item with the passed in details on the ground. Keep suid means we should duplicate
-## the item's stats and pass the old session uid along to it. Can also choose to let items spawn with
-## higher than stack quantities.
-static func spawn_on_ground(item_stats: ItemStats, quant: int, location: Vector2,
-							location_range: float, keep_suid: bool = true, respect_max_stack: bool = false,
-							auto_pickup_delay: bool = true) -> void:
-	var quantity_count: int = quant
-	while quantity_count > 0:
-		var item_to_spawn: Item = item_scene.instantiate()
-		item_to_spawn.stats = item_stats.duplicate_with_suid() if keep_suid else item_stats.duplicate()
+## Spawns an item with the passed in details on the ground. Can also choose to let items spawn with
+## higher than max-stack quantities.
+static func spawn_on_ground(item_instance: II, location: Vector2, location_range: float,
+							respect_max_stack: bool = false, auto_pickup_delay: bool = true) -> void:
+	var quantity_left: int = item_instance.q
+	while quantity_left > 0:
+		var item_to_spawn: WorldItem = item_scene.instantiate()
+		item_to_spawn.ii = item_instance
 
 		if respect_max_stack:
-			var quant_to_use: int = min(quantity_count, item_stats.stack_size)
-			item_to_spawn.quantity = quant_to_use
-			quantity_count -= quant_to_use
+			var quant_to_use: int = min(quantity_left, item_instance.stats.stack_size)
+			item_to_spawn.ii.q = quant_to_use
+			quantity_left -= quant_to_use
 		else:
-			item_to_spawn.quantity = quantity_count
-			quantity_count = 0
+			item_to_spawn.ii.q = quantity_left
+			quantity_left = 0
 
 		if location_range != -1:
 			item_to_spawn.global_position = location + Vector2(randf_range((-location_range - 6) / 2.0, (location_range - 6) / 2.0) + 6, randf_range(0, (location_range - 6)) + 6)
@@ -73,33 +73,8 @@ static func spawn_on_ground(item_stats: ItemStats, quant: int, location: Vector2
 		var spawn_callable: Callable = Globals.world_root.get_node("WorldItemsManager").add_item.bind(item_to_spawn)
 		spawn_callable.call_deferred()
 
-#region Save & Load
-func _on_save_game(save_data: Array[SaveData]) -> void:
-	var data: ItemData = ItemData.new()
-	data.scene_path = scene_file_path
-	data.position = global_position
-	data.stats = stats
-	data.quantity = quantity
-
-	save_data.append(data)
-
-func _on_before_load_game() -> void:
-	queue_free()
-
-func _is_instance_on_load_game(item_data: ItemData) -> void:
-	global_position = item_data.position
-	stats = item_data.stats
-	quantity = item_data.quantity
-
-	Globals.world_root.get_node("WorldItemsManager").add_item(self)
-
-func _on_load_game() -> void:
-	pass
-#endregion
-
 func _ready() -> void:
-	_set_item(stats)
-
+	_set_ii(ii)
 	if Engine.is_editor_hint():
 		return
 
@@ -117,12 +92,12 @@ func _ready() -> void:
 		can_be_auto_picked_up = true
 
 ## Updates the visibility of the extra sprite that shows when the quantity is higher than 1.
-func _update_multiple_indicator_sprite() -> void:
+func _update_multiple_indicator_sprite(new_q: int) -> void:
 	if multiple_indicator_sprite == null:
 		return
 
-	if quantity > 1:
-		multiple_indicator_sprite.texture = stats.ground_icon
+	if new_q > 1:
+		multiple_indicator_sprite.texture = ii.stats.ground_icon
 		multiple_indicator_sprite.show()
 	else:
 		multiple_indicator_sprite.hide()
@@ -131,26 +106,26 @@ func _update_multiple_indicator_sprite() -> void:
 ## Sets the rarity FX using the colors associated with that rarity, given by the dictionary in the Globals.
 func _set_rarity_colors() -> void:
 	icon.material.set_shader_parameter("width", 0.5)
-	ground_glow.self_modulate = Globals.rarity_colors.ground_glow.get(stats.rarity)
-	icon.material.set_shader_parameter("outline_color", Globals.rarity_colors.outline_color.get(stats.rarity))
-	icon.material.set_shader_parameter("tint_color", Globals.rarity_colors.tint_color.get(stats.rarity))
+	ground_glow.self_modulate = Globals.rarity_colors.ground_glow.get(ii.stats.rarity)
+	icon.material.set_shader_parameter("outline_color", Globals.rarity_colors.outline_color.get(ii.stats.rarity))
+	icon.material.set_shader_parameter("tint_color", Globals.rarity_colors.tint_color.get(ii.stats.rarity))
 
 	var gradient_texture: GradientTexture1D = GradientTexture1D.new()
 	gradient_texture.gradient = Gradient.new()
-	gradient_texture.gradient.add_point(0, Globals.rarity_colors.glint_color.get(stats.rarity))
+	gradient_texture.gradient.add_point(0, Globals.rarity_colors.glint_color.get(ii.stats.rarity))
 	icon.material.set_shader_parameter("color_gradient", gradient_texture)
 
-	if stats.rarity in [Globals.ItemRarity.LEGENDARY, Globals.ItemRarity.SINGULAR]:
-		particles.color = Globals.rarity_colors.ground_glow.get(stats.rarity)
+	if ii.stats.rarity in [Globals.ItemRarity.LEGENDARY, Globals.ItemRarity.SINGULAR]:
+		particles.color = Globals.rarity_colors.ground_glow.get(ii.stats.rarity)
 		particles.emitting = true
-	if stats.rarity == Globals.ItemRarity.SINGULAR:
+	if ii.stats.rarity == Globals.ItemRarity.SINGULAR:
 		particles.amount *= 3
 
 ## When the spawn animation finishes, start hovering and emitting particles if needed.
 func _on_spawn_anim_completed() -> void:
 	anim_player.play("hover")
-	if stats.rarity in [Globals.ItemRarity.LEGENDARY, Globals.ItemRarity.SINGULAR]:
-		line_particles.color = Globals.rarity_colors.tint_color.get(stats.rarity)
+	if ii.stats.rarity in [Globals.ItemRarity.LEGENDARY, Globals.ItemRarity.SINGULAR]:
+		line_particles.color = Globals.rarity_colors.tint_color.get(ii.stats.rarity)
 		line_particles.emitting = true
 
 ## Starts the blinking out sequence that eventually removes the item from the world when it ends.
@@ -195,7 +170,7 @@ func _on_area_entered(area: Area2D) -> void:
 		return
 
 	if area is ItemReceiverComponent and area.get_parent() is Player:
-		if stats.auto_pickup and can_be_auto_picked_up:
+		if ii.stats.auto_pickup and can_be_auto_picked_up:
 			area.synced_inv.add_item_from_world(self)
 		else:
 			area.add_to_in_range_queue(self)
@@ -208,5 +183,5 @@ func _on_area_exited(area: Area2D) -> void:
 ## This helps retrigger the pickup HUD with the new quantity.
 func respawn_item_after_quantity_change() -> void:
 	can_be_picked_up_at_all = false
-	Item.spawn_on_ground(stats, quantity, global_position, -1, true, false, true)
+	WorldItem.spawn_on_ground(ii, global_position, -1, false, true)
 	queue_free()

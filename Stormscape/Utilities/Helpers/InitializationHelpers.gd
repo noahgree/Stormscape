@@ -63,10 +63,6 @@ static func initialize_proj_wpn_stats_resource(stats_resource: ProjWeaponStats) 
 	if (stats_resource.ammo_in_mag == -1) and (stats_resource.ammo_type != ProjWeaponStats.ProjAmmoType.STAMINA):
 		stats_resource.ammo_in_mag = int(stats_resource.s_mods.get_stat("mag_size"))
 
-	if stats_resource.weapon_mods_need_to_be_readded_after_save:
-		WeaponModsManager.reset_original_arrays_after_save(stats_resource, null)
-		stats_resource.weapon_mods_need_to_be_readded_after_save = false
-
 ## Sets up the base values for the stat mod cache so that weapon mods can be added and managed properly.
 static func initialize_melee_wpn_stats_resource(stats_resource: MeleeWeaponStats) -> void:
 	stats_resource.s_mods = stats_resource.s_mods.duplicate()
@@ -103,7 +99,3 @@ static func initialize_melee_wpn_stats_resource(stats_resource: MeleeWeaponStats
 
 	stats_resource.s_mods.add_moddable_stats(normal_moddable_stats)
 	stats_resource.s_mods.add_moddable_stats(charge_moddable_stats)
-
-	if stats_resource.weapon_mods_need_to_be_readded_after_save:
-		WeaponModsManager.reset_original_arrays_after_save(stats_resource, null)
-		stats_resource.weapon_mods_need_to_be_readded_after_save = false

@@ -219,6 +219,6 @@ func update_ammo_ui() -> void:
 func _update_cursor_cooldown_ui() -> void:
 	if not source_entity is Player:
 		return
-	if source_entity.inv.auto_decrementer.get_cooldown_source_title(stats.get_cooldown_id()) in stats.shown_cooldown_fills:
-		var tint_progress: float = source_entity.inv.auto_decrementer.get_cooldown_percent(stats.get_cooldown_id(), true)
+	if source_entity.inv.auto_decrementer.get_cooldown_source_title(ii.get_cooldown_id()) in stats.shown_cooldown_fills:
+		var tint_progress: float = source_entity.inv.auto_decrementer.get_cooldown_percent(ii.get_cooldown_id(), true)
 		CursorManager.update_vertical_tint_progress(tint_progress * 100.0)

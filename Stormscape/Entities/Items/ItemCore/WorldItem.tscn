@@ -1,10 +1,10 @@
-[gd_scene load_steps=24 format=3 uid="uid://ccfnvvfj0yyrq"]
+[gd_scene format=3 uid="uid://ccfnvvfj0yyrq"]
 
-[ext_resource type="Shader" uid="uid://cwbeekjoy0uyh" path="res://Utilities/Game/Shaders/GlintShader.gdshader" id="1_att70"]
-[ext_resource type="Script" uid="uid://ddtv51med3i2r" path="res://Entities/Items/ItemCore/Item.gd" id="1_rwd02"]
-[ext_resource type="Texture2D" uid="uid://ifknxghk7xey" path="res://Utilities/Game/Particles/line_group.png" id="3_jg0uy"]
-[ext_resource type="Texture2D" uid="uid://b6q76o13tanxi" path="res://Entities/Items/Weapons/MeleeWeapons/Pickaxe/pickaxe_base.png" id="4_1yl86"]
-[ext_resource type="Texture2D" uid="uid://dbm40lvpgbd8t" path="res://Utilities/Game/Particles/dense_light.png" id="5_2unly"]
+[ext_resource type="Script" uid="uid://ddtv51med3i2r" path="res://Entities/Items/ItemCore/WorldItem.gd" id="1_ji678"]
+[ext_resource type="Texture2D" uid="uid://dbm40lvpgbd8t" path="res://Utilities/Game/Particles/dense_light.png" id="2_ks810"]
+[ext_resource type="Texture2D" uid="uid://ifknxghk7xey" path="res://Utilities/Game/Particles/line_group.png" id="3_ut8o5"]
+[ext_resource type="Shader" uid="uid://cwbeekjoy0uyh" path="res://Utilities/Game/Shaders/GlintShader.gdshader" id="4_y7jah"]
+[ext_resource type="Texture2D" uid="uid://b6q76o13tanxi" path="res://Entities/Items/Weapons/MeleeWeapons/Pickaxe/pickaxe_base.png" id="5_085n3"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_no3c7"]
 resource_local_to_scene = true
@@ -209,7 +209,7 @@ gradient = SubResource("Gradient_ujuwf")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qrrcp"]
 resource_local_to_scene = true
-shader = ExtResource("1_att70")
+shader = ExtResource("4_y7jah")
 shader_parameter/outline_color = Color(1.522, 0.359, 0.564, 1)
 shader_parameter/width = 0.5
 shader_parameter/pattern = 2
@@ -227,22 +227,22 @@ shader_parameter/tint_color = Color(1, 1, 1, 0)
 shader_parameter/glow_intensity = 1.3
 shader_parameter/override_color = Color(1, 1, 1, 0)
 
-[node name="Item" type="Area2D" groups=["has_save_logic"]]
+[node name="WorldItem" type="Area2D" unique_id=1865357219 groups=["has_save_logic"]]
 collision_layer = 0
 collision_mask = 128
 monitorable = false
-script = ExtResource("1_rwd02")
+script = ExtResource("1_ji678")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1922327159]
 shape = SubResource("CircleShape2D_no3c7")
 debug_color = Color(5.29438e-07, 0.636012, 0.41019, 0.42)
 
-[node name="Particles" type="CPUParticles2D" parent="."]
+[node name="Particles" type="CPUParticles2D" parent="." unique_id=740469949]
 material = SubResource("CanvasItemMaterial_njrp7")
 position = Vector2(0, -9)
 emitting = false
 amount = 6
-texture = ExtResource("5_2unly")
+texture = ExtResource("2_ks810")
 lifetime = 0.85
 emission_shape = 1
 emission_sphere_radius = 8.0
@@ -260,12 +260,12 @@ scale_amount_curve = SubResource("Curve_lulwp")
 hue_variation_min = -0.5
 hue_variation_max = 0.5
 
-[node name="LineParticles" type="CPUParticles2D" parent="."]
+[node name="LineParticles" type="CPUParticles2D" parent="." unique_id=824731623]
 material = SubResource("CanvasItemMaterial_h672o")
 position = Vector2(0, -8)
 emitting = false
 amount = 5
-texture = ExtResource("3_jg0uy")
+texture = ExtResource("3_ut8o5")
 lifetime = 2.0
 lifetime_randomness = 0.2
 direction = Vector2(0, -1)
@@ -289,29 +289,27 @@ color = Color(2, 0.304, 0.606, 1)
 color_ramp = SubResource("Gradient_yr7lw")
 anim_offset_max = 1.0
 
-[node name="GroundGlowScaler" type="Node2D" parent="."]
+[node name="GroundGlowScaler" type="Node2D" parent="." unique_id=858314648]
 
-[node name="GroundGlow" type="Sprite2D" parent="GroundGlowScaler"]
+[node name="GroundGlow" type="Sprite2D" parent="GroundGlowScaler" unique_id=70894846]
 material = SubResource("CanvasItemMaterial_mrolm")
 scale = Vector2(0.05, 0.035)
-texture = ExtResource("5_2unly")
+texture = ExtResource("2_ks810")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_wgl0c")
-}
-autoplay = "spawn"
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1131970905]
+libraries/ = SubResource("AnimationLibrary_wgl0c")
+autoplay = &"spawn"
 
-[node name="MultipleIndicatorSprite" type="Sprite2D" parent="."]
+[node name="MultipleIndicatorSprite" type="Sprite2D" parent="." unique_id=881302957]
 material = SubResource("ShaderMaterial_qrrcp")
 instance_shader_parameters/final_alpha = 1.0
 position = Vector2(-1, -1)
-texture = ExtResource("4_1yl86")
+texture = ExtResource("5_085n3")
 
-[node name="Sprite" type="Sprite2D" parent="."]
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1587739425]
 material = SubResource("ShaderMaterial_qrrcp")
 instance_shader_parameters/final_alpha = 1.0
-texture = ExtResource("4_1yl86")
+texture = ExtResource("5_085n3")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="area_exited" from="." to="." method="_on_area_exited"]

@@ -1,17 +1,15 @@
-[gd_scene load_steps=47 format=3 uid="uid://xsq1q0fffsin"]
+[gd_scene format=3 uid="uid://xsq1q0fffsin"]
 
 [ext_resource type="Script" uid="uid://nup3um166s32" path="res://Entities/EntityCore/EntityTypes/RigidEntity/RigidEntity.gd" id="1_6tnit"]
 [ext_resource type="Script" uid="uid://dwmur0cosbbwh" path="res://Entities/Player/UI/Inventory/InventoryCore/InvResource.gd" id="2_mdi77"]
-[ext_resource type="Script" uid="uid://dp8osf7r6xkkt" path="res://Entities/Items/ItemCore/InvItemResource.gd" id="3_ccp8j"]
 [ext_resource type="PackedScene" uid="uid://di7vcyrki71nm" path="res://Entities/Components/DetectionComponent/DetectionComponent.tscn" id="3_fg1br"]
+[ext_resource type="Script" uid="uid://cv7ha7muvg5qu" path="res://Entities/Items/ItemCore/II.gd" id="3_i2rwd"]
 [ext_resource type="PackedScene" uid="uid://dh4ydl7l86ywq" path="res://Entities/EntityCore/Sprites/EntitySprite.tscn" id="3_nv7a0"]
 [ext_resource type="Shader" uid="uid://cfbagv3hrtar2" path="res://Utilities/Game/Shaders/EntityEffectShader.gdshader" id="4_l6rwf"]
 [ext_resource type="PackedScene" uid="uid://cdfdy8m6ki3oq" path="res://Entities/Components/HealthComponent/HealthComponent.tscn" id="6_1wa26"]
 [ext_resource type="PackedScene" uid="uid://bhcqtorpyerc3" path="res://Utilities/Debug/ParticleEmissionComponent.tscn" id="6_ljryo"]
 [ext_resource type="PackedScene" uid="uid://btba0jmsow1mx" path="res://Entities/Components/EffectComponents/EffectReceiverComponent/EffectReceiverComponent.tscn" id="7_ftqus"]
 [ext_resource type="Texture2D" uid="uid://v1rdlj54siql" path="res://Entities/Environment/Objects/SimpleBoxCT.tres" id="7_mdi77"]
-[ext_resource type="Resource" uid="uid://dsylig1px18qv" path="res://Entities/Items/TRESItems/Ammo/Boompowder(3).tres" id="8_2xjsy"]
-[ext_resource type="Resource" uid="uid://bper7kxtsf7f1" path="res://Entities/Items/TRESItems/MeleeWeapons/Axe(1).tres" id="8_iirwy"]
 [ext_resource type="Script" uid="uid://baglarh3m4c8o" path="res://Entities/Components/ItemComponents/LootTableComponent/LootTableResource.gd" id="9_2xjsy"]
 [ext_resource type="PackedScene" uid="uid://4gl24qwdyti3" path="res://Entities/Components/EffectComponents/EffectReceiverComponent/EffectHandlers/DmgHandler.tscn" id="9_23lbg"]
 [ext_resource type="Script" uid="uid://dk6uef3uxmeev" path="res://Entities/Components/EffectComponents/EffectReceiverComponent/EffectHandlers/KnockbackHandler.gd" id="11_ccp8j"]
@@ -24,51 +22,23 @@
 [ext_resource type="Script" uid="uid://b1lo2mdb3otax" path="res://Entities/Components/EffectComponents/EffectReceiverComponent/EffectHandlers/FrostbiteHandler.gd" id="14_ssl24"]
 [ext_resource type="Script" uid="uid://dubq8xgav66ue" path="res://Entities/Components/EffectComponents/EffectReceiverComponent/EffectHandlers/BurningHandler.gd" id="15_wbmts"]
 [ext_resource type="Script" uid="uid://1qq7eo7lm8j6" path="res://Entities/Components/ItemComponents/LootTableComponent/LootTableEntry.gd" id="16_fkdnf"]
-[ext_resource type="Resource" uid="uid://cpxev3kvt74vw" path="res://Entities/Items/TRESItems/Ammo/Shell(0).tres" id="20_mnmab"]
-[ext_resource type="Resource" uid="uid://c5jim46mul7ex" path="res://Entities/Items/TRESItems/Ammo/IonCharge(1).tres" id="23_mdi77"]
 [ext_resource type="PackedScene" uid="uid://jpq0ij8wwlhy" path="res://Entities/Components/FacingComponent/FacingComponent.tscn" id="24_i2rwd"]
 [ext_resource type="PackedScene" uid="uid://2yy4xfm5g74l" path="res://Entities/Components/ItemComponents/ClippingComponent/ClippingArea.tscn" id="28_2xjsy"]
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_mdi77"]
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_fg1br"]
 rough = true
 
 [sub_resource type="Resource" id="Resource_arbka"]
 script = ExtResource("2_mdi77")
 
-[sub_resource type="Resource" id="Resource_mdi77"]
-script = ExtResource("16_fkdnf")
-item = ExtResource("23_mdi77")
-quantity = 5
-weighting = 2.0
-metadata/_custom_type_script = "uid://1qq7eo7lm8j6"
-
-[sub_resource type="Resource" id="Resource_ccp8j"]
-script = ExtResource("16_fkdnf")
-item = ExtResource("20_mnmab")
-quantity = 5
-weighting = 5.0
-metadata/_custom_type_script = "uid://1qq7eo7lm8j6"
-
-[sub_resource type="Resource" id="Resource_ssl24"]
-script = ExtResource("16_fkdnf")
-item = ExtResource("8_iirwy")
-metadata/_custom_type_script = "uid://1qq7eo7lm8j6"
-
-[sub_resource type="Resource" id="Resource_3nojt"]
-script = ExtResource("16_fkdnf")
-item = ExtResource("8_2xjsy")
-weighting = 2.0
-metadata/_custom_type_script = "uid://1qq7eo7lm8j6"
-
 [sub_resource type="Resource" id="Resource_wbmts"]
 script = ExtResource("9_2xjsy")
-die_loot_table = Array[ExtResource("16_fkdnf")]([SubResource("Resource_mdi77"), SubResource("Resource_ccp8j"), SubResource("Resource_ssl24"), SubResource("Resource_3nojt")])
 metadata/_custom_type_script = "uid://baglarh3m4c8o"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sbju2"]
 size = Vector2(18, 18)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ssl24"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mnmab"]
 resource_local_to_scene = true
 shader = ExtResource("4_l6rwf")
 
@@ -87,32 +57,32 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="Resource" id="Resource_mou4w"]
+[sub_resource type="Resource" id="Resource_iirwy"]
 resource_local_to_scene = true
 script = ExtResource("11_ccp8j")
 metadata/_custom_type_script = "uid://dk6uef3uxmeev"
 
-[sub_resource type="Resource" id="Resource_uv3nk"]
+[sub_resource type="Resource" id="Resource_2xjsy"]
 resource_local_to_scene = true
 script = ExtResource("12_arbka")
 metadata/_custom_type_script = "uid://5krnqdrdbey1"
 
-[sub_resource type="Resource" id="Resource_v6eom"]
+[sub_resource type="Resource" id="Resource_mdi77"]
 resource_local_to_scene = true
 script = ExtResource("13_3nojt")
 metadata/_custom_type_script = "uid://bqw1ufs6jb7cf"
 
-[sub_resource type="Resource" id="Resource_p34sx"]
+[sub_resource type="Resource" id="Resource_ccp8j"]
 resource_local_to_scene = true
 script = ExtResource("14_ssl24")
 metadata/_custom_type_script = "uid://b1lo2mdb3otax"
 
-[sub_resource type="Resource" id="Resource_3advh"]
+[sub_resource type="Resource" id="Resource_3nojt"]
 resource_local_to_scene = true
 script = ExtResource("15_wbmts")
 metadata/_custom_type_script = "uid://dubq8xgav66ue"
 
-[sub_resource type="Resource" id="Resource_o8v38"]
+[sub_resource type="Resource" id="Resource_ssl24"]
 resource_local_to_scene = true
 script = ExtResource("12_mnmab")
 metadata/_custom_type_script = "uid://ckiyd2nbdcofr"
@@ -124,7 +94,7 @@ size = Vector2(18, 18)
 collision_layer = 32
 collision_mask = 245
 mass = 3.0
-physics_material_override = SubResource("PhysicsMaterial_mdi77")
+physics_material_override = SubResource("PhysicsMaterial_fg1br")
 gravity_scale = 0.0
 lock_rotation = true
 linear_damp = 4.5
@@ -143,7 +113,7 @@ debug_color = Color(1.44392e-06, 0.568839, 0.851513, 0.42)
 
 [node name="EntitySprite" parent="." unique_id=213399511 instance=ExtResource("3_nv7a0")]
 unique_name_in_owner = true
-material = SubResource("ShaderMaterial_ssl24")
+material = SubResource("ShaderMaterial_mnmab")
 instance_shader_parameters/brightness_mult = 1.0
 instance_shader_parameters/crack_color = Color(0.246, 0.109, 0.01, 0.85)
 instance_shader_parameters/crack_intensity = 1.0
@@ -171,12 +141,12 @@ position = Vector2(0, -9)
 affected_entity = NodePath("..")
 dmg_handler = NodePath("DmgHandler")
 heal_handler = NodePath("HealHandler")
-knockback_handler = SubResource("Resource_mou4w")
-poison_handler = SubResource("Resource_uv3nk")
-regen_handler = SubResource("Resource_v6eom")
-frostbite_handler = SubResource("Resource_p34sx")
-burning_handler = SubResource("Resource_3advh")
-life_steal_handler = SubResource("Resource_o8v38")
+knockback_handler = SubResource("Resource_iirwy")
+poison_handler = SubResource("Resource_2xjsy")
+regen_handler = SubResource("Resource_mdi77")
+frostbite_handler = SubResource("Resource_ccp8j")
+burning_handler = SubResource("Resource_3nojt")
+life_steal_handler = SubResource("Resource_ssl24")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EffectReceiverComponent" unique_id=1659667704]
 shape = SubResource("RectangleShape2D_wpovd")

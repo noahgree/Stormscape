@@ -1,60 +1,28 @@
 [gd_scene format=3 uid="uid://dba8mrurjlekp"]
 
 [ext_resource type="Script" uid="uid://c3rpxq8pnbdje" path="res://Entities/Player/PlayerCore/Player.gd" id="1_m33tt"]
-[ext_resource type="Script" uid="uid://bdd0xujg1bgm0" path="res://Entities/Player/UI/Inventory/InventoryCore/PlayerInvResource.gd" id="2_8hbs2"]
+[ext_resource type="Script" uid="uid://bdd0xujg1bgm0" path="res://Entities/Player/UI/Inventory/InventoryCore/PlayerInvResource.gd" id="2_14ixx"]
 [ext_resource type="PackedScene" uid="uid://cj2wy5f05cos4" path="res://Entities/EntityCore/Shadow/EntityShadow.tscn" id="3_05f62"]
+[ext_resource type="Script" uid="uid://cv7ha7muvg5qu" path="res://Entities/Items/ItemCore/II.gd" id="3_lo25j"]
 [ext_resource type="PackedScene" uid="uid://cdfdy8m6ki3oq" path="res://Entities/Components/HealthComponent/HealthComponent.tscn" id="3_ojev3"]
 [ext_resource type="PackedScene" uid="uid://dh4ydl7l86ywq" path="res://Entities/EntityCore/Sprites/EntitySprite.tscn" id="4_fmbcv"]
-[ext_resource type="Resource" uid="uid://1q7rlned2r23" path="res://Entities/Items/TRESItems/ProjectileWeapons/Gattler(3).tres" id="4_g5u5n"]
-[ext_resource type="Resource" uid="uid://b8gvf7ta6a2rj" path="res://Entities/Items/TRESItems/WeaponMods/Foregrip(1).tres" id="4_gevai"]
 [ext_resource type="PackedScene" uid="uid://btba0jmsow1mx" path="res://Entities/Components/EffectComponents/EffectReceiverComponent/EffectReceiverComponent.tscn" id="4_hhm8x"]
+[ext_resource type="Resource" uid="uid://fmf7upx7tsln" path="res://Entities/Items/TRESItems/ProjectileWeapons/RifleX(3).tres" id="4_lo25j"]
+[ext_resource type="Script" uid="uid://boo31eu083dqd" path="res://Entities/Stats/EffectSystemResources/StatusEffects/StatusEffect.gd" id="4_rdrbb"]
+[ext_resource type="Script" uid="uid://cbw8j4ps8ii7p" path="res://Entities/Items/Weapons/ProjectileWeapons/ProjWeaponCore/ProjWeaponII.gd" id="5_3uq13"]
 [ext_resource type="PackedScene" uid="uid://4gl24qwdyti3" path="res://Entities/Components/EffectComponents/EffectReceiverComponent/EffectHandlers/DmgHandler.tscn" id="5_g3ixu"]
 [ext_resource type="PackedScene" uid="uid://cxpv7l7rcaq1o" path="res://Entities/Components/StaminaComponent/StaminaComponent.tscn" id="5_k4fu6"]
-[ext_resource type="Resource" uid="uid://bta1hncad1hd2" path="res://Entities/Items/TRESItems/WeaponMods/ExtendedMag(1).tres" id="5_oe7wn"]
-[ext_resource type="Resource" uid="uid://cpxev3kvt74vw" path="res://Entities/Items/TRESItems/Ammo/Shell(0).tres" id="5_rdrbb"]
 [ext_resource type="SpriteFrames" uid="uid://cl72xrd8yy3d" path="res://Entities/Player/Sprites/Base/PlayerBaseFrames.tres" id="5_vy6lk"]
 [ext_resource type="PackedScene" uid="uid://ddj5ippwwkvop" path="res://Entities/Components/EffectComponents/EffectReceiverComponent/EffectHandlers/HealHandler.tscn" id="6_5e1ju"]
-[ext_resource type="Resource" uid="uid://8uj8fwadqlk0" path="res://Entities/Items/TRESItems/WorldResources/Stick(0).tres" id="6_hxjay"]
 [ext_resource type="PackedScene" uid="uid://co3n6m7efg8pd" path="res://Entities/Components/EffectComponents/StatusEffectsComponent/StatusEffectsComponent.tscn" id="6_n0x5k"]
-[ext_resource type="Resource" uid="uid://bx2nl7cqe7odq" path="res://Entities/Items/TRESItems/WeaponMods/AdvancedScope(3).tres" id="7_14ixx"]
-[ext_resource type="Resource" uid="uid://c5jim46mul7ex" path="res://Entities/Items/TRESItems/Ammo/IonCharge(1).tres" id="7_o382h"]
-[ext_resource type="Resource" uid="uid://dsylig1px18qv" path="res://Entities/Items/TRESItems/Ammo/Boompowder(3).tres" id="7_uu4sw"]
-[ext_resource type="Resource" uid="uid://3avt5jvd3dye" path="res://Entities/Items/TRESItems/ProjectileWeapons/BottleOFire(3).tres" id="8_lo25j"]
-[ext_resource type="Resource" uid="uid://caw1yglbt2nf6" path="res://Entities/Items/TRESItems/Wearables/FrostCharm(5).tres" id="8_o382h"]
-[ext_resource type="Resource" uid="uid://bdjhfsluk53lc" path="res://Entities/Items/TRESItems/Ammo/Bullet(0).tres" id="8_s4yud"]
-[ext_resource type="Resource" uid="uid://dpmwqsai6gxsr" path="res://Entities/Items/TRESItems/ProjectileWeapons/FlameBlower(5).tres" id="9_rdrbb"]
-[ext_resource type="Resource" uid="uid://bs4rqdt46yav7" path="res://Entities/Items/TRESItems/WorldResources/OakLog(0).tres" id="10_0t1mv"]
-[ext_resource type="Resource" uid="uid://14gw464h13vv" path="res://Entities/Items/TRESItems/ProjectileWeapons/Cratershot(1).tres" id="10_3uq13"]
 [ext_resource type="PackedScene" uid="uid://bhcqtorpyerc3" path="res://Utilities/Debug/ParticleEmissionComponent.tscn" id="10_6wv7y"]
-[ext_resource type="Resource" uid="uid://dh8kily8s3nxw" path="res://Entities/Items/TRESItems/ProjectileWeapons/Flintlock(1).tres" id="10_co77f"]
-[ext_resource type="Resource" uid="uid://nbgi8l36xcgl" path="res://Entities/Items/TRESItems/Wearables/WeightedBoots(3).tres" id="10_n4o3n"]
-[ext_resource type="Resource" uid="uid://dlfmjgnfk6nqj" path="res://Entities/Items/TRESItems/ProjectileWeapons/Revolver(0).tres" id="10_r5dvw"]
-[ext_resource type="Resource" uid="uid://dy8rwyeyusim7" path="res://Entities/Items/TRESItems/ProjectileWeapons/Twin(2).tres" id="11_0t1mv"]
-[ext_resource type="Resource" uid="uid://dbnhbsphiw4oe" path="res://Entities/Items/TRESItems/WorldResources/SpruceLog(0).tres" id="11_hxjay"]
-[ext_resource type="Resource" uid="uid://c05ujhrdtx4r5" path="res://Entities/Items/TRESItems/ProjectileWeapons/Blunderbuss(2).tres" id="11_o382h"]
-[ext_resource type="Resource" uid="uid://duc0xfejpfs1" path="res://Entities/Items/TRESItems/ProjectileWeapons/EagleEye(3).tres" id="12_6wv7y"]
-[ext_resource type="Resource" uid="uid://fmf7upx7tsln" path="res://Entities/Items/TRESItems/ProjectileWeapons/RifleX(3).tres" id="13_n4o3n"]
-[ext_resource type="Resource" uid="uid://ddtvqrt702vcs" path="res://Entities/Items/TRESItems/WorldResources/Twine(0).tres" id="13_ou5t4"]
-[ext_resource type="Resource" uid="uid://bper7kxtsf7f1" path="res://Entities/Items/TRESItems/MeleeWeapons/Axe(1).tres" id="14_0t1mv"]
-[ext_resource type="Resource" uid="uid://cx1ydw2jde1y8" path="res://Entities/Items/TRESItems/Consumables/Apple(0).tres" id="15_hxjay"]
-[ext_resource type="Resource" uid="uid://de6d4b7xfr4am" path="res://Entities/Items/TRESItems/WeaponMods/ClusterRig(4).tres" id="16_h1ges"]
-[ext_resource type="Resource" uid="uid://dkx627k2ek8ew" path="res://Entities/Items/TRESItems/WorldResources/Graystone(0).tres" id="20_w0i1c"]
-[ext_resource type="Resource" uid="uid://bh18kqp2up3oe" path="res://Entities/Items/TRESItems/MeleeWeapons/Pickaxe(3).tres" id="23_gdihr"]
 [ext_resource type="PackedScene" uid="uid://jpq0ij8wwlhy" path="res://Entities/Components/FacingComponent/FacingComponent.tscn" id="25_0t1mv"]
 [ext_resource type="Script" uid="uid://c28itqxmeqbq0" path="res://Entities/FSM/FSMCore/StateMachine.gd" id="25_6wv7y"]
 [ext_resource type="Texture2D" uid="uid://crawnbhc5weqf" path="res://Entities/EntityCore/EntityTypes/DynamicEntity/entity_footstep.png" id="27_0t1mv"]
-[ext_resource type="Resource" uid="uid://kmidnuyti5xi" path="res://Entities/Items/TRESItems/ProjectileWeapons/Boomerang(2).tres" id="27_bvo3j"]
-[ext_resource type="Resource" uid="uid://dvnlojpwqoojv" path="res://Entities/Items/TRESItems/ProjectileWeapons/BottleOFrost(3).tres" id="27_eufsu"]
 [ext_resource type="Script" uid="uid://evdilpt7dh6f" path="res://Entities/Player/PlayerCore/PlayerController.gd" id="27_n4o3n"]
-[ext_resource type="Resource" uid="uid://ciel2rrqq4dvv" path="res://Entities/Items/TRESItems/ProjectileWeapons/LaserGun(2).tres" id="30_f5l7i"]
 [ext_resource type="PackedScene" uid="uid://c4n604w30gx8m" path="res://Entities/Components/ItemComponents/ItemReceiverComponent/ItemReceiverComponent.tscn" id="30_qgyag"]
 [ext_resource type="Script" uid="uid://dq62ojsc43p8o" path="res://Entities/Player/UI/Inventory/Panels/MainPanel/PlayerInvUI.gd" id="32_3a185"]
-[ext_resource type="Resource" uid="uid://dk3vlbvu2b7eq" path="res://Entities/Items/TRESItems/MeleeWeapons/Sword(4).tres" id="32_ar238"]
-[ext_resource type="Script" uid="uid://dp8osf7r6xkkt" path="res://Entities/Items/ItemCore/InvItemResource.gd" id="32_ixmb3"]
-[ext_resource type="Resource" uid="uid://h1xp0w2wx18e" path="res://Entities/Items/TRESItems/ProjectileWeapons/Grizzly(3).tres" id="33_8hbs2"]
-[ext_resource type="Resource" uid="uid://cuwmealupx71f" path="res://Entities/Items/TRESItems/ProjectileWeapons/RifleX(0).tres" id="35_bjgul"]
 [ext_resource type="Script" uid="uid://di5hu6fk5mbfe" path="res://Entities/Player/UI/Vitals/PlayerVitalsHUD.gd" id="35_yln51"]
-[ext_resource type="Resource" uid="uid://cqqpudayew03k" path="res://Entities/Items/TRESItems/Currency/Stormshine(4).tres" id="39_jgqai"]
 [ext_resource type="PackedScene" uid="uid://b7gdy01q8wsjx" path="res://Entities/Components/ItemComponents/HandsComponent/HandsComponent.tscn" id="39_ngono"]
 [ext_resource type="Shader" uid="uid://c0de04pgeen76" path="res://Utilities/Game/Shaders/BlurBehind.gdshader" id="39_r4tgk"]
 [ext_resource type="PackedScene" uid="uid://m4ur3n2hwsp8" path="res://Entities/Player/UI/Inventory/InventoryCore/Slot.tscn" id="42_r422n"]
@@ -65,7 +33,6 @@
 [ext_resource type="Script" uid="uid://dk6uef3uxmeev" path="res://Entities/Components/EffectComponents/EffectReceiverComponent/EffectHandlers/KnockbackHandler.gd" id="53_co77f"]
 [ext_resource type="Script" uid="uid://b21sy1r0nxgpv" path="res://Entities/Components/EffectComponents/EffectReceiverComponent/EffectHandlers/StunHandler.gd" id="54_bmpdm"]
 [ext_resource type="Script" uid="uid://5krnqdrdbey1" path="res://Entities/Components/EffectComponents/EffectReceiverComponent/EffectHandlers/PoisonHandler.gd" id="55_8hbs2"]
-[ext_resource type="Resource" uid="uid://m8ws6ct8yu3b" path="res://Entities/Items/TRESItems/Wearables/FireCharm(5).tres" id="57_gdihr"]
 [ext_resource type="Script" uid="uid://b1lo2mdb3otax" path="res://Entities/Components/EffectComponents/EffectReceiverComponent/EffectHandlers/FrostbiteHandler.gd" id="57_h1ges"]
 [ext_resource type="Script" uid="uid://dih45lqhjg0xx" path="res://Entities/Player/UI/Overhead/PlayerOverheadUI.gd" id="57_n8srl"]
 [ext_resource type="Script" uid="uid://dubq8xgav66ue" path="res://Entities/Components/EffectComponents/EffectReceiverComponent/EffectHandlers/BurningHandler.gd" id="58_32jvf"]
@@ -75,7 +42,6 @@
 [ext_resource type="Texture2D" uid="uid://bq3d1uclexvcm" path="res://Entities/EntityCore/UI/Overhead/Assets/progress_tintable.png" id="61_6wv7y"]
 [ext_resource type="Texture2D" uid="uid://barp24qvngy0m" path="res://Entities/Player/UI/Overhead/Assets/Overheat/overheat_back.png" id="63_3uq13"]
 [ext_resource type="Texture2D" uid="uid://7wf7omw2r50u" path="res://Entities/Player/UI/Overhead/Assets/Overheat/overheat_progress.png" id="64_o382h"]
-[ext_resource type="Resource" uid="uid://caxftf2aer6g4" path="res://Entities/Items/TRESItems/WeaponMods/Igniter(4).tres" id="65_14ixx"]
 [ext_resource type="Script" uid="uid://bvla7pmnsimif" path="res://Entities/FSM/FSMCore/State.gd" id="66_8hbs2"]
 [ext_resource type="Script" uid="uid://dgibl37gudpj1" path="res://Entities/Player/UI/Interactions/InteractionsCore/InteractionOffer.gd" id="66_r5dvw"]
 [ext_resource type="Script" uid="uid://c2sjdkql76qca" path="res://Entities/FSM/States/BaseStates/IdleState.gd" id="67_h1ges"]
@@ -144,210 +110,15 @@
 [ext_resource type="Texture2D" uid="uid://b5t26j33yq3b" path="res://Entities/Player/UI/Inventory/Assets/Slot/Universal/BackgroundIcons/ion_charge_slot_icon.png" id="136_uu4sw"]
 [ext_resource type="Texture2D" uid="uid://4vp08uunblux" path="res://Entities/Player/UI/Inventory/Assets/Slot/Universal/BackgroundIcons/boompowder_slot_icon.png" id="137_uu4sw"]
 
-[sub_resource type="Resource" id="Resource_82yts"]
-script = ExtResource("32_ixmb3")
-stats = ExtResource("4_g5u5n")
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
+[sub_resource type="Resource" id="Resource_hxjay"]
+script = ExtResource("5_3uq13")
+uid = null
+stats = ExtResource("4_lo25j")
+metadata/_custom_type_script = "uid://cbw8j4ps8ii7p"
 
-[sub_resource type="Resource" id="Resource_h1ges"]
-script = ExtResource("32_ixmb3")
-stats = ExtResource("6_hxjay")
-quantity = 8
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
-[sub_resource type="Resource" id="Resource_mc6is"]
-script = ExtResource("32_ixmb3")
-stats = ExtResource("10_co77f")
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
-[sub_resource type="Resource" id="Resource_fcswf"]
-script = ExtResource("32_ixmb3")
-stats = ExtResource("10_r5dvw")
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
-[sub_resource type="Resource" id="Resource_ve7vt"]
-script = ExtResource("32_ixmb3")
-stats = ExtResource("65_14ixx")
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
-[sub_resource type="Resource" id="Resource_hdwgy"]
-script = ExtResource("32_ixmb3")
-stats = ExtResource("13_ou5t4")
-quantity = 6
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
-[sub_resource type="Resource" id="Resource_ou5t4"]
-script = ExtResource("32_ixmb3")
-stats = ExtResource("8_o382h")
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
-[sub_resource type="Resource" id="Resource_ar238"]
-script = ExtResource("32_ixmb3")
-stats = ExtResource("57_gdihr")
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
-[sub_resource type="Resource" id="Resource_xjdir"]
-script = ExtResource("32_ixmb3")
-stats = ExtResource("16_h1ges")
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
-[sub_resource type="Resource" id="Resource_bmpdm"]
-script = ExtResource("32_ixmb3")
-stats = ExtResource("10_0t1mv")
-quantity = 12
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
-[sub_resource type="Resource" id="Resource_eufsu"]
-script = ExtResource("32_ixmb3")
-stats = ExtResource("11_o382h")
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
-[sub_resource type="Resource" id="Resource_8hbs2"]
-script = ExtResource("32_ixmb3")
-stats = ExtResource("11_hxjay")
-quantity = 10
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
-[sub_resource type="Resource" id="Resource_f5l7i"]
-script = ExtResource("32_ixmb3")
-stats = ExtResource("10_n4o3n")
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
-[sub_resource type="Resource" id="Resource_co77f"]
-script = ExtResource("32_ixmb3")
-stats = ExtResource("11_0t1mv")
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
-[sub_resource type="Resource" id="Resource_a5af3"]
-script = ExtResource("32_ixmb3")
-stats = ExtResource("20_w0i1c")
-quantity = 10
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
-[sub_resource type="Resource" id="Resource_gdihr"]
-script = ExtResource("32_ixmb3")
-stats = ExtResource("4_gevai")
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
-[sub_resource type="Resource" id="Resource_g5u5n"]
-script = ExtResource("32_ixmb3")
-stats = ExtResource("5_oe7wn")
-quantity = 2
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
-[sub_resource type="Resource" id="Resource_r7bkl"]
-script = ExtResource("32_ixmb3")
-stats = ExtResource("27_bvo3j")
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
-[sub_resource type="Resource" id="Resource_thmqm"]
-script = ExtResource("32_ixmb3")
-stats = ExtResource("7_14ixx")
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
-[sub_resource type="Resource" id="Resource_r5dvw"]
-script = ExtResource("32_ixmb3")
-stats = ExtResource("8_lo25j")
-quantity = 10
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
-[sub_resource type="Resource" id="Resource_bvo3j"]
-script = ExtResource("32_ixmb3")
-stats = ExtResource("9_rdrbb")
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
-[sub_resource type="Resource" id="Resource_gb65f"]
-script = ExtResource("32_ixmb3")
-stats = ExtResource("10_3uq13")
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
-[sub_resource type="Resource" id="Resource_5qckj"]
-script = ExtResource("32_ixmb3")
-stats = ExtResource("14_0t1mv")
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
-[sub_resource type="Resource" id="Resource_1go7j"]
-script = ExtResource("32_ixmb3")
-stats = ExtResource("27_eufsu")
-quantity = 10
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
-[sub_resource type="Resource" id="Resource_32jvf"]
-script = ExtResource("32_ixmb3")
-stats = ExtResource("23_gdihr")
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
-[sub_resource type="Resource" id="Resource_jgqai"]
-script = ExtResource("32_ixmb3")
-stats = ExtResource("32_ar238")
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
-[sub_resource type="Resource" id="Resource_xsics"]
-script = ExtResource("32_ixmb3")
-stats = ExtResource("33_8hbs2")
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
-[sub_resource type="Resource" id="Resource_inle7"]
-script = ExtResource("32_ixmb3")
-stats = ExtResource("30_f5l7i")
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
-[sub_resource type="Resource" id="Resource_da65a"]
-script = ExtResource("32_ixmb3")
-stats = ExtResource("12_6wv7y")
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
-[sub_resource type="Resource" id="Resource_s4yud"]
-script = ExtResource("32_ixmb3")
-stats = ExtResource("15_hxjay")
-quantity = 5
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
-[sub_resource type="Resource" id="Resource_6f5us"]
-script = ExtResource("32_ixmb3")
-stats = ExtResource("13_n4o3n")
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
-[sub_resource type="Resource" id="Resource_pu7hq"]
-script = ExtResource("32_ixmb3")
-stats = ExtResource("35_bjgul")
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
-[sub_resource type="Resource" id="Resource_4awmn"]
-script = ExtResource("32_ixmb3")
-stats = ExtResource("8_s4yud")
-quantity = 899
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
-[sub_resource type="Resource" id="Resource_25xrm"]
-script = ExtResource("32_ixmb3")
-stats = ExtResource("5_rdrbb")
-quantity = 899
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
-[sub_resource type="Resource" id="Resource_mjkti"]
-script = ExtResource("32_ixmb3")
-stats = ExtResource("7_o382h")
-quantity = 75
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
-[sub_resource type="Resource" id="Resource_82sho"]
-script = ExtResource("32_ixmb3")
-stats = ExtResource("7_uu4sw")
-quantity = 75
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
-[sub_resource type="Resource" id="Resource_sobds"]
-script = ExtResource("32_ixmb3")
-stats = ExtResource("39_jgqai")
-quantity = 100
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
-[sub_resource type="Resource" id="Resource_bjgul"]
-script = ExtResource("2_8hbs2")
-title = ""
-drop_on_death = true
-starting_inv = Array[ExtResource("32_ixmb3")]([SubResource("Resource_82yts"), null, null, SubResource("Resource_h1ges"), null, null, SubResource("Resource_mc6is"), null, SubResource("Resource_fcswf"), SubResource("Resource_ve7vt"), SubResource("Resource_hdwgy"), SubResource("Resource_ou5t4"), SubResource("Resource_ar238"), SubResource("Resource_xjdir"), SubResource("Resource_bmpdm"), SubResource("Resource_eufsu"), SubResource("Resource_8hbs2"), SubResource("Resource_f5l7i"), SubResource("Resource_co77f"), SubResource("Resource_a5af3"), null, SubResource("Resource_gdihr"), SubResource("Resource_g5u5n"), SubResource("Resource_r7bkl"), SubResource("Resource_thmqm"), SubResource("Resource_r5dvw"), SubResource("Resource_bvo3j"), SubResource("Resource_gb65f"), SubResource("Resource_5qckj"), SubResource("Resource_1go7j"), SubResource("Resource_32jvf"), SubResource("Resource_jgqai"), SubResource("Resource_xsics"), SubResource("Resource_inle7"), SubResource("Resource_da65a"), SubResource("Resource_s4yud"), null, null, null, null, SubResource("Resource_6f5us"), SubResource("Resource_pu7hq"), null, null, null, null, null, null, null, null, SubResource("Resource_4awmn"), SubResource("Resource_25xrm"), SubResource("Resource_mjkti"), SubResource("Resource_82sho"), SubResource("Resource_sobds"), null, null])
+[sub_resource type="Resource" id="Resource_0t1mv"]
+script = ExtResource("2_14ixx")
+starting_inv = Array[ExtResource("3_lo25j")]([SubResource("Resource_hxjay")])
 metadata/_custom_type_script = "uid://bdd0xujg1bgm0"
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3f130"]
@@ -371,47 +142,47 @@ colors = PackedColorArray(1, 0.907, 0.834, 0.5, 1, 0.752, 0.46, 0.4, 1, 1, 1, 0)
 _data = [Vector2(0, 0), 0.0, 1.0, 0, 1, Vector2(1, 1), 1.0, 0.0, 1, 0]
 point_count = 2
 
-[sub_resource type="Resource" id="Resource_223lv"]
+[sub_resource type="Resource" id="Resource_oe7wn"]
 resource_local_to_scene = true
 script = ExtResource("52_f5l7i")
 metadata/_custom_type_script = "uid://bv40a7n5sorxe"
 
-[sub_resource type="Resource" id="Resource_14mu6"]
+[sub_resource type="Resource" id="Resource_qvtc6"]
 resource_local_to_scene = true
 script = ExtResource("53_co77f")
 metadata/_custom_type_script = "uid://dk6uef3uxmeev"
 
-[sub_resource type="Resource" id="Resource_botqa"]
+[sub_resource type="Resource" id="Resource_14ixx"]
 resource_local_to_scene = true
 script = ExtResource("54_bmpdm")
 metadata/_custom_type_script = "uid://b21sy1r0nxgpv"
 
-[sub_resource type="Resource" id="Resource_b6nlp"]
+[sub_resource type="Resource" id="Resource_lo25j"]
 resource_local_to_scene = true
 script = ExtResource("55_8hbs2")
 metadata/_custom_type_script = "uid://5krnqdrdbey1"
 
-[sub_resource type="Resource" id="Resource_erwji"]
+[sub_resource type="Resource" id="Resource_rdrbb"]
 resource_local_to_scene = true
 script = ExtResource("52_eufsu")
 metadata/_custom_type_script = "uid://bqw1ufs6jb7cf"
 
-[sub_resource type="Resource" id="Resource_r17bj"]
+[sub_resource type="Resource" id="Resource_3uq13"]
 resource_local_to_scene = true
 script = ExtResource("57_h1ges")
 metadata/_custom_type_script = "uid://b1lo2mdb3otax"
 
-[sub_resource type="Resource" id="Resource_1i2dj"]
+[sub_resource type="Resource" id="Resource_o382h"]
 resource_local_to_scene = true
 script = ExtResource("58_32jvf")
 metadata/_custom_type_script = "uid://dubq8xgav66ue"
 
-[sub_resource type="Resource" id="Resource_1lcq3"]
+[sub_resource type="Resource" id="Resource_6wv7y"]
 resource_local_to_scene = true
 script = ExtResource("59_82yts")
 metadata/_custom_type_script = "uid://5w234psf0oln"
 
-[sub_resource type="Resource" id="Resource_hikky"]
+[sub_resource type="Resource" id="Resource_n4o3n"]
 resource_local_to_scene = true
 script = ExtResource("60_uu4sw")
 metadata/_custom_type_script = "uid://ckiyd2nbdcofr"
@@ -1397,7 +1168,7 @@ collision_layer = 0
 collision_mask = 0
 motion_mode = 1
 script = ExtResource("1_m33tt")
-inv = SubResource("Resource_bjgul")
+inv = SubResource("Resource_0t1mv")
 
 [node name="Collision" type="CollisionShape2D" parent="." unique_id=384312795]
 position = Vector2(0, -2)
@@ -1477,15 +1248,15 @@ allowed_source_types = Array[int]([0])
 affected_entity = NodePath("..")
 dmg_handler = NodePath("DmgHandler")
 heal_handler = NodePath("HealHandler")
-storm_syndrome_handler = SubResource("Resource_223lv")
-knockback_handler = SubResource("Resource_14mu6")
-stun_handler = SubResource("Resource_botqa")
-poison_handler = SubResource("Resource_b6nlp")
-regen_handler = SubResource("Resource_erwji")
-frostbite_handler = SubResource("Resource_r17bj")
-burning_handler = SubResource("Resource_1i2dj")
-time_snare_handler = SubResource("Resource_1lcq3")
-life_steal_handler = SubResource("Resource_hikky")
+storm_syndrome_handler = SubResource("Resource_oe7wn")
+knockback_handler = SubResource("Resource_qvtc6")
+stun_handler = SubResource("Resource_14ixx")
+poison_handler = SubResource("Resource_lo25j")
+regen_handler = SubResource("Resource_rdrbb")
+frostbite_handler = SubResource("Resource_3uq13")
+burning_handler = SubResource("Resource_o382h")
+time_snare_handler = SubResource("Resource_6wv7y")
+life_steal_handler = SubResource("Resource_n4o3n")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EffectReceiverComponent" unique_id=825144666]
 position = Vector2(0, -7.5)
@@ -1521,6 +1292,7 @@ parameters/run/TimeScale/scale = 1.5
 parameters/run/blendspace2d/blend_position = Vector2(0, 0)
 
 [node name="ItemReceiverComponent" parent="." unique_id=2125852415 instance=ExtResource("30_qgyag")]
+pickup_range = null
 interaction_offer = SubResource("Resource_uu4sw")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ItemReceiverComponent" unique_id=668958573]
@@ -3561,17 +3333,14 @@ script = ExtResource("133_h1ges")
 [connection signal="pressed" from="OverlayUI/PlayerInvUI/MainGridBkgrdMargins/ElementsMargins/ElementsVBox/BackpackGridMargins/VBoxContainer/ButtonHBoxMargins/HBoxContainer/AutoStackMargins/AutoStackBtn" to="OverlayUI/PlayerInvUI" method="_on_auto_stack_btn_pressed"]
 [connection signal="button_down" from="OverlayUI/PlayerInvUI/MainGridBkgrdMargins/ElementsMargins/ElementsVBox/BackpackGridMargins/VBoxContainer/ButtonHBoxMargins/HBoxContainer/SortByRarityMargins/SortByRarityBtn" to="OverlayUI/PlayerInvUI" method="_on_sort_by_rarity_btn_button_down"]
 [connection signal="button_up" from="OverlayUI/PlayerInvUI/MainGridBkgrdMargins/ElementsMargins/ElementsVBox/BackpackGridMargins/VBoxContainer/ButtonHBoxMargins/HBoxContainer/SortByRarityMargins/SortByRarityBtn" to="OverlayUI/PlayerInvUI" method="_on_sort_by_rarity_btn_button_up"]
-[connection signal="mouse_entered" from="OverlayUI/PlayerInvUI/MainGridBkgrdMargins/ElementsMargins/ElementsVBox/BackpackGridMargins/VBoxContainer/ButtonHBoxMargins/HBoxContainer/SortByRarityMargins/SortByRarityBtn" to="OverlayUI/PlayerInvUI" method="_on_sort_btn_mouse_entered" binds= ["Rarity"]]
 [connection signal="mouse_exited" from="OverlayUI/PlayerInvUI/MainGridBkgrdMargins/ElementsMargins/ElementsVBox/BackpackGridMargins/VBoxContainer/ButtonHBoxMargins/HBoxContainer/SortByRarityMargins/SortByRarityBtn" to="OverlayUI/PlayerInvUI" method="_hide_tooltip"]
 [connection signal="pressed" from="OverlayUI/PlayerInvUI/MainGridBkgrdMargins/ElementsMargins/ElementsVBox/BackpackGridMargins/VBoxContainer/ButtonHBoxMargins/HBoxContainer/SortByRarityMargins/SortByRarityBtn" to="OverlayUI/PlayerInvUI" method="_on_sort_by_rarity_btn_pressed"]
 [connection signal="button_down" from="OverlayUI/PlayerInvUI/MainGridBkgrdMargins/ElementsMargins/ElementsVBox/BackpackGridMargins/VBoxContainer/ButtonHBoxMargins/HBoxContainer/SortByTypeMargins/SortByTypeBtn" to="OverlayUI/PlayerInvUI" method="_on_sort_by_type_btn_button_down"]
 [connection signal="button_up" from="OverlayUI/PlayerInvUI/MainGridBkgrdMargins/ElementsMargins/ElementsVBox/BackpackGridMargins/VBoxContainer/ButtonHBoxMargins/HBoxContainer/SortByTypeMargins/SortByTypeBtn" to="OverlayUI/PlayerInvUI" method="_on_sort_by_type_btn_button_up"]
-[connection signal="mouse_entered" from="OverlayUI/PlayerInvUI/MainGridBkgrdMargins/ElementsMargins/ElementsVBox/BackpackGridMargins/VBoxContainer/ButtonHBoxMargins/HBoxContainer/SortByTypeMargins/SortByTypeBtn" to="OverlayUI/PlayerInvUI" method="_on_sort_btn_mouse_entered" binds= ["Type"]]
 [connection signal="mouse_exited" from="OverlayUI/PlayerInvUI/MainGridBkgrdMargins/ElementsMargins/ElementsVBox/BackpackGridMargins/VBoxContainer/ButtonHBoxMargins/HBoxContainer/SortByTypeMargins/SortByTypeBtn" to="OverlayUI/PlayerInvUI" method="_hide_tooltip"]
 [connection signal="pressed" from="OverlayUI/PlayerInvUI/MainGridBkgrdMargins/ElementsMargins/ElementsVBox/BackpackGridMargins/VBoxContainer/ButtonHBoxMargins/HBoxContainer/SortByTypeMargins/SortByTypeBtn" to="OverlayUI/PlayerInvUI" method="_on_sort_by_type_btn_pressed"]
 [connection signal="button_down" from="OverlayUI/PlayerInvUI/MainGridBkgrdMargins/ElementsMargins/ElementsVBox/BackpackGridMargins/VBoxContainer/ButtonHBoxMargins/HBoxContainer/SortByNameMargins/SortByNameBtn" to="OverlayUI/PlayerInvUI" method="_on_sort_by_name_btn_button_down"]
 [connection signal="button_up" from="OverlayUI/PlayerInvUI/MainGridBkgrdMargins/ElementsMargins/ElementsVBox/BackpackGridMargins/VBoxContainer/ButtonHBoxMargins/HBoxContainer/SortByNameMargins/SortByNameBtn" to="OverlayUI/PlayerInvUI" method="_on_sort_by_name_btn_button_up"]
-[connection signal="mouse_entered" from="OverlayUI/PlayerInvUI/MainGridBkgrdMargins/ElementsMargins/ElementsVBox/BackpackGridMargins/VBoxContainer/ButtonHBoxMargins/HBoxContainer/SortByNameMargins/SortByNameBtn" to="OverlayUI/PlayerInvUI" method="_on_sort_btn_mouse_entered" binds= ["Name"]]
 [connection signal="mouse_exited" from="OverlayUI/PlayerInvUI/MainGridBkgrdMargins/ElementsMargins/ElementsVBox/BackpackGridMargins/VBoxContainer/ButtonHBoxMargins/HBoxContainer/SortByNameMargins/SortByNameBtn" to="OverlayUI/PlayerInvUI" method="_hide_tooltip"]
 [connection signal="pressed" from="OverlayUI/PlayerInvUI/MainGridBkgrdMargins/ElementsMargins/ElementsVBox/BackpackGridMargins/VBoxContainer/ButtonHBoxMargins/HBoxContainer/SortByNameMargins/SortByNameBtn" to="OverlayUI/PlayerInvUI" method="_on_sort_by_name_btn_pressed"]
 [connection signal="button_down" from="OverlayUI/PlayerInvUI/ItemDetailsPanel/BackgroundMargin/DetailsInnerMargin/ItemViewerVBox/ItemViewerHBox/LvlUpMargins/LvlUpInnerMargin/LvlUpBtn" to="OverlayUI/PlayerInvUI" method="_on_lvl_up_btn_button_down"]

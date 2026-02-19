@@ -235,5 +235,5 @@ func update_overhead_and_cursor_ui() -> void:
 	weapon.overhead_ui.update_reload_progress(progress)
 
 	# Only show reload cursor tint if we aren't showing another cooldown
-	if not auto_decrementer.get_cooldown_source_title(weapon.stats.get_cooldown_id()) in weapon.stats.shown_cooldown_fills or not weapon.stats.shown_cooldown_fills:
+	if not auto_decrementer.get_cooldown_source_title(weapon.ii.get_cooldown_id()) in weapon.stats.shown_cooldown_fills or not weapon.stats.shown_cooldown_fills:
 		CursorManager.update_vertical_tint_progress(progress)

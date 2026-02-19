@@ -73,7 +73,8 @@ func handle_hit() -> void:
 
 	if hit_loot_table and not hit_loot_table.is_empty():
 		var entry: LootTableEntry = _get_random_loot_entry(true)
-		Item.spawn_on_ground(entry.item, entry.quantity, source_entity.global_position, 15.0, false, false, false)
+		var ii: II = entry.stats.create_ii(entry.quantity)
+		WorldItem.spawn_on_ground(ii, source_entity.global_position, 15.0, false, false)
 
 func handle_death() -> void:
 	is_dying = true
@@ -82,7 +83,8 @@ func handle_death() -> void:
 
 	if die_loot_table and not die_loot_table.is_empty():
 		var entry: LootTableEntry = _get_random_loot_entry(false)
-		Item.spawn_on_ground(entry.item, entry.quantity, source_entity.global_position, 15.0, false, false, false)
+		var ii: II = entry.stats.create_ii(entry.quantity)
+		WorldItem.spawn_on_ground(ii, source_entity.global_position, 15.0, false, false)
 
 func _roll_to_check_if_should_drop(was_hit: bool) -> bool:
 	var spawn_chance: float = (hit_spawn_chance if was_hit else die_spawn_chance) / 100.0
@@ -103,7 +105,7 @@ func _get_random_loot_entry(was_hit: bool) -> LootTableEntry:
 	var effective_weights: Array[float] = []
 	for entry: LootTableEntry in table_selection:
 		# The chance multiplier that usually gets lower for the higher rarities
-		var rarity_factor: float = rarity_scaling_factors.get(entry.item.rarity, 1.0)
+		var rarity_factor: float = rarity_scaling_factors.get(entry.stats.rarity, 1.0)
 
 		# Multiply the effect the time since something was last dropped by the rarity scaler, since it should take longer to drop rarer things again
 		var time_factor: float = 1.0 + (entry.last_used * rarity_factor)
@@ -146,5 +148,5 @@ func _print_table(use_hit: bool) -> void:
 	var table: Array[LootTableEntry] = hit_loot_table if use_hit else die_loot_table
 	print("-----------------------------------------------------------------------------------")
 	for i: int in range(table.size()):
-		print_rich("+++++++++++++++ " + str(table[i].item) + " | Last Used: " + str(table[i].last_used) + " | Weighting: " + str(table[i].weighting) + " | Spawn Count: [b]" + str(table[i].spawn_count) + "[/b] +++++++++++++++")
+		print_rich("+++++++++++++++ " + str(table[i].stats) + " | Last Used: " + str(table[i].last_used) + " | Weighting: " + str(table[i].weighting) + " | Spawn Count: [b]" + str(table[i].spawn_count) + "[/b] +++++++++++++++")
 #endregion

@@ -120,7 +120,7 @@ func handle_effect_source(effect_source: EffectSource, source_entity: Entity, so
 
 	# --- Applying Resulting Weapon XP ---
 	if source_entity is Player and source_weapon and is_instance_valid(source_weapon):
-		var xp_to_add: int = ceili(WeaponStats.EFFECT_AMOUNT_XP_MULT * xp)
+		var xp_to_add: int = ceili(WeaponII.EFFECT_AMOUNT_XP_MULT * xp)
 		source_weapon.add_xp(xp_to_add)
 
 	# --- Start of Status Effect Processing Chain ---

@@ -1,11 +1,11 @@
-[gd_scene load_steps=33 format=3 uid="uid://b52c5c7hj2vd"]
+[gd_scene format=3 uid="uid://b52c5c7hj2vd"]
 
 [ext_resource type="Script" uid="uid://cn2gulskgn7k3" path="res://Entities/EntityCore/EntityTypes/StaticEntity/StaticEntity.gd" id="1_4yxmu"]
 [ext_resource type="Script" uid="uid://dwmur0cosbbwh" path="res://Entities/Player/UI/Inventory/InventoryCore/InvResource.gd" id="2_7biur"]
 [ext_resource type="PackedScene" uid="uid://cj2wy5f05cos4" path="res://Entities/EntityCore/Shadow/EntityShadow.tscn" id="2_nnf0c"]
 [ext_resource type="PackedScene" uid="uid://di7vcyrki71nm" path="res://Entities/Components/DetectionComponent/DetectionComponent.tscn" id="3_2kecs"]
+[ext_resource type="Script" uid="uid://cv7ha7muvg5qu" path="res://Entities/Items/ItemCore/II.gd" id="3_7biur"]
 [ext_resource type="Shader" uid="uid://cfbagv3hrtar2" path="res://Utilities/Game/Shaders/EntityEffectShader.gdshader" id="3_epxnw"]
-[ext_resource type="Script" uid="uid://dp8osf7r6xkkt" path="res://Entities/Items/ItemCore/InvItemResource.gd" id="3_r6tnu"]
 [ext_resource type="PackedScene" uid="uid://dh4ydl7l86ywq" path="res://Entities/EntityCore/Sprites/EntitySprite.tscn" id="4_5qk3y"]
 [ext_resource type="Texture2D" uid="uid://b0witw234r46t" path="res://Entities/Environment/Trees/dead_tree_1.png" id="4_tx18i"]
 [ext_resource type="Script" uid="uid://baglarh3m4c8o" path="res://Entities/Components/ItemComponents/LootTableComponent/LootTableResource.gd" id="6_7biur"]
@@ -16,45 +16,16 @@
 [ext_resource type="Script" uid="uid://1qq7eo7lm8j6" path="res://Entities/Components/ItemComponents/LootTableComponent/LootTableEntry.gd" id="8_v4qb0"]
 [ext_resource type="Texture2D" uid="uid://c3e5rxu6csi7p" path="res://Entities/EntityCore/Shadow/shadow_extra_large.png" id="9_r6tnu"]
 [ext_resource type="Script" uid="uid://b1lo2mdb3otax" path="res://Entities/Components/EffectComponents/EffectReceiverComponent/EffectHandlers/FrostbiteHandler.gd" id="11_r6tnu"]
-[ext_resource type="Resource" uid="uid://dbnhbsphiw4oe" path="res://Entities/Items/TRESItems/WorldResources/SpruceLog(0).tres" id="12_8oice"]
 [ext_resource type="Script" uid="uid://dubq8xgav66ue" path="res://Entities/Components/EffectComponents/EffectReceiverComponent/EffectHandlers/BurningHandler.gd" id="12_d3uov"]
 [ext_resource type="PackedScene" uid="uid://bhcqtorpyerc3" path="res://Utilities/Debug/ParticleEmissionComponent.tscn" id="17_2kecs"]
 [ext_resource type="PackedScene" uid="uid://2yy4xfm5g74l" path="res://Entities/Components/ItemComponents/ClippingComponent/ClippingArea.tscn" id="19_7biur"]
 
 [sub_resource type="Resource" id="Resource_d3uov"]
 script = ExtResource("2_7biur")
-title = "CHEST"
-main_inv_size = 10
-drop_on_death = false
-starting_inv = Array[ExtResource("3_r6tnu")]([])
-
-[sub_resource type="Resource" id="Resource_r6tnu"]
-script = ExtResource("8_v4qb0")
-item = ExtResource("12_8oice")
-quantity = 1
-weighting = 1.0
-last_used = 0
-spawn_count = 0
-metadata/_custom_type_script = "uid://1qq7eo7lm8j6"
 
 [sub_resource type="Resource" id="Resource_cncsx"]
 script = ExtResource("6_7biur")
-hit_loot_table = Array[ExtResource("8_v4qb0")]([SubResource("Resource_r6tnu")])
 hit_spawn_chance = 10.0
-hit_chance_scale = 1
-remove_when_dropped = false
-require_dmg_on_hit = true
-hp_percent_hit_checks = 15
-die_loot_table = Array[ExtResource("8_v4qb0")]([])
-die_spawn_chance = 100.0
-rarity_scaling_factors = Dictionary[int, float]({
-0: 0.5,
-1: 0.4,
-2: 0.3,
-3: 0.1,
-4: 0.05,
-5: 0.005
-})
 metadata/_custom_type_script = "uid://baglarh3m4c8o"
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_l7ldg"]
@@ -86,15 +57,11 @@ animations = [{
 [sub_resource type="Resource" id="Resource_80oc5"]
 resource_local_to_scene = true
 script = ExtResource("11_r6tnu")
-_frostbite_weakness = 0.0
-_frostbite_resistance = 0.0
 metadata/_custom_type_script = "uid://b1lo2mdb3otax"
 
 [sub_resource type="Resource" id="Resource_ill5l"]
 resource_local_to_scene = true
 script = ExtResource("12_d3uov")
-_burning_weakness = 0.0
-_burning_resistance = 0.0
 metadata/_custom_type_script = "uid://dubq8xgav66ue"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ij8lb"]
@@ -103,7 +70,7 @@ size = Vector2(14, 19)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r6tnu"]
 size = Vector2(14, 19)
 
-[node name="TestTree1" type="StaticBody2D"]
+[node name="TestTree1" type="StaticBody2D" unique_id=519423997]
 collision_layer = 0
 collision_mask = 0
 script = ExtResource("1_4yxmu")
@@ -112,22 +79,22 @@ is_object = true
 inv = SubResource("Resource_d3uov")
 loot = SubResource("Resource_cncsx")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=730585624]
 position = Vector2(0, -7)
 rotation = -1.5708
 shape = SubResource("CapsuleShape2D_l7ldg")
 
-[node name="DetectionComponent" parent="." instance=ExtResource("3_2kecs")]
+[node name="DetectionComponent" parent="." unique_id=936093660 instance=ExtResource("3_2kecs")]
 
-[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+[node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=265638604]
 occluder = SubResource("OccluderPolygon2D_2kecs")
 
-[node name="EntityShadow" parent="." instance=ExtResource("2_nnf0c")]
+[node name="EntityShadow" parent="." unique_id=561803334 instance=ExtResource("2_nnf0c")]
 self_modulate = Color(0, 0, 0, 0.164)
-offset_left = -34.0
-offset_top = -15.0
-offset_right = 43.0
-offset_bottom = 15.0
+offset_left = -27.0
+offset_top = -12.0
+offset_right = 27.0
+offset_bottom = 12.0
 texture = ExtResource("9_r6tnu")
 patch_margin_left = 12
 patch_margin_top = 12
@@ -135,7 +102,7 @@ patch_margin_right = 12
 patch_margin_bottom = 12
 type = 4
 
-[node name="EntitySprite" parent="." instance=ExtResource("4_5qk3y")]
+[node name="EntitySprite" parent="." unique_id=1914819692 instance=ExtResource("4_5qk3y")]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_r6tnu")
 instance_shader_parameters/crack_color = Color(0.0792545, 0.0300264, 0.00946152, 0.88)
@@ -145,11 +112,11 @@ instance_shader_parameters/crack_scale = 12.282
 position = Vector2(12, -48)
 sprite_frames = SubResource("SpriteFrames_o33n8")
 
-[node name="HealthComponent" parent="." instance=ExtResource("7_umo0g")]
+[node name="HealthComponent" parent="." unique_id=1766028215 instance=ExtResource("7_umo0g")]
 _max_health = 1000
 _max_shield = 0
 
-[node name="EffectReceiverComponent" parent="." node_paths=PackedStringArray("affected_entity", "dmg_handler") instance=ExtResource("6_bxml6")]
+[node name="EffectReceiverComponent" parent="." unique_id=2005474103 node_paths=PackedStringArray("affected_entity", "dmg_handler") instance=ExtResource("6_bxml6")]
 absorb_full_hit = true
 filter_source_tags = true
 allowed_source_tags = Array[String](["chops_wood"])
@@ -158,27 +125,27 @@ dmg_handler = NodePath("DmgHandler")
 frostbite_handler = SubResource("Resource_80oc5")
 burning_handler = SubResource("Resource_ill5l")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="EffectReceiverComponent"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EffectReceiverComponent" unique_id=1630318295]
 position = Vector2(0, -7)
 rotation = -1.5708
 shape = SubResource("RectangleShape2D_ij8lb")
 
-[node name="DmgHandler" parent="EffectReceiverComponent" instance=ExtResource("8_4pw5b")]
+[node name="DmgHandler" parent="EffectReceiverComponent" unique_id=707961461 instance=ExtResource("8_4pw5b")]
 can_be_crit = false
 
-[node name="StatusEffectsComponent" parent="." node_paths=PackedStringArray("effect_receiver") instance=ExtResource("7_7lx3c")]
+[node name="StatusEffectsComponent" parent="." unique_id=640107887 node_paths=PackedStringArray("effect_receiver") instance=ExtResource("7_7lx3c")]
 unique_name_in_owner = true
 effect_receiver = NodePath("../EffectReceiverComponent")
 
-[node name="ParticleEmissionComponent" parent="." instance=ExtResource("17_2kecs")]
+[node name="ParticleEmissionComponent" parent="." unique_id=1806509778 instance=ExtResource("17_2kecs")]
 below_extents = Vector2(20, 2)
 below_origin = Vector2(-1, 0)
 above_extents = Vector2(35, 2)
 above_origin = Vector2(6, -92)
 
-[node name="ClippingArea" parent="." instance=ExtResource("19_7biur")]
+[node name="ClippingArea" parent="." unique_id=1424915227 instance=ExtResource("19_7biur")]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ClippingArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ClippingArea" unique_id=348691734]
 position = Vector2(0, -7)
 rotation = -1.5708
 shape = SubResource("RectangleShape2D_r6tnu")

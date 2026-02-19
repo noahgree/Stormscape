@@ -35,52 +35,12 @@ var pulse_up: bool = true ## Tracking the changing pulse direction of the player
 var see_through_pulse_mult: float = 1.0 ## The current multiplier for the pulsing amount on the player's see thru effect.
 var see_through_distance_mult: float = 1.0 ## The current distance multiplier for the player's see thru effect.
 var using_default_visuals: bool = false ## Whether we are currently using default visuals for the storm FX.
-var current_visuals: StormVisuals ## The current visuals being used. Mainly stored for when we save and might end up loading a "keep previous".
+var current_visuals: StormVisuals ## The current visuals being used.
 var current_effect: StatusEffect ##  The up-to-date effect to apply to entities leaving the safe area while the zone is active.
 var zone_count: int = 0 ## The number of zones we have popped off the transform queue.
 var just_replaced_queue: bool = false ## Whether we just replaced the old queue with a new one and should not pop the next phase.
 #endregion
 
-
-#region Saving & Loading
-func _on_save_game(save_data: Array[SaveData]) -> void:
-	var storm_data: StormData = StormData.new()
-
-	storm_data.is_enabled = is_enabled
-	storm_data.zone_count = zone_count
-	storm_data.global_pos = global_position
-	storm_data.current_radius = current_radius
-	storm_data.transform_queue = transform_queue
-	storm_data.recent_visuals = current_visuals
-	storm_data.recent_effect = current_effect
-
-	save_data.append(storm_data)
-
-func _on_before_load_game() -> void:
-	disable_storm(true)
-
-func _is_instance_on_load_game(data: StormData) -> void:
-	global_position = data.global_pos
-	current_radius = data.current_radius
-	zone_count = data.zone_count
-
-	replace_current_queue(data.transform_queue)
-
-	var visuals: StormVisuals = data.recent_visuals.duplicate()
-	visuals.viusal_change_time = 0.05
-	_apply_visual_overrides(visuals)
-
-	current_effect = data.recent_effect
-
-	if data.is_enabled:
-		if zone_count == 0 and not auto_start:
-			disable_storm(true)
-		else:
-			enable_storm(true)
-			_pop_current_transform_and_check_for_next_phase()
-	else:
-		disable_storm(true)
-#endregion
 
 #region Storm Core
 ## Setting up timers and checking if we should auto start the first transform in the queue.

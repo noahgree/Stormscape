@@ -43,8 +43,8 @@ func _setup_slots() -> void:
 
 ## When any item in the hotbar changes, potentially update the hands about a new active item.
 ## This also triggers the full setup for active item changes including vfx and hotbar tint progresses.
-func _on_hotbar_slot_item_changed(slot: Slot, old_item: InvItemResource, new_item: InvItemResource) -> void:
-	if (old_item != null and new_item != null) and new_item.stats.is_same_as(old_item.stats):
+func _on_hotbar_slot_item_changed(slot: Slot, old_ii: II, new_ii: II) -> void:
+	if (old_ii != null and new_ii != null) and new_ii.stats.is_same_as(old_ii.stats):
 		_default_ammo_update_method()
 		return # Returning if all we did was change the quantity, since we don't need to tell the hands about that
 
@@ -56,20 +56,20 @@ func _on_hotbar_slot_item_changed(slot: Slot, old_item: InvItemResource, new_ite
 ## This will update the mag ammo display with the item quantity by default if no ammo method is
 ## defined in the equippable item subclass. Great for consumables and such.
 func _default_ammo_update_method() -> void:
-	if active_slot.item != null:
+	if active_slot.ii != null:
 		var equipped_item: EquippableItem = Globals.player_node.hands.equipped_item
 		if not equipped_item:
 			return
 
 		if not equipped_item.has_method("update_ammo_ui"):
-			active_slot_info.update_mag_ammo_ui(str(active_slot.item.quantity))
+			active_slot_info.update_mag_ammo_ui(str(active_slot.ii.q))
 
 ## Updates all tint progresses for cooldowns on the hotbar slots.
 func update_hotbar_tint_progresses() -> void:
 	for slot: Slot in hotbar_slots:
-		if slot.item != null:
+		if slot.ii != null:
 			slot.update_tint_progress(
-				Globals.player_node.inv.auto_decrementer.get_cooldown(slot.item.stats.get_cooldown_id())
+				Globals.player_node.inv.auto_decrementer.get_cooldown(slot.ii.ii.get_cooldown_id())
 				)
 		else:
 			slot.update_tint_progress(0)
@@ -162,10 +162,9 @@ func _setup_after_active_slot_change() -> void:
 ## UI for the new item name. This must happen here since the signal's order isn't guaranteed,
 ## and we need the active slot to update first.
 func _update_hands_about_new_active_item() -> void:
-	var stats_to_send: ItemStats = active_slot.item.stats if active_slot.item else null
-	Globals.player_node.hands.on_equipped_item_change(stats_to_send, active_slot.index)
-	if active_slot.item != null:
-		active_slot_info.update_item_name(active_slot.item.stats.name)
+	Globals.player_node.hands.on_equipped_ii_change(active_slot.ii, active_slot.index)
+	if active_slot.ii != null:
+		active_slot_info.update_item_name(active_slot.ii.stats.name)
 
 ## Removes the scaling and texture changes of the active slot to prep for adding them to the new one.
 func _remove_selected_slot_fx() -> void:
@@ -177,7 +176,7 @@ func _remove_selected_slot_fx() -> void:
 ## Adds the scaling and texture changes to a new active slot.
 func _apply_selected_slot_fx() -> void:
 	active_slot.selected_texture.show()
-	active_slot.texture = null if active_slot.item != null else active_slot.no_item_slot_texture
+	active_slot.texture = null if active_slot.ii != null else active_slot.no_item_slot_texture
 	active_slot.z_index = 1
 
 ## When the visibility of the hotbar changes, make sure to reapply the texture and scaling fx to the

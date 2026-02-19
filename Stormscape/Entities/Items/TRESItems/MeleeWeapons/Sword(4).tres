@@ -7,7 +7,6 @@
 [ext_resource type="Texture2D" uid="uid://b3wtl45dungco" path="res://Entities/Items/Weapons/MeleeWeapons/Sword/SwordBaseCT.tres" id="5_67eer"]
 [ext_resource type="PackedScene" uid="uid://dqsa4rcdahhwv" path="res://Entities/Items/Weapons/MeleeWeapons/Sword/Sword.tscn" id="5_gypsi"]
 [ext_resource type="Script" uid="uid://cowjdnic7xmkp" path="res://Entities/Player/UI/Inventory/Panels/ItemDetailsPanel/StatDetail.gd" id="5_oxyfa"]
-[ext_resource type="Script" uid="uid://c2gdoebfp12dq" path="res://Entities/Stats/StatMod/StatModsCacheResource.gd" id="8_3cchv"]
 [ext_resource type="Script" uid="uid://ctxa7i1mbt7ab" path="res://Entities/Player/UI/Inventory/Panels/CraftingPanel/CraftingIngredient.gd" id="8_mpt70"]
 [ext_resource type="Script" uid="uid://djlk3y511igng" path="res://Entities/Items/Weapons/MeleeWeapons/MeleeWeaponCore/MeleeWeaponStats.gd" id="10_e5g0w"]
 
@@ -30,10 +29,6 @@ crit_chance = 5
 impact_cam_fx = ExtResource("4_e5g0w")
 metadata/_custom_type_script = ExtResource("3_67eer")
 
-[sub_resource type="Resource" id="Resource_vevwc"]
-script = ExtResource("8_3cchv")
-metadata/_custom_type_script = ExtResource("8_3cchv")
-
 [resource]
 script = ExtResource("10_e5g0w")
 melee_weapon_type = 2
@@ -45,7 +40,6 @@ charge_effect_source = SubResource("Resource_67eer")
 auto_do_charge_use = true
 reset_charge_on_use = true
 normal_use_on_fail = false
-s_mods = SubResource("Resource_vevwc")
 id = "sword"
 name = "Sword"
 item_type = 1

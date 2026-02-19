@@ -1,9 +1,9 @@
-[gd_scene load_steps=28 format=3 uid="uid://bq12ugc7lnirg"]
+[gd_scene format=3 uid="uid://bq12ugc7lnirg"]
 
 [ext_resource type="Script" uid="uid://06pt5wan8jg1" path="res://Entities/EntityCore/EntityTypes/StaticEntity/PhysicalInventory/PhysicalInventory.gd" id="1_ggkuf"]
 [ext_resource type="PackedScene" uid="uid://batypmdxig7ic" path="res://Entities/Player/UI/Inventory/Panels/SidePanels/AlternateInvPanel.tscn" id="2_f6uiu"]
 [ext_resource type="Script" uid="uid://dwmur0cosbbwh" path="res://Entities/Player/UI/Inventory/InventoryCore/InvResource.gd" id="2_hjkvw"]
-[ext_resource type="Script" uid="uid://dp8osf7r6xkkt" path="res://Entities/Items/ItemCore/InvItemResource.gd" id="3_s3b18"]
+[ext_resource type="Script" uid="uid://cv7ha7muvg5qu" path="res://Entities/Items/ItemCore/II.gd" id="4_f6uiu"]
 [ext_resource type="PackedScene" uid="uid://di7vcyrki71nm" path="res://Entities/Components/DetectionComponent/DetectionComponent.tscn" id="6_c3jxm"]
 [ext_resource type="Texture2D" uid="uid://wlfo5p8d28va" path="res://Entities/Environment/Inventories/SimpleChestCT.tres" id="6_hjkvw"]
 [ext_resource type="PackedScene" uid="uid://dh4ydl7l86ywq" path="res://Entities/EntityCore/Sprites/EntitySprite.tscn" id="7_li1wa"]
@@ -48,7 +48,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="Resource" id="Resource_f6uiu"]
+[sub_resource type="Resource" id="Resource_ux5b0"]
 resource_local_to_scene = true
 script = ExtResource("11_w3nan")
 metadata/_custom_type_script = "uid://dubq8xgav66ue"
@@ -59,7 +59,7 @@ size = Vector2(18, 14)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1mmyp"]
 size = Vector2(18, 14)
 
-[sub_resource type="Resource" id="Resource_ux5b0"]
+[sub_resource type="Resource" id="Resource_e5jpa"]
 resource_local_to_scene = true
 script = ExtResource("17_f6uiu")
 title = "Search"
@@ -105,7 +105,7 @@ effect_receiver = NodePath("../EffectReceiverComponent")
 [node name="EffectReceiverComponent" parent="." unique_id=1762623481 node_paths=PackedStringArray("affected_entity", "dmg_handler") instance=ExtResource("11_5wq56")]
 affected_entity = NodePath("..")
 dmg_handler = NodePath("DmgHandler")
-burning_handler = SubResource("Resource_f6uiu")
+burning_handler = SubResource("Resource_ux5b0")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EffectReceiverComponent" unique_id=2051548302]
 position = Vector2(0, -7)
@@ -126,5 +126,5 @@ debug_color = Color(1, 0, 0.092, 0.109)
 unique_name_in_owner = true
 prompt_radius = 18.0
 radius_offset = Vector2(0, -6)
-interaction_offer = SubResource("Resource_ux5b0")
+interaction_offer = SubResource("Resource_e5jpa")
 prompt_offset = Vector2(0, -16)

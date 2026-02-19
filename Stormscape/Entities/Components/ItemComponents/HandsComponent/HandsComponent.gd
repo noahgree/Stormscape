@@ -30,11 +30,6 @@ var debug_origin_of_projectile_vector: Vector2 ## Used for debug drawing the ori
 var aim_target_pos: Vector2 = Vector2.ZERO ## The target position of what the hands component should be aiming at when holding something that requires aiming.
 
 
-#region Save & Load
-func _on_before_load_game() -> void:
-	unequip_current_item()
-#endregion
-
 #region Debug
 func _draw() -> void:
 	if not equipped_item or not DebugFlags.show_aiming_direction:
@@ -137,8 +132,8 @@ func _process(delta: float) -> void:
 	elif equipped_item.stats.item_type in [Globals.ItemType.CONSUMABLE, Globals.ItemType.WORLD_RESOURCE]:
 		_manage_normal_hands(_get_facing_dir())
 
-## Removes the currently equipped item after letting it clean itself up.
-func unequip_current_item() -> void:
+## Removes the currently equipped item instance after letting it clean itself up.
+func unequip_current_ii() -> void:
 	if entity is Player:
 		entity.overhead_ui.reset_all()
 		active_slot_info.update_mag_ammo_ui("")
@@ -152,11 +147,11 @@ func unequip_current_item() -> void:
 		equipped_item.queue_free()
 		equipped_item = null
 
-## Handles positioning of the hands for the newly equipped item and then lets physics process take over.
-func on_equipped_item_change(stats: ItemStats, inv_index: int) -> void:
-	unequip_current_item()
+## Handles positioning of the hands for the newly equipped item instance and then lets physics process take over.
+func on_equipped_ii_change(ii: II, inv_index: int) -> void:
+	unequip_current_ii()
 
-	if stats == null or stats.item_scene == null:
+	if ii == null or ii.stats.item_scene == null:
 		set_process(false)
 		main_hand_sprite.visible = false
 		off_hand_sprite.visible = false
@@ -164,12 +159,12 @@ func on_equipped_item_change(stats: ItemStats, inv_index: int) -> void:
 		CursorManager.reset()
 		return
 
-	equipped_item = EquippableItem.create_from_inv_index(stats, entity, inv_index)
+	equipped_item = EquippableItem.create_from_inv_index(ii, entity, inv_index)
 
 	_update_anchor_scale("x", 1)
 	_update_anchor_scale("y", 1)
 	main_hand.rotation = 0
-	entity.facing_component.rotation_lerping_factor = equipped_item.stats.s_mods.get_stat("rotation_lerping") if equipped_item is Weapon else equipped_item.stats.rotation_lerping
+	entity.facing_component.rotation_lerping_factor = ii.s_mods.get_stat("rotation_lerping") if equipped_item is Weapon else equipped_item.stats.rotation_lerping
 	scale_is_lerping = false
 
 	_change_off_hand_sprite_visibility(true)

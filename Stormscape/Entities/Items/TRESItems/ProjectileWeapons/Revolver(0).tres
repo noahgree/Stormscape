@@ -9,7 +9,6 @@
 [ext_resource type="Texture2D" uid="uid://c5iikcmayrs4h" path="res://Entities/Items/Weapons/ProjectileWeapons/Revolver/revolver_base_frame.png" id="4_xnuh3"]
 [ext_resource type="Resource" uid="uid://o8dc73c74md6" path="res://Entities/Player/PlayerCore/PlayerCamera/CamFXPresets/4(NoFreeze).tres" id="5_6hpwe"]
 [ext_resource type="Script" uid="uid://bj3r5oopspj6l" path="res://Entities/Items/Projectiles/ProjectileCore/ProjStats.gd" id="5_u6crx"]
-[ext_resource type="Script" uid="uid://c2gdoebfp12dq" path="res://Entities/Stats/StatMod/StatModsCacheResource.gd" id="8_fox7e"]
 [ext_resource type="PackedScene" uid="uid://bqkyplubhsx43" path="res://Entities/Items/Projectiles/Bullets/SmallBullet/SmallBullet.tscn" id="11_6hpwe"]
 [ext_resource type="Script" uid="uid://ctxa7i1mbt7ab" path="res://Entities/Player/UI/Inventory/Panels/CraftingPanel/CraftingIngredient.gd" id="11_30tnm"]
 [ext_resource type="Script" uid="uid://dvasncq3tgljs" path="res://Entities/Items/Weapons/ProjectileWeapons/ProjWeaponCore/ProjWeaponStats.gd" id="13_7t0ho"]
@@ -36,9 +35,6 @@ max_distance = 300
 effect_falloff_curve = SubResource("Curve_iijqb")
 split_cam_fx = null
 
-[sub_resource type="Resource" id="Resource_7cjse"]
-script = ExtResource("8_fox7e")
-
 [resource]
 script = ExtResource("13_7t0ho")
 projectile_scn = ExtResource("11_6hpwe")
@@ -62,7 +58,6 @@ single_proj_reload_time = 0.23
 must_reload_fully = true
 reload_sound = "revolver_reload"
 pullout_delay = 0.3
-s_mods = SubResource("Resource_7cjse")
 id = "revolver"
 name = "Revolver"
 item_type = 1

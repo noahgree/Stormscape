@@ -13,7 +13,6 @@
 [ext_resource type="PackedScene" uid="uid://3d4ghsubde4w" path="res://Entities/Items/Weapons/ProjectileWeapons/RifleX/RifleX.tscn" id="13_mc2hw"]
 [ext_resource type="Script" uid="uid://dvasncq3tgljs" path="res://Entities/Items/Weapons/ProjectileWeapons/ProjWeaponCore/ProjWeaponStats.gd" id="14_p2f5o"]
 [ext_resource type="PackedScene" uid="uid://bqkyplubhsx43" path="res://Entities/Items/Projectiles/Bullets/SmallBullet/SmallBullet.tscn" id="16_8v673"]
-[ext_resource type="Script" uid="uid://c2gdoebfp12dq" path="res://Entities/Stats/StatMod/StatModsCacheResource.gd" id="18_31cex"]
 
 [sub_resource type="Curve" id="Curve_kfl3v"]
 _data = [Vector2(0, 0.22981), 0.0, 0.0, 0, 0, Vector2(0.745387, 0.402089), 0.0, 0.0, 0, 0, Vector2(1, 1), 2.89929, 0.0, 0, 0]
@@ -78,9 +77,6 @@ split_delays = Array[float]([0.2, 0.15])
 split_cam_fx = null
 aoe_effect_falloff_curve = SubResource("Curve_iybck")
 
-[sub_resource type="Resource" id="Resource_mx2m7"]
-script = ExtResource("18_31cex")
-
 [resource]
 script = ExtResource("14_p2f5o")
 proj_weapon_type = 4
@@ -107,7 +103,6 @@ bloom_curve = SubResource("Curve_kfl3v")
 bloom_increase_rate = SubResource("Curve_mls34")
 bloom_decrease_rate = SubResource("Curve_uquue")
 bloom_decrease_delay = 0.7
-s_mods = SubResource("Resource_mx2m7")
 id = "rifle_x"
 name = "Rifle X"
 item_type = 1

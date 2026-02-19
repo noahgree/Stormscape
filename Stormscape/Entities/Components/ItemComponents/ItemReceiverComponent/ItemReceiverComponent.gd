@@ -12,15 +12,10 @@ class_name ItemReceiverComponent
 
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
 
-var items_in_range: Array[Item] = [] ## The items in range of being picked up.
+var items_in_range: Array[WorldItem] = [] ## The items in range of being picked up.
 var synced_inv: InvResource ## The inventory to add to.
 const PICKUP_PROMPT_UI_OFFSET: Vector2i = Vector2i(0, -30)
 
-
-#region Save & Load
-func _on_before_load_game() -> void:
-	items_in_range = []
-#endregion
 
 func _ready() -> void:
 	if not get_parent().is_node_ready():
@@ -30,15 +25,15 @@ func _ready() -> void:
 	collision_layer = 0b10000000
 
 ## Adds an item to the in range queue.
-func add_to_in_range_queue(item: Item) -> void:
-	items_in_range.append(item)
+func add_to_in_range_queue(world_item: WorldItem) -> void:
+	items_in_range.append(world_item)
 	_update_all_old_item_outlines(true)
 	_update_player_item_interact_hud()
 
 ## Removes an item from the in range queue.
-func remove_from_in_range_queue(item: Item) -> void:
-	_remove_item_outline(item)
-	items_in_range.erase(item)
+func remove_from_in_range_queue(world_item: WorldItem) -> void:
+	_remove_item_outline(world_item)
+	items_in_range.erase(world_item)
 	_update_all_old_item_outlines(false)
 	_update_player_item_interact_hud()
 
@@ -47,32 +42,33 @@ func _update_player_item_interact_hud() -> void:
 	Globals.player_node.interaction_handler.revoke_offer(interaction_offer)
 
 	if not items_in_range.is_empty():
-		var item: Item = items_in_range.back()
+		var world_item: WorldItem = items_in_range.back()
+		var wi_stats: ItemStats = world_item.ii.stats
 
 		interaction_offer.accept_callable = _pickup_item_from_queue
 		interaction_offer.ui_offset = PICKUP_PROMPT_UI_OFFSET
-		interaction_offer.ui_anchor_node = item
-		if item.quantity > 1:
-			interaction_offer.title = (item.stats.name + " (" + str(item.quantity) + ")").to_upper()
+		interaction_offer.ui_anchor_node = world_item
+		if world_item.ii.q > 1:
+			interaction_offer.title = (wi_stats.name + " (" + str(world_item.ii.q) + ")").to_upper()
 		else:
-			interaction_offer.title = item.stats.name.to_upper()
+			interaction_offer.title = wi_stats.name.to_upper()
 		interaction_offer.title_color = Globals.ui_colors.ui_glow_light_tan
-		interaction_offer.info = item.stats.get_rarity_string() + " " + item.stats.get_item_type_string()
-		if item.stats is WeaponStats and not item.stats.no_levels:
-			interaction_offer.info += " (Lvl. " + str(item.stats.level) + ")"
-		interaction_offer.info_color = Globals.rarity_colors.ui_text.get(item.stats.rarity)
+		interaction_offer.info = wi_stats.get_rarity_string() + " " + wi_stats.get_item_type_string()
+		if wi_stats is WeaponStats and not wi_stats.no_levels:
+			interaction_offer.info += " (Lvl. " + str(wi_stats.level) + ")"
+		interaction_offer.info_color = Globals.rarity_colors.ui_text.get(wi_stats.rarity)
 
 		Globals.player_node.interaction_handler.offer_interaction(interaction_offer)
 
 ## Adds the highlight outline to the passed in item.
-func _add_item_highlight_outline(item: Item) -> void:
-	item.icon.material.set_shader_parameter("outline_color", Color.WHITE)
-	item.icon.material.set_shader_parameter("width", 0.82)
+func _add_item_highlight_outline(world_item: WorldItem) -> void:
+	world_item.icon.material.set_shader_parameter("outline_color", Color.WHITE)
+	world_item.icon.material.set_shader_parameter("width", 0.82)
 
 ## Removes the highlight outline from the passed in item.
-func _remove_item_outline(item: Item) -> void:
-	item.icon.material.set_shader_parameter("outline_color", Globals.rarity_colors.outline_color.get(item.stats.rarity))
-	item.icon.material.set_shader_parameter("width", 0.5)
+func _remove_item_outline(world_item: WorldItem) -> void:
+	world_item.icon.material.set_shader_parameter("outline_color", Globals.rarity_colors.outline_color.get(world_item.ii.stats.rarity))
+	world_item.icon.material.set_shader_parameter("width", 0.5)
 
 ## Updates the outlines for all items in the in range queue depending on whether we just added or removed from it.
 func _update_all_old_item_outlines(after_item_added: bool) -> void:
@@ -80,9 +76,9 @@ func _update_all_old_item_outlines(after_item_added: bool) -> void:
 		return
 
 	if after_item_added:
-		for item: Item in items_in_range:
-			item.icon.material.set_shader_parameter("outline_color", Globals.rarity_colors.outline_color.get(item.stats.rarity))
-			item.icon.material.set_shader_parameter("width", 0.5)
+		for world_item: WorldItem in items_in_range:
+			world_item.icon.material.set_shader_parameter("outline_color", Globals.rarity_colors.outline_color.get(world_item.ii.stats.rarity))
+			world_item.icon.material.set_shader_parameter("width", 0.5)
 
 	_add_item_highlight_outline(items_in_range.back())
 

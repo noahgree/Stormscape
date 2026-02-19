@@ -125,13 +125,12 @@ enum ReloadType { ## The kinds of reloads the weapon can have.
 @export_range(0, 1, 0.01, "suffix:seconds", "or_greater", "hide_slider") var barrage_proj_delay: float ## The amount of time between each projectile from the barrage spawning. When do_cluster_barrage is true, this becomes the max amount of time between each projectile (with randomness introduced). Anything greater than 0 activates this.
 
 
-# Unique Properties #
-@export_storage var ammo_in_mag: int = -1: ## The current ammo in the mag.
-	set(new_ammo_amount):
-		ammo_in_mag = new_ammo_amount
-		if DebugFlags.ammo_updates and self.name != "":
-			print_rich("(" + str(self) + ") [b]AMMO[/b]: [color=Crimson]" + str(ammo_in_mag) + "[/color]")
-
+## Creates a new item instance with a new UID.
+func create_ii(quantity: int) -> II:
+	var new: ProjWeaponII = ProjWeaponII.new()
+	new.stats = self
+	new.q = quantity
+	return new
 
 ## Returns a nicely formatted string of the ammo type.
 func get_ammo_string() -> String:

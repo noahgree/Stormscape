@@ -27,7 +27,6 @@ func _cache_recipes(folder: String) -> void:
 		elif file_name.ends_with(".tres"):
 			var file_path: String = folder + "/" + file_name
 			var item_resource: ItemStats = load(file_path)
-			item_resource.session_uid = 0 # Trigger the setter to assign an suid
 			cached_items[item_resource.get_cache_key()] = item_resource
 
 			for tag: StringName in item_resource.tags:
@@ -36,12 +35,15 @@ func _cache_recipes(folder: String) -> void:
 				tag_to_items[tag].append(item_resource)
 
 			for ingredient: CraftingIngredient in item_resource.recipe:
-				if ingredient.type == "Item":
-					var ingredient_recipe_id: StringName = ingredient.item.get_cache_key()
+				if ingredient.type == CraftingIngredient.Type.ITEM:
+					if ingredient.stats == null:
+						push_error(item_resource.get_cache_key() + " has a recipe with an ingredient that is missing a stats definition.")
+						continue
+					var ingredient_recipe_id: StringName = ingredient.stats.get_cache_key()
 					if ingredient_recipe_id not in item_to_recipes:
 						item_to_recipes[ingredient_recipe_id] = []
 					item_to_recipes[ingredient_recipe_id].append(item_resource.get_cache_key())
-				elif ingredient.type == "Tags":
+				elif ingredient.type == CraftingIngredient.Type.TAGS:
 					for tag: StringName in ingredient.tags:
 						if tag not in tag_to_recipes:
 							tag_to_recipes[tag] = []

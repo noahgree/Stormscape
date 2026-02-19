@@ -19,25 +19,15 @@
 [ext_resource type="PackedScene" uid="uid://bq12ugc7lnirg" path="res://Utilities/Debug/TestPhysicalInventory.tscn" id="17_om42l"]
 [ext_resource type="Texture2D" uid="uid://cd22xh5jduxd6" path="res://Entities/Player/UI/Interactions/Assets/e_prompt.png" id="18_yw2f7"]
 [ext_resource type="Script" uid="uid://dgibl37gudpj1" path="res://Entities/Player/UI/Interactions/InteractionsCore/InteractionOffer.gd" id="19_04pgg"]
+[ext_resource type="Script" uid="uid://bih5dbgubmxai" path="res://Entities/Items/ItemCore/ItemStats.gd" id="19_27u15"]
 [ext_resource type="Script" uid="uid://dwmur0cosbbwh" path="res://Entities/Player/UI/Inventory/InventoryCore/InvResource.gd" id="20_om42l"]
-[ext_resource type="Script" uid="uid://dp8osf7r6xkkt" path="res://Entities/Items/ItemCore/InvItemResource.gd" id="21_fx52i"]
 [ext_resource type="Script" uid="uid://c2f01r3cincl0" path="res://Stages/World/Storm/Storm.gd" id="22_0op7h"]
 [ext_resource type="Script" uid="uid://b8kfccspu3jx8" path="res://Stages/Tilemaps/TileMapDual.gd" id="22_47ykm"]
-[ext_resource type="Resource" uid="uid://1q7rlned2r23" path="res://Entities/Items/TRESItems/ProjectileWeapons/Gattler(3).tres" id="22_a2una"]
-[ext_resource type="Resource" uid="uid://bper7kxtsf7f1" path="res://Entities/Items/TRESItems/MeleeWeapons/Axe(1).tres" id="22_iotvt"]
 [ext_resource type="Texture2D" uid="uid://6saycs5sisdk" path="res://Stages/Tilemaps/ReplacementTextures/dirt_replacement_RED.png" id="22_tnvqm"]
 [ext_resource type="Shader" uid="uid://cxi5alvvj1rv2" path="res://Utilities/Game/Shaders/StormShader.gdshader" id="23_05otm"]
 [ext_resource type="Resource" uid="uid://cucuggowaf55y" path="res://Entities/Stats/EffectSystemResources/StatusEffects/BadEffects/StormSyndrome/StormSyndrome1.tres" id="23_5x8gm"]
-[ext_resource type="Resource" uid="uid://cfaje12siuo0b" path="res://Entities/Items/TRESItems/WeaponMods/Compensator(2).tres" id="23_8lm63"]
-[ext_resource type="Resource" uid="uid://dw5jtfoba6mwy" path="res://Entities/Items/TRESItems/Wearables/PoisonCharm(5).tres" id="23_s5gqv"]
-[ext_resource type="Resource" uid="uid://ciel2rrqq4dvv" path="res://Entities/Items/TRESItems/ProjectileWeapons/LaserGun(2).tres" id="24_a2una"]
-[ext_resource type="Resource" uid="uid://cmyuoxk4c1mx6" path="res://Entities/Items/TRESItems/WeaponMods/RapidTrigger(3).tres" id="24_w76bj"]
-[ext_resource type="Resource" uid="uid://hchaonec5px1" path="res://Entities/Items/TRESItems/WeaponMods/CoolingAparatus(2).tres" id="25_vi22v"]
-[ext_resource type="Resource" uid="uid://bnc4tbhdxpauy" path="res://Entities/Items/TRESItems/ProjectileWeapons/Musket(0).tres" id="26_6gn56"]
-[ext_resource type="Resource" uid="uid://cwgqj8klx4b3x" path="res://Entities/Items/TRESItems/WeaponMods/ExtendedMag(0).tres" id="26_a2una"]
 [ext_resource type="Resource" uid="uid://cx6t5cil24ca3" path="res://Stages/World/Storm/StormVisuals/DefaultStormVisuals.tres" id="27_5uvpk"]
 [ext_resource type="PackedScene" uid="uid://bl2igmtwo1a3v" path="res://Entities/Enemies/Zombies/Basic/BasicZombie.tscn" id="30_6gn56"]
-[ext_resource type="Resource" uid="uid://dbnhbsphiw4oe" path="res://Entities/Items/TRESItems/WorldResources/SpruceLog(0).tres" id="30_ed1p2"]
 [ext_resource type="Shader" uid="uid://bilestavf27wc" path="res://Utilities/Game/Shaders/ScreenFog.gdshader" id="30_rhtsc"]
 [ext_resource type="PackedScene" uid="uid://clf1njlp4stbn" path="res://Utilities/Debug/TestRock2.tscn" id="30_yw2f7"]
 [ext_resource type="Texture2D" uid="uid://daa6casude472" path="res://Utilities/Game/Particles/light_ray.png" id="31_melxk"]
@@ -166,13 +156,13 @@ physics_layer_1/collision_layer = 128
 physics_layer_1/collision_mask = 0
 sources/1 = SubResource("TileSetAtlasSource_lb4xb")
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_yng6w"]
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_w76bj"]
 rough = true
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_01d0t"]
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_vi22v"]
 rough = true
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_h3uly"]
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_jb7gg"]
 rough = true
 
 [sub_resource type="Resource" id="Resource_t15sm"]
@@ -200,76 +190,20 @@ bad_effect_affected_teams = 3
 good_effect_affected_teams = 3
 status_effects = Array[ExtResource("13_33bgr")]([ExtResource("16_s5gqv")])
 
-[sub_resource type="Resource" id="Resource_340rl"]
-script = ExtResource("21_fx52i")
-stats = ExtResource("23_s5gqv")
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
-[sub_resource type="Resource" id="Resource_jb7gg"]
-script = ExtResource("21_fx52i")
-stats = ExtResource("22_a2una")
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
-[sub_resource type="Resource" id="Resource_8jild"]
-script = ExtResource("21_fx52i")
-stats = ExtResource("24_w76bj")
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
-[sub_resource type="Resource" id="Resource_yng6w"]
-script = ExtResource("21_fx52i")
-stats = ExtResource("25_vi22v")
-quantity = 2
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
 [sub_resource type="Resource" id="Resource_27u15"]
 script = ExtResource("20_om42l")
 drop_on_death = true
-starting_inv = Array[ExtResource("21_fx52i")]([null, SubResource("Resource_340rl"), null, null, SubResource("Resource_jb7gg"), null, SubResource("Resource_8jild"), SubResource("Resource_yng6w"), null, null])
 metadata/_custom_type_script = "uid://dwmur0cosbbwh"
-
-[sub_resource type="Resource" id="Resource_yw2f7"]
-script = ExtResource("21_fx52i")
-stats = ExtResource("22_iotvt")
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
-[sub_resource type="Resource" id="Resource_ed1p2"]
-script = ExtResource("21_fx52i")
-stats = ExtResource("23_8lm63")
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
-[sub_resource type="Resource" id="Resource_e5rpg"]
-script = ExtResource("21_fx52i")
-stats = ExtResource("24_a2una")
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
-[sub_resource type="Resource" id="Resource_1606r"]
-script = ExtResource("21_fx52i")
-stats = ExtResource("26_a2una")
-quantity = 3
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
-
-[sub_resource type="Resource" id="Resource_w76bj"]
-script = ExtResource("21_fx52i")
-stats = ExtResource("26_6gn56")
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
 
 [sub_resource type="Resource" id="Resource_vi22v"]
 script = ExtResource("20_om42l")
 title = "CHEST 2"
 drop_on_death = true
-starting_inv = Array[ExtResource("21_fx52i")]([SubResource("Resource_yw2f7"), null, null, SubResource("Resource_ed1p2"), SubResource("Resource_e5rpg"), null, SubResource("Resource_1606r"), null, SubResource("Resource_w76bj"), null])
 metadata/_custom_type_script = "uid://dwmur0cosbbwh"
-
-[sub_resource type="Resource" id="Resource_3156l"]
-script = ExtResource("21_fx52i")
-stats = ExtResource("30_ed1p2")
-quantity = 3
-metadata/_custom_type_script = "uid://dp8osf7r6xkkt"
 
 [sub_resource type="Resource" id="Resource_f5fhq"]
 script = ExtResource("20_om42l")
 drop_on_death = true
-starting_inv = Array[ExtResource("21_fx52i")]([SubResource("Resource_3156l")])
 
 [sub_resource type="LabelSettings" id="LabelSettings_lfc2v"]
 outline_size = 3
@@ -285,7 +219,6 @@ metadata/_custom_type_script = "uid://cbiskerf2stk6"
 script = ExtResource("20_om42l")
 title = ""
 drop_on_death = true
-starting_inv = Array[ExtResource("21_fx52i")]([null, null, null, null, null])
 metadata/_custom_type_script = "uid://dwmur0cosbbwh"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f5fhq"]
@@ -306,7 +239,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="Resource" id="Resource_4psjl"]
+[sub_resource type="Resource" id="Resource_3156l"]
 resource_local_to_scene = true
 script = ExtResource("19_04pgg")
 title = "Storm Base"
@@ -429,15 +362,15 @@ y_sort_enabled = true
 
 [node name="TestRigidEntity" parent="WorldRoot/Testing" unique_id=120789680 instance=ExtResource("9_37jga")]
 position = Vector2(127, 27)
-physics_material_override = SubResource("PhysicsMaterial_yng6w")
+physics_material_override = SubResource("PhysicsMaterial_w76bj")
 
 [node name="TestRigidEntity2" parent="WorldRoot/Testing" unique_id=294390776 instance=ExtResource("9_37jga")]
 position = Vector2(129, 87)
-physics_material_override = SubResource("PhysicsMaterial_01d0t")
+physics_material_override = SubResource("PhysicsMaterial_vi22v")
 
 [node name="TestRigidEntity3" parent="WorldRoot/Testing" unique_id=941546994 instance=ExtResource("9_37jga")]
 position = Vector2(65, 118)
-physics_material_override = SubResource("PhysicsMaterial_h3uly")
+physics_material_override = SubResource("PhysicsMaterial_jb7gg")
 freeze = true
 immovable = true
 
@@ -620,7 +553,7 @@ sprite_frames = SubResource("SpriteFrames_hkn5b")
 
 [node name="InteractionArea" parent="WorldRoot/StormBase" unique_id=897230405 instance=ExtResource("36_e5rpg")]
 prompt_radius = 36.0
-interaction_offer = SubResource("Resource_4psjl")
+interaction_offer = SubResource("Resource_3156l")
 prompt_offset = Vector2(0, -23)
 
 [node name="ClippingArea" parent="WorldRoot/StormBase" unique_id=1945922444 instance=ExtResource("48_8jild")]

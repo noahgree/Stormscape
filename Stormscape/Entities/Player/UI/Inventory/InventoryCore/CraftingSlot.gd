@@ -8,8 +8,8 @@ signal output_changed(is_craftable: bool)
 @export var is_output_slot: bool = false ## Whether or not this crafting slot is an output slot.
 
 
-func set_item(new_item: InvItemResource) -> void:
-	super.set_item(new_item)
+func set_ii(new_item: II) -> void:
+	super.set_ii(new_item)
 
 	if is_output_slot:
 		output_changed.emit(new_item != null)
@@ -23,7 +23,7 @@ func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
 	if is_same_slot_as(data):
 		return false
 	if data is ModSlot:
-		if item != null and not (item.stats.is_same_as(data.item.stats) and item.quantity < item.stats.stack_size):
+		if ii != null and not (ii.stats.is_same_as(data.ii.stats) and ii.q < ii.stats.stack_size):
 			CursorManager.update_tooltip("Invalid!", Globals.ui_colors.ui_glow_strong_fail)
 			return false
 	CursorManager.update_tooltip("Add Ingredient", Globals.ui_colors.ui_glow_strong_success)

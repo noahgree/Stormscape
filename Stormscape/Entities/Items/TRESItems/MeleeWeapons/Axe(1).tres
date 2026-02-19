@@ -5,7 +5,6 @@
 [ext_resource type="Script" uid="uid://boo31eu083dqd" path="res://Entities/Stats/EffectSystemResources/StatusEffects/StatusEffect.gd" id="3_tm0oq"]
 [ext_resource type="Resource" uid="uid://jdmp0abbwxm5" path="res://Entities/Player/PlayerCore/PlayerCamera/CamFXPresets/1(NoFreeze).tres" id="4_ib65y"]
 [ext_resource type="Script" uid="uid://cowjdnic7xmkp" path="res://Entities/Player/UI/Inventory/Panels/ItemDetailsPanel/StatDetail.gd" id="5_8vcks"]
-[ext_resource type="Script" uid="uid://c2gdoebfp12dq" path="res://Entities/Stats/StatMod/StatModsCacheResource.gd" id="6_iunw2"]
 [ext_resource type="Texture2D" uid="uid://c8mku0yilyape" path="res://Entities/Items/Weapons/MeleeWeapons/Axe/AxeWoodCT.tres" id="6_tm0oq"]
 [ext_resource type="PackedScene" uid="uid://4jfk7na2inix" path="res://Entities/Items/Weapons/MeleeWeapons/Axe/AxeWood.tscn" id="7_tm0oq"]
 [ext_resource type="Script" uid="uid://ctxa7i1mbt7ab" path="res://Entities/Player/UI/Inventory/Panels/CraftingPanel/CraftingIngredient.gd" id="8_ib65y"]
@@ -20,7 +19,7 @@ base_damage = 25
 object_damage_mult = 5.0
 crit_chance = 5
 impact_cam_fx = ExtResource("1_8vcks")
-metadata/_custom_type_script = ExtResource("1_x4rfe")
+metadata/_custom_type_script = "uid://dkfssottmsrch"
 
 [sub_resource type="Resource" id="Resource_c7rci"]
 script = ExtResource("1_x4rfe")
@@ -30,10 +29,7 @@ can_hit_self = false
 base_damage = 10
 object_damage_mult = 5.0
 impact_cam_fx = ExtResource("4_ib65y")
-metadata/_custom_type_script = ExtResource("1_x4rfe")
-
-[sub_resource type="Resource" id="Resource_ieaky"]
-script = ExtResource("6_iunw2")
+metadata/_custom_type_script = "uid://dkfssottmsrch"
 
 [resource]
 script = ExtResource("10_tm0oq")
@@ -41,7 +37,6 @@ effect_source = SubResource("Resource_c7rci")
 use_cooldown = 0.18
 swing_angle = 115
 charge_effect_source = SubResource("Resource_klx1g")
-s_mods = SubResource("Resource_ieaky")
 id = "axe"
 name = "Axe"
 tags = Array[StringName]([&"tool"])

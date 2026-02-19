@@ -10,14 +10,6 @@ var hot_timers: Dictionary[String, Array] = {} ## Holds references to all timers
 var hot_delay_timers: Dictionary[String, Array] = {} ## Holds references to all timers current tracking delays for active HOT.
 
 
-#region Save & Load
-func _on_before_load_game() -> void:
-	hot_timers = {}
-	hot_delay_timers = {}
-	for child: Timer in get_children():
-		child.queue_free()
-#endregion
-
 ## Asserts that there is a valid health component on the affected entity before trying to handle healing.
 func _ready() -> void:
 	if not affected_entity.is_node_ready():

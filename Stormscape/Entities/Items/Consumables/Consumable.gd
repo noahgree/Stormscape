@@ -8,8 +8,8 @@ class_name Consumable
 @onready var food_particles: CPUParticles2D = $FoodParticles ## The particles that fire off when the consumable is consumed.
 
 
-func _set_stats(new_stats: ItemStats) -> void:
-	super._set_stats(new_stats)
+func _set_ii(new_ii: II) -> void:
+	super._set_ii(new_ii)
 
 	if sprite:
 		sprite.texture = stats.in_hand_icon
@@ -26,7 +26,7 @@ func consume() -> void:
 	if not consumption_timer.is_stopped():
 		return
 
-	if source_entity.inv.auto_decrementer.get_cooldown(stats.get_cooldown_id()) == 0:
+	if source_entity.inv.auto_decrementer.get_cooldown(ii.get_cooldown_id()) == 0:
 		food_particles.global_position = source_entity.hands.global_position + source_entity.hands.mouth_pos
 		food_particles.lifetime = max(0.2, stats.consumption_time / 2.0)
 		food_particles.color = stats.particles_color
@@ -35,7 +35,7 @@ func consume() -> void:
 		consumption_timer.start(stats.consumption_time)
 		await consumption_timer.timeout
 
-		source_entity.inv.auto_decrementer.add_cooldown(stats.get_cooldown_id(), stats.consumption_cooldown)
+		source_entity.inv.auto_decrementer.add_cooldown(ii.get_cooldown_id(), stats.consumption_cooldown)
 
 		var stamina_component: StaminaComponent = source_entity.get_node_or_null("StaminaComponent")
 		if stamina_component != null:
@@ -51,6 +51,6 @@ func _update_cursor_cooldown_ui() -> void:
 	if not source_entity is Player or not stats.show_cursor_cooldown:
 		return
 
-	if source_entity.inv.auto_decrementer.get_cooldown_source_title(stats.get_cooldown_id()) in stats.shown_cooldown_fills:
-		var tint_progress: float = source_entity.inv.auto_decrementer.get_cooldown_percent(stats.get_cooldown_id(), true)
+	if source_entity.inv.auto_decrementer.get_cooldown_source_title(ii.get_cooldown_id()) in stats.shown_cooldown_fills:
+		var tint_progress: float = source_entity.inv.auto_decrementer.get_cooldown_percent(ii.get_cooldown_id(), true)
 		CursorManager.update_vertical_tint_progress(tint_progress * 100.0)

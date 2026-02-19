@@ -1,20 +1,22 @@
 extends Node2D
 class_name EquippableItem
-## The base class for all items that can be used by the HandsComponent. In order to be equipped and shown on screen in
-## some place other than the inventory, the item resource must have an associated equippable item scene.
+## The base class for all items that can be used by the HandsComponent.
+##
+## In order to be equipped and shown on screen in some place other than the inventory,
+## the item resource must have an associated equippable item scene.
 
-@export_storage var stats: ItemStats = null: set = _set_stats ## The resource driving the stats and type of item.
+@export var ii: II: set = _set_ii ## The resource driving the stats and type of item.
 @export var sprites_to_tint: Array[Node2D] ## All sprites that should be affected by tinting during events such as "disable".
 
 @onready var sprite: Node2D = $ItemSprite ## The main sprite for the equippable item. Should have the entity effect shader attached.
 @onready var clipping_detector: Area2D = get_node_or_null("ClippingDetector") ## Used to detect when the item is overlapping with an in-game object that should block its use (i.e. a wall or tree).
 @onready var audio_preloader: AudioPreloader = AudioPreloader.new(self) ## The node registering preloaded audios.
 
-var stats_already_duplicated: bool = false ## Whether the stats have already been duplicated when they were first created in the slot.
+var stats: ItemStats ## Reflects the stats of the current ii driving this item.
 var inv_index: int ## The slot this equippable item is in whilst equipped.
 var source_entity: Entity ## The entity that is holding the equippable item.
 var ammo_ui: Control ## The ui assigned by the hands component that displays the ammo. Only for the player.
-var overlaps: Array[Area2D]
+var overlaps: Array[Area2D] ## Current overlapping item-blocking clipping areas.
 var enabled: bool = true: ## When false, any activation or reload actions are blocked.
 	set(new_value):
 		enabled = new_value
@@ -31,30 +33,28 @@ var enabled: bool = true: ## When false, any activation or reload actions are bl
 
 
 ## Creates an equippable item to be used via the inv index it is currently in.
-static func create_from_inv_index(item_stats: ItemStats, entity: Entity, index: int) -> EquippableItem:
-	var item: EquippableItem = item_stats.item_scene.instantiate()
+static func create_from_inv_index(item_instance: II, entity: Entity, index: int) -> EquippableItem:
+	var item: EquippableItem = item_instance.stats.item_scene.instantiate()
 	item.inv_index = index
 	item.source_entity = entity
-	item.stats = item_stats
-	item.stats_already_duplicated = true
+	item.ii = item_instance
 	return item
 
-## Sets the item stats when changed. Can be overridden by child classes to do specific things on change.
-func _set_stats(new_stats: ItemStats) -> void:
-	if not stats_already_duplicated:
-		stats = new_stats.duplicate_with_suid()
-	source_entity.inv.inv[inv_index].stats = stats
+## Sets the item instance when changed. Can be overridden by child classes to do specific things on change.
+func _set_ii(new_ii: II) -> void:
+	source_entity.inv.inv[inv_index] = new_ii
 	source_entity.inv.inv_data_updated.emit(inv_index, source_entity.inv.inv[inv_index])
+	stats = new_ii.stats
 
 func _ready() -> void:
-	_set_stats(stats)
+	_set_ii(ii)
 
 	if clipping_detector != null:
 		clipping_detector.area_entered.connect(_on_item_enters_clipping_area)
 		clipping_detector.area_exited.connect(_on_item_leaves_clipping_area)
 
 	if source_entity is Player:
-		AudioManager.play_global(stats.equip_audio, 0, false, -1, self)
+		AudioManager.play_global(ii.stats.equip_audio, 0, false, -1, self)
 
 ## Disables the item when it starts to clip. Only applies to items with clipping detectors.
 func _on_item_enters_clipping_area(area: Area2D) -> void:

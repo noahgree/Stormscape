@@ -35,22 +35,22 @@ func _exit_tree() -> void:
 
 ## Decrements the current hold time for the weapon.
 func decrement_hold_time(delta: float) -> void:
-	hold_time = max(0, (hold_time - (delta * stats.charge_loss_mult)))
+	hold_time = max(0, (hold_time - (delta * ii.stats.charge_loss_mult)))
 
 ## Gets a current cooldown level from the auto decrementer based on the cooldown id.
 func get_cooldown() -> float:
-	return source_entity.inv.auto_decrementer.get_cooldown(stats.get_cooldown_id())
+	return source_entity.inv.auto_decrementer.get_cooldown(ii.get_cooldown_id())
 
 ## Adds a cooldown to the auto decrementer for the current cooldown id.
 func add_cooldown(duration: float, title: String = "default") -> void:
-	source_entity.inv.auto_decrementer.add_cooldown(stats.get_cooldown_id(), duration, title)
+	source_entity.inv.auto_decrementer.add_cooldown(ii.get_cooldown_id(), duration, title)
 
 ## Updates the charge bar over the entity's head with the current charge progress.
 func _update_overhead_charge_ui() -> void:
 	if not overhead_ui:
 		return
 
-	var fraction: float = clampf(hold_time / stats.s_mods.get_stat("min_charge_time"), 0, 1)
+	var fraction: float = clampf(hold_time / ii.s_mods.get_stat("min_charge_time"), 0, 1)
 	var progress: int = int(fraction * 100)
 
 	overhead_ui.update_charge_progress(progress)

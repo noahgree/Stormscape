@@ -1,10 +1,9 @@
-[gd_scene load_steps=31 format=3 uid="uid://clf1njlp4stbn"]
+[gd_scene format=3 uid="uid://clf1njlp4stbn"]
 
 [ext_resource type="Script" uid="uid://cn2gulskgn7k3" path="res://Entities/EntityCore/EntityTypes/StaticEntity/StaticEntity.gd" id="1_b403c"]
 [ext_resource type="Script" uid="uid://dwmur0cosbbwh" path="res://Entities/Player/UI/Inventory/InventoryCore/InvResource.gd" id="2_3aoki"]
-[ext_resource type="Script" uid="uid://dp8osf7r6xkkt" path="res://Entities/Items/ItemCore/InvItemResource.gd" id="3_b403c"]
+[ext_resource type="Script" uid="uid://cv7ha7muvg5qu" path="res://Entities/Items/ItemCore/II.gd" id="3_3aoki"]
 [ext_resource type="Script" uid="uid://1qq7eo7lm8j6" path="res://Entities/Components/ItemComponents/LootTableComponent/LootTableEntry.gd" id="4_unf1g"]
-[ext_resource type="Resource" uid="uid://dkx627k2ek8ew" path="res://Entities/Items/TRESItems/WorldResources/Graystone(0).tres" id="5_3aoki"]
 [ext_resource type="Script" uid="uid://baglarh3m4c8o" path="res://Entities/Components/ItemComponents/LootTableComponent/LootTableResource.gd" id="7_qgbkl"]
 [ext_resource type="PackedScene" uid="uid://di7vcyrki71nm" path="res://Entities/Components/DetectionComponent/DetectionComponent.tscn" id="8_y2id4"]
 [ext_resource type="Texture2D" uid="uid://tt44u2wmer3n" path="res://Entities/EntityCore/Shadow/shadow_large.png" id="9_b403c"]
@@ -22,47 +21,10 @@
 
 [sub_resource type="Resource" id="Resource_3aoki"]
 script = ExtResource("2_3aoki")
-title = "CHEST"
-main_inv_size = 10
-drop_on_death = false
-starting_inv = Array[ExtResource("3_b403c")]([])
-
-[sub_resource type="Resource" id="Resource_5ld8i"]
-script = ExtResource("4_unf1g")
-item = ExtResource("5_3aoki")
-quantity = 2
-weighting = 1.0
-last_used = 0
-spawn_count = 0
-metadata/_custom_type_script = "uid://1qq7eo7lm8j6"
-
-[sub_resource type="Resource" id="Resource_b403c"]
-script = ExtResource("4_unf1g")
-item = ExtResource("5_3aoki")
-quantity = 1
-weighting = 1.0
-last_used = 0
-spawn_count = 0
-metadata/_custom_type_script = "uid://1qq7eo7lm8j6"
 
 [sub_resource type="Resource" id="Resource_5yo6j"]
 script = ExtResource("7_qgbkl")
-hit_loot_table = Array[ExtResource("4_unf1g")]([SubResource("Resource_b403c")])
-hit_spawn_chance = 100.0
-hit_chance_scale = 1
-remove_when_dropped = false
-require_dmg_on_hit = true
 hp_percent_hit_checks = 51
-die_loot_table = Array[ExtResource("4_unf1g")]([SubResource("Resource_5ld8i")])
-die_spawn_chance = 100.0
-rarity_scaling_factors = Dictionary[int, float]({
-0: 0.5,
-1: 0.4,
-2: 0.3,
-3: 0.1,
-4: 0.05,
-5: 0.005
-})
 metadata/_custom_type_script = "uid://baglarh3m4c8o"
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_2kecs"]
@@ -97,24 +59,24 @@ height = 22.0
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5yo6j"]
 height = 22.0
 
-[node name="TestRock2" type="StaticBody2D"]
+[node name="TestRock2" type="StaticBody2D" unique_id=1797433988]
 script = ExtResource("1_b403c")
 team = 4
 is_object = true
 inv = SubResource("Resource_3aoki")
 loot = SubResource("Resource_5yo6j")
 
-[node name="DetectionComponent" parent="." instance=ExtResource("8_y2id4")]
+[node name="DetectionComponent" parent="." unique_id=563346921 instance=ExtResource("8_y2id4")]
 
-[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+[node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=64438787]
 occluder = SubResource("OccluderPolygon2D_2kecs")
 
-[node name="EntityShadow" parent="." instance=ExtResource("9_kerkt")]
+[node name="EntityShadow" parent="." unique_id=384959382 instance=ExtResource("9_kerkt")]
 self_modulate = Color(0, 0, 0, 0.164)
-offset_left = -13.0
-offset_top = -21.0
-offset_right = 13.0
-offset_bottom = 2.0
+offset_left = -16.0
+offset_top = -8.0
+offset_right = 16.0
+offset_bottom = 8.0
 texture = ExtResource("9_b403c")
 patch_margin_left = 8
 patch_margin_top = 8
@@ -122,7 +84,7 @@ patch_margin_right = 8
 patch_margin_bottom = 8
 type = 3
 
-[node name="EntitySprite" parent="." instance=ExtResource("10_kkd23")]
+[node name="EntitySprite" parent="." unique_id=33604155 instance=ExtResource("10_kkd23")]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_b403c")
 instance_shader_parameters/crack_color = Color(0.132138, 0.153553, 0.183094, 0.85)
@@ -141,41 +103,41 @@ instance_shader_parameters/use_override_color = false
 position = Vector2(0, -12)
 sprite_frames = SubResource("SpriteFrames_1mdei")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=79754638]
 position = Vector2(0, -9)
 rotation = -1.5708
 shape = SubResource("CapsuleShape2D_l7ldg")
 debug_color = Color(0, 0.632808, 0.44745, 0.251)
 
-[node name="HealthComponent" parent="." instance=ExtResource("13_3mtpp")]
+[node name="HealthComponent" parent="." unique_id=1485921896 instance=ExtResource("13_3mtpp")]
 _max_health = 500
 _max_shield = 0
 
-[node name="FacingComponent" parent="." instance=ExtResource("14_d40yk")]
+[node name="FacingComponent" parent="." unique_id=767564506 instance=ExtResource("14_d40yk")]
 
-[node name="EffectReceiverComponent" parent="." node_paths=PackedStringArray("affected_entity", "dmg_handler") instance=ExtResource("15_8664o")]
+[node name="EffectReceiverComponent" parent="." unique_id=863158917 node_paths=PackedStringArray("affected_entity", "dmg_handler") instance=ExtResource("15_8664o")]
 affected_entity = NodePath("..")
 dmg_handler = NodePath("DmgHandler")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="EffectReceiverComponent"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EffectReceiverComponent" unique_id=588511646]
 position = Vector2(0, -12)
 rotation = -1.5708
 shape = SubResource("CapsuleShape2D_b403c")
 
-[node name="DmgHandler" parent="EffectReceiverComponent" instance=ExtResource("16_11n4a")]
+[node name="DmgHandler" parent="EffectReceiverComponent" unique_id=2012634728 instance=ExtResource("16_11n4a")]
 
-[node name="StatusEffectsComponent" parent="." node_paths=PackedStringArray("effect_receiver") instance=ExtResource("17_3r7ao")]
+[node name="StatusEffectsComponent" parent="." unique_id=1056684977 node_paths=PackedStringArray("effect_receiver") instance=ExtResource("17_3r7ao")]
 unique_name_in_owner = true
 effect_receiver = NodePath("../EffectReceiverComponent")
 
-[node name="ParticleEmissionComponent" parent="." instance=ExtResource("18_6nkmp")]
+[node name="ParticleEmissionComponent" parent="." unique_id=1222673117 instance=ExtResource("18_6nkmp")]
 below_extents = Vector2(16, 2)
 above_extents = Vector2(12, 2)
 above_origin = Vector2(0, -30)
 
-[node name="ClippingArea" parent="." instance=ExtResource("19_jf6jy")]
+[node name="ClippingArea" parent="." unique_id=2005378066 instance=ExtResource("19_jf6jy")]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ClippingArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ClippingArea" unique_id=1503239533]
 position = Vector2(0, -12)
 rotation = -1.5708
 shape = SubResource("CapsuleShape2D_5yo6j")

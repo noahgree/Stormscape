@@ -9,21 +9,6 @@ var wearables_slots: Array[WearableSlot] = [] ## The slots that display the acti
 var updating_from_within: bool = false ## When true, the wearables are already getting added by the load or another internal script function, so we shouldn't trigger the _on_slot_changed function as well.
 
 
-#region Saving & Loading
-func _on_before_load_game() -> void:
-	for slot: WearableSlot in wearables_slots:
-		slot.set_item(null)
-
-func _on_load_game() -> void:
-	updating_from_within = true
-	var i: int = 0
-	for wearable_dict: Dictionary in Globals.player_node.wearables:
-		if wearable_dict.values()[0] != null:
-			wearables_slots[i].item = InvItemResource.new(wearable_dict.values()[0], 1)
-		i += 1
-	updating_from_within = false
-#endregion
-
 func _ready() -> void:
 	SignalBus.ui_focus_opened.connect(func(_node: Node) -> void: _verify_latest_wearables())
 
@@ -40,7 +25,7 @@ func setup_slots(inventory_ui: PlayerInvUI) -> void:
 		i += 1
 
 ## When one of the wearable slot items changes, we need to add or remove the new or old wearable in the data.
-func _on_wearable_slot_changed(slot: WearableSlot, old_item: InvItemResource, new_item: InvItemResource) -> void:
+func _on_wearable_slot_changed(slot: WearableSlot, old_item: II, new_item: II) -> void:
 	if updating_from_within:
 		return
 
@@ -59,9 +44,9 @@ func _verify_latest_wearables() -> void:
 		if wearable_dict.values()[0] != wearables_slots[i]:
 			updating_from_within = true
 			if wearable_dict.values()[0] == null:
-				wearables_slots[i].item = null
+				wearables_slots[i].ii = null
 			else:
-				wearables_slots[i].item = InvItemResource.new(wearable_dict.values()[0], 1)
+				wearables_slots[i].ii = wearable_dict.values()[0].create_ii(1)
 			updating_from_within = false
 		i += 1
 

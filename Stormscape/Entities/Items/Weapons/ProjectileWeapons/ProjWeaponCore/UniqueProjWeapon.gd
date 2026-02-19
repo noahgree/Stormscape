@@ -41,4 +41,4 @@ func add_cooldown(_duration: float, _title: String = "default") -> void:
 	pass
 
 func add_unique_proj_cooldown(duration: float, title: String = "default") -> void:
-	source_entity.inv.auto_decrementer.add_cooldown(stats.get_cooldown_id(), duration, title)
+	source_entity.inv.auto_decrementer.add_cooldown(ii.get_cooldown_id(), duration, title)

@@ -14,14 +14,6 @@ var dot_timers: Dictionary[String, Array] = {} ## Holds references to all timers
 var dot_delay_timers: Dictionary[String, Array] = {} ## Holds references to all timers current tracking delays for active DOT.
 
 
-#region Save & Load
-func _on_before_load_game() -> void:
-	dot_timers = {}
-	dot_delay_timers = {}
-	for child: Timer in get_children():
-		child.queue_free()
-#endregion
-
 ## Asserts that there is a valid health component on the affected entity before trying to handle damage.
 func _ready() -> void:
 	if not affected_entity.is_node_ready():
@@ -57,7 +49,7 @@ func handle_instant_damage(effect_source: EffectSource, lvl: int, life_steal_per
 
 	var final_xp: int = final_damage
 	if final_damage >= affected_entity.health_component.health + affected_entity.health_component.shield:
-		final_xp += WeaponStats.LARGE_XP
+		final_xp += WeaponII.LARGE_XP
 
 	_send_handled_dmg("basic_damage", effect_source.dmg_affected_stats, final_damage, effect_source.multishot_id, life_steal_percent, is_crit)
 	return final_xp

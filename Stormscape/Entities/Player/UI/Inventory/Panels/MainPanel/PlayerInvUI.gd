@@ -146,34 +146,37 @@ func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
 ## Runs the logic for what to do when we can drop an item slot's data at the current moment.
 ## Creates physical items on the ground.
 func _drop_data(_at_position: Vector2, data: Variant) -> void:
-	var ground_item_res: ItemStats = data.item.stats
-	var ground_item_quantity: int = 1
-	if ground_item_res and data:
-		if data.dragging_only_one:
-			ground_item_quantity = 1
-			if data.item.quantity < 2:
-				data.set_item(null)
-			else:
-				data.item.quantity -= 1
-				data.set_item(data.item)
-		elif data.dragging_half_stack:
-			var half_quantity: int = int(floor(data.item.quantity / 2.0))
-			var remainder: int = data.item.quantity - half_quantity
-			ground_item_quantity = half_quantity
+	if not data:
+		return
+	if not data.ii:
+		data._on_mouse_exited()
+		return
 
-			data.item.quantity = remainder
-			data.set_item(data.item)
+	var world_item_ii: II = data.ii.duplicate()
+
+	if data.dragging_only_one:
+		world_item_ii.q = 1
+		if data.ii.q < 2:
+			data.set_ii(null)
 		else:
-			ground_item_quantity = data.item.quantity
-			data.set_item(null)
+			data.ii.q -= 1
+			data.set_ii(data.ii)
+	elif data.dragging_half_stack:
+		var half_quantity: int = int(floor(data.ii.q / 2.0))
+		var remainder: int = data.ii.q - half_quantity
+		world_item_ii.q = half_quantity
 
-		Item.spawn_on_ground(ground_item_res, ground_item_quantity, Globals.player_node.global_position, 15, true, false, true)
-		MessageManager.add_msg("[color=white]Dropped " + str(ground_item_quantity) + "[/color] " + ground_item_res.name, Globals.rarity_colors.ui_text.get(ground_item_res.rarity), MessageManager.default_icon, Color.WHITE, MessageManager.default_display_time, true)
+		data.ii.q = remainder
+		data.set_ii(data.ii)
+	else:
+		world_item_ii.q = data.ii.q
+		data.set_ii(null)
 
-		if ground_item_res is ProjAmmoStats:
-			synced_inv_src_node.hands.active_slot_info.calculate_inv_ammo()
+	WorldItem.spawn_on_ground(world_item_ii, Globals.player_node.global_position, 15, false, true)
+	MessageManager.add_msg("[color=white]Dropped " + str(world_item_ii.q) + "[/color] " + world_item_ii.stats.name, Globals.rarity_colors.ui_text.get(world_item_ii.stats.rarity), MessageManager.default_icon, Color.WHITE, MessageManager.default_display_time, true)
 
-	data._on_mouse_exited()
+	if world_item_ii.stats is ProjAmmoStats:
+		synced_inv_src_node.hands.active_slot_info.calculate_inv_ammo()
 
 ## When mouse stops hovering over drop zone, hide the tooltip.
 func _on_mouse_exited() -> void:
@@ -182,13 +185,13 @@ func _on_mouse_exited() -> void:
 
 ## Received when any drag starts and ends to show and hide the trash slot.
 func _notification(what: int) -> void:
-	if what == NOTIFICATION_DRAG_END and trash_slot.item == null:
+	if what == NOTIFICATION_DRAG_END and trash_slot.ii == null:
 		trash_slot_container.hide()
 	if what == NOTIFICATION_DRAG_BEGIN and PlayerInvUI.is_dragging_slot(get_viewport()):
 		trash_slot_container.show()
 
 ## When the item in the trash slot changes, if we detect that it holds something now, re-show it.
-func _on_trash_slot_item_changed(_slot: Slot, _old_item: InvItemResource, new_item: InvItemResource) -> void:
+func _on_trash_slot_item_changed(_slot: Slot, _old_item: II, new_item: II) -> void:
 	if new_item != null:
 		trash_slot_container.show()
 

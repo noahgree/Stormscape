@@ -79,13 +79,13 @@ func fill_slots_with_items() -> void:
 	for slot: Slot in slots:
 		if i >= synced_inv_src_node.inv.total_inv_size:
 			break
-		slot.set_item(synced_inv_src_node.inv.inv[i])
+		slot.set_ii(synced_inv_src_node.inv.inv[i])
 		i += 1
 
 ## When an index gets updated in the inventory, this is received via signal in order to update a slot here.
-func _on_inv_data_updated(index: int, item: InvItemResource) -> void:
-	slots[index].set_item(item)
-	if item and synced_inv_src_node is Player:
+func _on_inv_data_updated(index: int, ii: II) -> void:
+	slots[index].set_ii(ii)
+	if ii and synced_inv_src_node is Player:
 		synced_inv_src_node.hands.active_slot_info.calculate_inv_ammo()
 
 #region Debug
@@ -93,7 +93,7 @@ func _on_inv_data_updated(index: int, item: InvItemResource) -> void:
 func print_slots(include_null_spots: bool = false) -> void:
 	var to_print: String = "[b]-----------------------------------------------------------------------------------------------------------------------------------[/b]\n"
 	for i: int in range(slots.size()):
-		if slots[i].item == null and not include_null_spots:
+		if slots[i].ii == null and not include_null_spots:
 			continue
 		to_print = to_print + str(slots[i])
 		if (i + 1) % 5 == 0 and i != slots.size() - 1: to_print += "\n"

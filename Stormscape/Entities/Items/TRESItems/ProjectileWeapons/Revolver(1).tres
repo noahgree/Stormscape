@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="ProjWeaponResource" format=3 uid="uid://cviqn410iux45"]
+[gd_resource type="Resource" script_class="ProjWeaponStats" format=3 uid="uid://cviqn410iux45"]
 
 [ext_resource type="Texture2D" uid="uid://bm570hawaupxe" path="res://Entities/Items/Weapons/WeaponVFX/Casings/small_casing.png" id="1_keflp"]
 [ext_resource type="Script" uid="uid://dkfssottmsrch" path="res://Entities/Stats/EffectSystemResources/EffectSources/EffectSource.gd" id="2_cwr0s"]
@@ -11,10 +11,7 @@
 [ext_resource type="Script" uid="uid://bj3r5oopspj6l" path="res://Entities/Items/Projectiles/ProjectileCore/ProjStats.gd" id="9_cqayv"]
 [ext_resource type="PackedScene" uid="uid://bqkyplubhsx43" path="res://Entities/Items/Projectiles/Bullets/SmallBullet/SmallBullet.tscn" id="10_weglt"]
 [ext_resource type="Script" uid="uid://ctxa7i1mbt7ab" path="res://Entities/Player/UI/Inventory/Panels/CraftingPanel/CraftingIngredient.gd" id="11_apnw5"]
-[ext_resource type="Resource" uid="uid://dlfmjgnfk6nqj" path="res://Entities/Items/TRESItems/ProjectileWeapons/Revolver(0).tres" id="12_61ytc"]
-[ext_resource type="Script" uid="uid://c2gdoebfp12dq" path="res://Entities/Stats/StatMod/StatModsCacheResource.gd" id="12_xwrjl"]
 [ext_resource type="Script" uid="uid://dvasncq3tgljs" path="res://Entities/Items/Weapons/ProjectileWeapons/ProjWeaponCore/ProjWeaponStats.gd" id="13_iahjt"]
-[ext_resource type="Resource" uid="uid://buk4r8balgqup" path="res://Entities/Items/TRESItems/WorldResources/UpgradeTemplate(1).tres" id="13_mctqn"]
 
 [sub_resource type="Resource" id="Resource_dnsve"]
 script = ExtResource("2_cwr0s")
@@ -40,18 +37,13 @@ split_cam_fx = null
 
 [sub_resource type="Resource" id="Resource_a7ctb"]
 script = ExtResource("11_apnw5")
-item = ExtResource("12_61ytc")
 rarity_match = "Equal"
 metadata/_custom_type_script = "uid://ctxa7i1mbt7ab"
 
 [sub_resource type="Resource" id="Resource_axfp0"]
 script = ExtResource("11_apnw5")
-item = ExtResource("13_mctqn")
 rarity_match = "Equal"
 metadata/_custom_type_script = "uid://ctxa7i1mbt7ab"
-
-[sub_resource type="Resource" id="Resource_7cjse"]
-script = ExtResource("12_xwrjl")
 
 [resource]
 script = ExtResource("13_iahjt")
@@ -76,7 +68,6 @@ single_proj_reload_time = 0.21
 must_reload_fully = true
 reload_sound = "revolver_reload"
 pullout_delay = 0.3
-s_mods = SubResource("Resource_7cjse")
 id = "revolver"
 name = "Revolver"
 item_type = 1

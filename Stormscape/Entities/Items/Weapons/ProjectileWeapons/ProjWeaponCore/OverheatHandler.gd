@@ -57,7 +57,7 @@ func _on_overheat_emptied(item_id: StringName) -> void:
 		return
 
 	# Only hide the bar and change the cursor at 0 overheat progress if the penalty isn't active
-	if auto_decrementer.get_cooldown_source_title(weapon.stats.get_cooldown_id()) != "overheat_penalty":
+	if auto_decrementer.get_cooldown_source_title(weapon.ii.get_cooldown_id()) != "overheat_penalty":
 		if source_entity is Player:
 			weapon.overhead_ui.overheat_bar.hide()
 			CursorManager.change_cursor_tint(Color.WHITE)
@@ -120,7 +120,7 @@ func update_overlays_and_overhead_ui() -> void:
 	var current_overheat: float = _get_overheat()
 
 	# If on penalty and need to show the visuals as all red, do that instead of showing normal overheat progress
-	if auto_decrementer.get_cooldown_source_title(weapon.stats.get_cooldown_id()) == "overheat_penalty":
+	if auto_decrementer.get_cooldown_source_title(weapon.ii.get_cooldown_id()) == "overheat_penalty":
 		if source_entity is Player:
 			weapon.overhead_ui.update_overheat_progress(100)
 	else:

@@ -29,15 +29,6 @@ func _draw() -> void:
 		draw_rect(rect, Color(1, 0, 0, 0.5), false, 1)
 #endregion
 
-#region Save & Load
-## We must clear out any existing effect timers and remove all exiting status effects.
-func _on_before_load_game() -> void:
-	effect_timers = {}
-	remove_all_status_effects()
-	for child: Variant in get_children():
-		if child is Timer:
-			child.queue_free()
-#endregion
 
 #region Core
 ## Assert that this node has a connected effect receiver from which it can receive status effects.

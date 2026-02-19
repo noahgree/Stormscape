@@ -118,7 +118,7 @@ static func remove_weapon_mod(weapon_stats: WeaponStats, weapon_mod: WeaponModSt
 
 	AudioManager.play_global(weapon_mod.removal_audio)
 
-## Adds all mods in the current_mods array to a weapon's stats. Useful for restoring after a save and load.
+## Adds all mods in the current_mods array to a weapon's stats.
 static func re_add_all_mods_to_weapon(weapon_stats: WeaponStats, source_entity: Entity) -> void:
 	var i: int = 0
 	for weapon_mod_entry: Dictionary in weapon_stats.current_mods:
@@ -237,27 +237,6 @@ static func _remove_mod_status_effects_from_effect_source(weapon_stats: WeaponSt
 					mod_status_effects = mod.aoe_status_effects
 
 			_update_effect_source_status_effects(weapon_stats, type, mod_status_effects)
-
-## Resets the original (non-modded) status effects for the weapon after a save so that they correctly reflect
-## the effects not provided by mods. This then removes and then readds all the weapon mods from the save.
-static func reset_original_arrays_after_save(weapon_stats: WeaponStats, source_entity: Entity) -> void:
-	var mods_copy: Array[Dictionary] = weapon_stats.current_mods.duplicate()
-
-	weapon_stats.original_status_effects.clear()
-	if weapon_stats is MeleeWeaponStats:
-		weapon_stats.original_charge_status_effects.clear()
-	elif weapon_stats is ProjWeaponStats and weapon_stats.projectile_logic.aoe_effect_source:
-		weapon_stats.projectile_logic.aoe_effect_source.status_effects.clear()
-	remove_all_mods_from_weapon(weapon_stats, source_entity)
-
-	weapon_stats.original_status_effects = weapon_stats.effect_source.status_effects
-	if weapon_stats is MeleeWeaponStats:
-		weapon_stats.original_charge_status_effects = weapon_stats.charge_effect_source.status_effects
-	elif weapon_stats is ProjWeaponStats and weapon_stats.projectile_logic.aoe_effect_source:
-		weapon_stats.projectile_logic.aoe_effect_source.status_effects = weapon_stats.original_aoe_status_effects
-
-	weapon_stats.current_mods = mods_copy
-	re_add_all_mods_to_weapon(weapon_stats, source_entity)
 
 #region Debug
 ## Formats the updated lists of status effects and prints them out.
