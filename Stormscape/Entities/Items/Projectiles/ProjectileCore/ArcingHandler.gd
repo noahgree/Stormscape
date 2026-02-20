@@ -19,7 +19,7 @@ func _init(parent_proj: Projectile) -> void:
 ## Sets up starting arcing variables like initial speed based on kinematics.
 func reset_arc_logic() -> void:
 	var falloff_mult: float = max(0.01, proj.stats.bounce_falloff_curve.sample_baked(1 - (proj.lifetime_timer.time_left / proj.stats.lifetime)))
-	var dist_stat: float = proj.s_mods.get_stat("proj_arc_travel_distance")
+	var dist_stat: float = proj.sc.get_stat("proj_arc_travel_distance")
 	var dist: float = dist_stat * falloff_mult
 	updated_arc_angle = proj.stats.launch_angle * falloff_mult
 
@@ -70,7 +70,7 @@ func do_arc_movement(delta: float) -> void:
 		)
 
 	var ground_level: float = -(proj.starting_proj_height) if proj.bounces_so_far == 0 else 0
-	var bounce_stat: int = int(proj.s_mods.get_stat("proj_bounce_count"))
+	var bounce_stat: int = int(proj.sc.get_stat("proj_bounce_count"))
 
 	if fake_z_axis > ground_level:
 		proj.z_index = 3

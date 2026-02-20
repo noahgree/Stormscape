@@ -10,7 +10,6 @@
 [ext_resource type="Script" uid="uid://bj3r5oopspj6l" path="res://Entities/Items/Projectiles/ProjectileCore/ProjStats.gd" id="8_6rtmy"]
 [ext_resource type="PackedScene" uid="uid://bqkyplubhsx43" path="res://Entities/Items/Projectiles/Bullets/SmallBullet/SmallBullet.tscn" id="9_7av10"]
 [ext_resource type="Script" uid="uid://ctxa7i1mbt7ab" path="res://Entities/Player/UI/Inventory/Panels/CraftingPanel/CraftingIngredient.gd" id="10_f2085"]
-[ext_resource type="Script" uid="uid://c2gdoebfp12dq" path="res://Entities/Stats/StatMod/StatModsCacheResource.gd" id="11_wog7e"]
 [ext_resource type="Script" uid="uid://dvasncq3tgljs" path="res://Entities/Items/Weapons/ProjectileWeapons/ProjWeaponCore/ProjWeaponStats.gd" id="12_03tgm"]
 
 [sub_resource type="Curve" id="Curve_kfl3v"]
@@ -33,7 +32,7 @@ can_hit_self = false
 base_damage = 19
 crit_chance = 5
 crit_multiplier = 1.25
-metadata/_custom_type_script = ExtResource("2_hhopu")
+metadata/_custom_type_script = "uid://dkfssottmsrch"
 
 [sub_resource type="Curve" id="Curve_iybck"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.651446), 0.0, 0.0, 0, 0]
@@ -67,9 +66,6 @@ split_delays = Array[float]([0.2, 0.15])
 split_cam_fx = null
 aoe_effect_falloff_curve = SubResource("Curve_iybck")
 
-[sub_resource type="Resource" id="Resource_mx2m7"]
-script = ExtResource("11_wog7e")
-
 [resource]
 script = ExtResource("12_03tgm")
 proj_weapon_type = 4
@@ -95,7 +91,6 @@ bloom_curve = SubResource("Curve_kfl3v")
 bloom_increase_rate = SubResource("Curve_mls34")
 bloom_decrease_rate = SubResource("Curve_uquue")
 bloom_decrease_delay = 0.7
-s_mods = SubResource("Resource_mx2m7")
 id = "rifle_x"
 name = "Rifle X"
 item_type = 1

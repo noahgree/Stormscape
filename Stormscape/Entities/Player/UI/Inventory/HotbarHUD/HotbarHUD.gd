@@ -69,7 +69,7 @@ func update_hotbar_tint_progresses() -> void:
 	for slot: Slot in hotbar_slots:
 		if slot.ii != null:
 			slot.update_tint_progress(
-				Globals.player_node.inv.auto_decrementer.get_cooldown(slot.ii.ii.get_cooldown_id())
+				Globals.player_node.inv.auto_decrementer.get_cooldown(slot.ii.get_cooldown_id())
 				)
 		else:
 			slot.update_tint_progress(0)

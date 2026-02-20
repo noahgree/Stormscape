@@ -44,6 +44,7 @@ static func create_from_inv_index(item_instance: II, entity: Entity, index: int)
 func _set_ii(new_ii: II) -> void:
 	source_entity.inv.inv[inv_index] = new_ii
 	source_entity.inv.inv_data_updated.emit(inv_index, source_entity.inv.inv[inv_index])
+	ii = new_ii
 	stats = new_ii.stats
 
 func _ready() -> void:

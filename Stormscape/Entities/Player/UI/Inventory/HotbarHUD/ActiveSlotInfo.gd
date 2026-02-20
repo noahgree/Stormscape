@@ -55,20 +55,20 @@ func calculate_inv_ammo() -> void:
 		if current_item_stats.ammo_type not in [ProjWeaponStats.ProjAmmoType.NONE, ProjWeaponStats.ProjAmmoType.STAMINA, ProjWeaponStats.ProjAmmoType.SELF, ProjWeaponStats.ProjAmmoType.CHARGES]:
 			var count: int = 0
 			var start_index: int = Globals.player_node.inv.ammo_slot_manager.starting_index
-			for i: int in range(start_index, start_index + Globals.AMMO_BAR_SIZE):
-				var item: II = Globals.player_node.inv.inv[i]
-				if item != null and (item.stats is ProjAmmoStats) and (item.stats.ammo_type == current_item_stats.ammo_type):
-					count += item.quantity
+			for index: int in range(start_index, start_index + Globals.AMMO_BAR_SIZE):
+				var ii: II = Globals.player_node.inv.inv[index]
+				if ii != null and (ii.stats is ProjAmmoStats) and (ii.stats.ammo_type == current_item_stats.ammo_type):
+					count += ii.q
 			count_str = str(count)
 		elif current_item_stats.ammo_type in [ProjWeaponStats.ProjAmmoType.NONE, ProjWeaponStats.ProjAmmoType.CHARGES]:
 			count_str = "∞"
 		elif current_item_stats.ammo_type == ProjWeaponStats.ProjAmmoType.SELF:
 			var count: int = 0
-			for i: int in range(0, Globals.MAIN_PLAYER_INV_SIZE + Globals.HOTBAR_SIZE):
-				var item: II = Globals.player_node.inv.inv[i]
-				if item != null and (item.stats.id == current_item_stats.id):
-					count += item.quantity
-			var equipped_inv_item: II = Globals.player_node.inv.inv[Globals.player_node.hands.equipped_item.inv_index]
-			count -= equipped_inv_item.quantity if equipped_inv_item else 0
+			for index: int in range(0, Globals.MAIN_PLAYER_INV_SIZE + Globals.HOTBAR_SIZE):
+				var ii: II = Globals.player_node.inv.inv[index]
+				if ii != null and (ii.stats.id == current_item_stats.id):
+					count += ii.q
+			var equipped_ii: II = Globals.player_node.inv.inv[Globals.player_node.hands.equipped_item.inv_index]
+			count -= equipped_ii.q if equipped_ii else 0
 			count_str = str(count) if count != 0 else ""
 	update_inv_ammo_ui(count_str)

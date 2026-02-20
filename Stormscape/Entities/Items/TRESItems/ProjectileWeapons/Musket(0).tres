@@ -11,9 +11,6 @@
 [ext_resource type="Script" uid="uid://bj3r5oopspj6l" path="res://Entities/Items/Projectiles/ProjectileCore/ProjStats.gd" id="12_ma2xb"]
 [ext_resource type="PackedScene" uid="uid://bqkyplubhsx43" path="res://Entities/Items/Projectiles/Bullets/SmallBullet/SmallBullet.tscn" id="13_jo86x"]
 [ext_resource type="Script" uid="uid://ctxa7i1mbt7ab" path="res://Entities/Player/UI/Inventory/Panels/CraftingPanel/CraftingIngredient.gd" id="14_cya72"]
-[ext_resource type="Resource" uid="uid://8uj8fwadqlk0" path="res://Entities/Items/TRESItems/WorldResources/Stick(0).tres" id="14_iahun"]
-[ext_resource type="Script" uid="uid://c2gdoebfp12dq" path="res://Entities/Stats/StatMod/StatModsCacheResource.gd" id="15_c2f42"]
-[ext_resource type="Resource" uid="uid://bta1hncad1hd2" path="res://Entities/Items/TRESItems/WeaponMods/ExtendedMag(1).tres" id="15_ipoav"]
 [ext_resource type="Script" uid="uid://dvasncq3tgljs" path="res://Entities/Items/Weapons/ProjectileWeapons/ProjWeaponCore/ProjWeaponStats.gd" id="15_o52iq"]
 
 [sub_resource type="Curve" id="Curve_hjiec"]
@@ -64,20 +61,6 @@ bad_effects_falloff = false
 arc_speed = 350.0
 split_cam_fx = null
 
-[sub_resource type="Resource" id="Resource_ks1up"]
-script = ExtResource("14_cya72")
-item = ExtResource("14_iahun")
-metadata/_custom_type_script = "uid://ctxa7i1mbt7ab"
-
-[sub_resource type="Resource" id="Resource_3832c"]
-script = ExtResource("14_cya72")
-item = ExtResource("15_ipoav")
-rarity_match = "GEQ"
-metadata/_custom_type_script = "uid://ctxa7i1mbt7ab"
-
-[sub_resource type="Resource" id="Resource_x70ma"]
-script = ExtResource("15_c2f42")
-
 [resource]
 script = ExtResource("15_o52iq")
 proj_weapon_type = 3
@@ -100,7 +83,6 @@ bloom_curve = SubResource("Curve_hjiec")
 bloom_increase_rate = SubResource("Curve_6grxy")
 bloom_decrease_rate = SubResource("Curve_iahun")
 pullout_delay = 0.5
-s_mods = SubResource("Resource_x70ma")
 id = "musket"
 name = "Musket"
 item_type = 1
@@ -111,7 +93,6 @@ in_hand_icon = ExtResource("7_hjiec")
 inv_icon = ExtResource("7_hjiec")
 inv_icon_scale = Vector2(1.3, 1.3)
 inv_icon_rotation = -38.0
-recipe = Array[ExtResource("14_cya72")]([SubResource("Resource_ks1up"), SubResource("Resource_3832c")])
 item_scene = ExtResource("11_hjiec")
 holding_offset = Vector2(0, -3)
 is_gripped_by_one_hand = false

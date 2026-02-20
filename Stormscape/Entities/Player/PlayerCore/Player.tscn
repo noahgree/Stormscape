@@ -11,10 +11,15 @@
 [ext_resource type="Script" uid="uid://boo31eu083dqd" path="res://Entities/Stats/EffectSystemResources/StatusEffects/StatusEffect.gd" id="4_rdrbb"]
 [ext_resource type="Script" uid="uid://cbw8j4ps8ii7p" path="res://Entities/Items/Weapons/ProjectileWeapons/ProjWeaponCore/ProjWeaponII.gd" id="5_3uq13"]
 [ext_resource type="PackedScene" uid="uid://4gl24qwdyti3" path="res://Entities/Components/EffectComponents/EffectReceiverComponent/EffectHandlers/DmgHandler.tscn" id="5_g3ixu"]
+[ext_resource type="Resource" uid="uid://bta1hncad1hd2" path="res://Entities/Items/TRESItems/WeaponMods/ExtendedMag(1).tres" id="5_hxjay"]
 [ext_resource type="PackedScene" uid="uid://cxpv7l7rcaq1o" path="res://Entities/Components/StaminaComponent/StaminaComponent.tscn" id="5_k4fu6"]
 [ext_resource type="SpriteFrames" uid="uid://cl72xrd8yy3d" path="res://Entities/Player/Sprites/Base/PlayerBaseFrames.tres" id="5_vy6lk"]
 [ext_resource type="PackedScene" uid="uid://ddj5ippwwkvop" path="res://Entities/Components/EffectComponents/EffectReceiverComponent/EffectHandlers/HealHandler.tscn" id="6_5e1ju"]
 [ext_resource type="PackedScene" uid="uid://co3n6m7efg8pd" path="res://Entities/Components/EffectComponents/StatusEffectsComponent/StatusEffectsComponent.tscn" id="6_n0x5k"]
+[ext_resource type="Script" uid="uid://coadjb34ugaa6" path="res://Entities/Items/Weapons/WeaponCore/WeaponII.gd" id="7_gdihr"]
+[ext_resource type="Resource" uid="uid://bdjhfsluk53lc" path="res://Entities/Items/TRESItems/Ammo/Bullet(0).tres" id="7_o382h"]
+[ext_resource type="Resource" uid="uid://ciel2rrqq4dvv" path="res://Entities/Items/TRESItems/ProjectileWeapons/LaserGun(2).tres" id="8_6wv7y"]
+[ext_resource type="Resource" uid="uid://dk3vlbvu2b7eq" path="res://Entities/Items/TRESItems/MeleeWeapons/Sword(4).tres" id="8_g5u5n"]
 [ext_resource type="PackedScene" uid="uid://bhcqtorpyerc3" path="res://Utilities/Debug/ParticleEmissionComponent.tscn" id="10_6wv7y"]
 [ext_resource type="PackedScene" uid="uid://jpq0ij8wwlhy" path="res://Entities/Components/FacingComponent/FacingComponent.tscn" id="25_0t1mv"]
 [ext_resource type="Script" uid="uid://c28itqxmeqbq0" path="res://Entities/FSM/FSMCore/StateMachine.gd" id="25_6wv7y"]
@@ -110,15 +115,48 @@
 [ext_resource type="Texture2D" uid="uid://b5t26j33yq3b" path="res://Entities/Player/UI/Inventory/Assets/Slot/Universal/BackgroundIcons/ion_charge_slot_icon.png" id="136_uu4sw"]
 [ext_resource type="Texture2D" uid="uid://4vp08uunblux" path="res://Entities/Player/UI/Inventory/Assets/Slot/Universal/BackgroundIcons/boompowder_slot_icon.png" id="137_uu4sw"]
 
+[sub_resource type="Resource" id="Resource_6wv7y"]
+script = ExtResource("3_lo25j")
+uid = null
+stats = ExtResource("7_o382h")
+q = 500
+metadata/_custom_type_script = "uid://cv7ha7muvg5qu"
+
+[sub_resource type="Resource" id="Resource_6f5us"]
+script = ExtResource("3_lo25j")
+uid = null
+stats = ExtResource("5_hxjay")
+q = 2
+metadata/_custom_type_script = "uid://cv7ha7muvg5qu"
+
+[sub_resource type="Resource" id="Resource_5qckj"]
+script = ExtResource("7_gdihr")
+uid = null
+stats = ExtResource("8_g5u5n")
+metadata/_custom_type_script = "uid://coadjb34ugaa6"
+
 [sub_resource type="Resource" id="Resource_hxjay"]
 script = ExtResource("5_3uq13")
 uid = null
 stats = ExtResource("4_lo25j")
 metadata/_custom_type_script = "uid://cbw8j4ps8ii7p"
 
+[sub_resource type="Resource" id="Resource_da65a"]
+script = ExtResource("5_3uq13")
+uid = null
+stats = ExtResource("8_6wv7y")
+metadata/_custom_type_script = "uid://cbw8j4ps8ii7p"
+
+[sub_resource type="Resource" id="Resource_o382h"]
+script = ExtResource("3_lo25j")
+uid = null
+stats = ExtResource("7_o382h")
+q = 350
+metadata/_custom_type_script = "uid://cv7ha7muvg5qu"
+
 [sub_resource type="Resource" id="Resource_0t1mv"]
 script = ExtResource("2_14ixx")
-starting_inv = Array[ExtResource("3_lo25j")]([SubResource("Resource_hxjay")])
+starting_inv = Array[ExtResource("3_lo25j")]([SubResource("Resource_6wv7y"), SubResource("Resource_6f5us"), SubResource("Resource_5qckj"), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, SubResource("Resource_hxjay"), SubResource("Resource_da65a"), null, null, null, null, null, null, null, null, SubResource("Resource_o382h"), null, null, null, null, null])
 metadata/_custom_type_script = "uid://bdd0xujg1bgm0"
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3f130"]
@@ -142,47 +180,47 @@ colors = PackedColorArray(1, 0.907, 0.834, 0.5, 1, 0.752, 0.46, 0.4, 1, 1, 1, 0)
 _data = [Vector2(0, 0), 0.0, 1.0, 0, 1, Vector2(1, 1), 1.0, 0.0, 1, 0]
 point_count = 2
 
-[sub_resource type="Resource" id="Resource_oe7wn"]
+[sub_resource type="Resource" id="Resource_n4o3n"]
 resource_local_to_scene = true
 script = ExtResource("52_f5l7i")
 metadata/_custom_type_script = "uid://bv40a7n5sorxe"
 
-[sub_resource type="Resource" id="Resource_qvtc6"]
+[sub_resource type="Resource" id="Resource_gdihr"]
 resource_local_to_scene = true
 script = ExtResource("53_co77f")
 metadata/_custom_type_script = "uid://dk6uef3uxmeev"
 
-[sub_resource type="Resource" id="Resource_14ixx"]
+[sub_resource type="Resource" id="Resource_g5u5n"]
 resource_local_to_scene = true
 script = ExtResource("54_bmpdm")
 metadata/_custom_type_script = "uid://b21sy1r0nxgpv"
 
-[sub_resource type="Resource" id="Resource_lo25j"]
+[sub_resource type="Resource" id="Resource_0313k"]
 resource_local_to_scene = true
 script = ExtResource("55_8hbs2")
 metadata/_custom_type_script = "uid://5krnqdrdbey1"
 
-[sub_resource type="Resource" id="Resource_rdrbb"]
+[sub_resource type="Resource" id="Resource_thmqm"]
 resource_local_to_scene = true
 script = ExtResource("52_eufsu")
 metadata/_custom_type_script = "uid://bqw1ufs6jb7cf"
 
-[sub_resource type="Resource" id="Resource_3uq13"]
+[sub_resource type="Resource" id="Resource_r5dvw"]
 resource_local_to_scene = true
 script = ExtResource("57_h1ges")
 metadata/_custom_type_script = "uid://b1lo2mdb3otax"
 
-[sub_resource type="Resource" id="Resource_o382h"]
+[sub_resource type="Resource" id="Resource_bvo3j"]
 resource_local_to_scene = true
 script = ExtResource("58_32jvf")
 metadata/_custom_type_script = "uid://dubq8xgav66ue"
 
-[sub_resource type="Resource" id="Resource_6wv7y"]
+[sub_resource type="Resource" id="Resource_gb65f"]
 resource_local_to_scene = true
 script = ExtResource("59_82yts")
 metadata/_custom_type_script = "uid://5w234psf0oln"
 
-[sub_resource type="Resource" id="Resource_n4o3n"]
+[sub_resource type="Resource" id="Resource_eufsu"]
 resource_local_to_scene = true
 script = ExtResource("60_uu4sw")
 metadata/_custom_type_script = "uid://ckiyd2nbdcofr"
@@ -1248,15 +1286,15 @@ allowed_source_types = Array[int]([0])
 affected_entity = NodePath("..")
 dmg_handler = NodePath("DmgHandler")
 heal_handler = NodePath("HealHandler")
-storm_syndrome_handler = SubResource("Resource_oe7wn")
-knockback_handler = SubResource("Resource_qvtc6")
-stun_handler = SubResource("Resource_14ixx")
-poison_handler = SubResource("Resource_lo25j")
-regen_handler = SubResource("Resource_rdrbb")
-frostbite_handler = SubResource("Resource_3uq13")
-burning_handler = SubResource("Resource_o382h")
-time_snare_handler = SubResource("Resource_6wv7y")
-life_steal_handler = SubResource("Resource_n4o3n")
+storm_syndrome_handler = SubResource("Resource_n4o3n")
+knockback_handler = SubResource("Resource_gdihr")
+stun_handler = SubResource("Resource_g5u5n")
+poison_handler = SubResource("Resource_0313k")
+regen_handler = SubResource("Resource_thmqm")
+frostbite_handler = SubResource("Resource_r5dvw")
+burning_handler = SubResource("Resource_bvo3j")
+time_snare_handler = SubResource("Resource_gb65f")
+life_steal_handler = SubResource("Resource_eufsu")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EffectReceiverComponent" unique_id=825144666]
 position = Vector2(0, -7.5)
@@ -1292,7 +1330,6 @@ parameters/run/TimeScale/scale = 1.5
 parameters/run/blendspace2d/blend_position = Vector2(0, 0)
 
 [node name="ItemReceiverComponent" parent="." unique_id=2125852415 instance=ExtResource("30_qgyag")]
-pickup_range = null
 interaction_offer = SubResource("Resource_uu4sw")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ItemReceiverComponent" unique_id=668958573]

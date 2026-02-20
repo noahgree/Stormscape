@@ -30,7 +30,7 @@ func state_physics_process(delta: float) -> void:
 ## as well as calculates what vector the animation state machine should receive to play
 ## the matching directional anim.
 func _do_entity_run(delta: float) -> void:
-	var stats: StatModsCacheResource = entity.stats
+	var stats: StatModsCache = entity.stats
 	actual_movement_speed = (entity.global_position - previous_pos).length() / (delta * (1.0 / Engine.time_scale))
 	previous_pos = entity.global_position
 

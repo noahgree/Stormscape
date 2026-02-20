@@ -32,9 +32,9 @@ func set_up_potential_homing_delay() -> void:
 ## to find a target.
 func start_homing() -> void:
 	is_homing_active = true
-	var original_dur: float = proj.s_mods.get_original_stat("proj_homing_duration")
+	var original_dur: float = proj.sc.get_original_stat("proj_homing_duration")
 	if original_dur > -1:
-		homing_timer.start(proj.s_mods.get_stat("proj_homing_duration"))
+		homing_timer.start(proj.sc.get_stat("proj_homing_duration"))
 	find_homing_target_based_on_method()
 
 ## Choses the proper way to pick a target based on the current homing method.
@@ -182,7 +182,7 @@ func apply_homing_movement(delta: float) -> void:
 	var target_dir: Vector2 = (homing_target.global_position - proj.global_position).normalized()
 	var current_dir: Vector2 = Vector2(cos(proj.rotation), sin(proj.rotation)).normalized()
 	var angle_to_target: float = current_dir.angle_to(target_dir)
-	var turn_stat: float = proj.s_mods.get_stat("proj_max_turn_rate")
+	var turn_stat: float = proj.sc.get_stat("proj_max_turn_rate")
 	var max_turn_rate: float = deg_to_rad(turn_stat * proj.stats.turn_rate_curve.sample_baked((proj.stats.lifetime - proj.lifetime_timer.time_left) / proj.stats.lifetime)) * delta
 
 	angle_to_target = clamp(angle_to_target, -max_turn_rate, max_turn_rate)

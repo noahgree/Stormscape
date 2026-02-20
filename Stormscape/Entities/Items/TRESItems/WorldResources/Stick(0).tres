@@ -8,7 +8,7 @@
 
 [sub_resource type="Resource" id="Resource_svgfi"]
 script = ExtResource("5_npuiu")
-type = "Tags"
+type = 1
 tags = Array[StringName]([&"log"])
 metadata/_custom_type_script = "uid://ctxa7i1mbt7ab"
 

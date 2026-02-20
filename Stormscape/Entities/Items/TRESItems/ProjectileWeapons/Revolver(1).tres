@@ -11,6 +11,8 @@
 [ext_resource type="Script" uid="uid://bj3r5oopspj6l" path="res://Entities/Items/Projectiles/ProjectileCore/ProjStats.gd" id="9_cqayv"]
 [ext_resource type="PackedScene" uid="uid://bqkyplubhsx43" path="res://Entities/Items/Projectiles/Bullets/SmallBullet/SmallBullet.tscn" id="10_weglt"]
 [ext_resource type="Script" uid="uid://ctxa7i1mbt7ab" path="res://Entities/Player/UI/Inventory/Panels/CraftingPanel/CraftingIngredient.gd" id="11_apnw5"]
+[ext_resource type="Resource" uid="uid://dlfmjgnfk6nqj" path="res://Entities/Items/TRESItems/ProjectileWeapons/Revolver(0).tres" id="12_cwr0s"]
+[ext_resource type="Resource" uid="uid://buk4r8balgqup" path="res://Entities/Items/TRESItems/WorldResources/UpgradeTemplate(1).tres" id="13_61ytc"]
 [ext_resource type="Script" uid="uid://dvasncq3tgljs" path="res://Entities/Items/Weapons/ProjectileWeapons/ProjWeaponCore/ProjWeaponStats.gd" id="13_iahjt"]
 
 [sub_resource type="Resource" id="Resource_dnsve"]
@@ -37,11 +39,13 @@ split_cam_fx = null
 
 [sub_resource type="Resource" id="Resource_a7ctb"]
 script = ExtResource("11_apnw5")
+stats = ExtResource("12_cwr0s")
 rarity_match = "Equal"
 metadata/_custom_type_script = "uid://ctxa7i1mbt7ab"
 
 [sub_resource type="Resource" id="Resource_axfp0"]
 script = ExtResource("11_apnw5")
+stats = ExtResource("13_61ytc")
 rarity_match = "Equal"
 metadata/_custom_type_script = "uid://ctxa7i1mbt7ab"
 

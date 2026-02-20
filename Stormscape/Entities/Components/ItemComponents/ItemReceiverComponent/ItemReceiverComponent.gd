@@ -55,7 +55,7 @@ func _update_player_item_interact_hud() -> void:
 		interaction_offer.title_color = Globals.ui_colors.ui_glow_light_tan
 		interaction_offer.info = wi_stats.get_rarity_string() + " " + wi_stats.get_item_type_string()
 		if wi_stats is WeaponStats and not wi_stats.no_levels:
-			interaction_offer.info += " (Lvl. " + str(wi_stats.level) + ")"
+			interaction_offer.info += " (Lvl. " + str(world_item.ii.level) + ")"
 		interaction_offer.info_color = Globals.rarity_colors.ui_text.get(wi_stats.rarity)
 
 		Globals.player_node.interaction_handler.offer_interaction(interaction_offer)

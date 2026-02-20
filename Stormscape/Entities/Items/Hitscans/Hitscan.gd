@@ -10,8 +10,8 @@ class_name Hitscan
 @onready var beam_particles: CPUParticles2D = $BeamParticles ## The particles emitting along the beam or ray of the hitscan.
 
 var stats: HitscanStats ## The stats driving this hitscan.
-var s_mods: StatModsCacheResource ## The stat mods resource used to retrieve modified, updated stats for calculations and logic.
-var source_weapon_item: ProjectileWeapon ## The weapon item that produced this hitscan.
+var sc: StatModsCache ## The stat mods resource used to retrieve modified, updated stats for calculations and logic.
+var source_ii: ProjWeaponII ## The weapon item instance that produced this hitscan.
 var rotation_offset: float ## The offset to rotate the hitscan by, determined by the source weapon.
 var lifetime_timer: Timer = TimerHelpers.create_one_shot_timer(self, -1, queue_free) ## The timer tracking lifetime left before freeing.
 var effect_tick_timer: Timer = TimerHelpers.create_one_shot_timer(self) ## The timer delaying the intervals of applying the effect source.
@@ -33,9 +33,9 @@ static func create(source_wpn: ProjectileWeapon, rot_offset: float) -> Hitscan:
 	hitscan.effect_source = source_wpn.stats.effect_source
 	hitscan.source_entity = source_wpn.source_entity
 	hitscan.stats = source_wpn.stats.hitscan_logic
-	hitscan.s_mods = source_wpn.stats.s_mods
+	hitscan.sc = source_wpn.ii.sc
 
-	hitscan.source_weapon_item = source_wpn
+	hitscan.source_ii = source_wpn.ii
 	return hitscan
 
 func _draw() -> void:
@@ -56,7 +56,7 @@ func _draw() -> void:
 
 func _ready() -> void:
 	if not stats.continuous_beam:
-		var dur_stat: float = source_weapon_item.stats.firing_duration
+		var dur_stat: float = source_ii.stats.firing_duration
 		lifetime_timer.start(max(0.05, dur_stat))
 
 	start_particles.emitting = true
@@ -87,7 +87,7 @@ func _physics_process(_delta: float) -> void:
 	if is_instance_valid(source_entity.hands.equipped_item):
 		equipped_item = source_entity.hands.equipped_item
 
-	if equipped_item != null and equipped_item == source_weapon_item:
+	if equipped_item != null and equipped_item.ii == source_ii:
 		global_position = equipped_item.proj_origin_node.global_position.rotated(equipped_item.rotation)
 		global_rotation = equipped_item.global_rotation + rotation_offset
 
@@ -124,7 +124,7 @@ func _find_target_receivers() -> void:
 		if child is Area2D:
 			exclusion_list.append(child.get_rid())
 
-	var remaining_pierces: int = int(s_mods.get_stat("hitscan_pierce_count"))
+	var remaining_pierces: int = int(sc.get_stat("hitscan_pierce_count"))
 	var pierce_list: Dictionary[Node, Variant] = {}
 
 	while remaining_pierces >= 0:
@@ -190,11 +190,11 @@ func _find_target_receivers() -> void:
 
 				effect_tick_timer.stop()
 
-				var original_interval: float = s_mods.get_original_stat("hitscan_effect_interval")
+				var original_interval: float = sc.get_original_stat("hitscan_effect_interval")
 				if original_interval == -1:
 					effect_tick_timer.start(1000.0)
 				else:
-					var effect_time: float = s_mods.get_stat("hitscan_effect_interval")
+					var effect_time: float = sc.get_stat("hitscan_effect_interval")
 					effect_tick_timer.start(effect_time)
 
 	_update_impact_particles(pierce_list)
@@ -244,7 +244,7 @@ func _start_being_handled(handling_area: EffectReceiverComponent, contact_point:
 	var modified_effect_src: EffectSource = _get_effect_source_adjusted_for_falloff(effect_source, contact_point)
 	modified_effect_src.movement_direction = Vector2(cos(rotation), sin(rotation)).normalized()
 	effect_source.contact_position = contact_point
-	handling_area.handle_effect_source(modified_effect_src, source_entity, source_weapon_item.stats)
+	handling_area.handle_effect_source(modified_effect_src, source_entity, source_ii)
 
 ## When we hit a handling area during a hitscan, we apply falloff to the components of the effect source.
 func _get_effect_source_adjusted_for_falloff(effect_src: EffectSource, contact_point: Vector2) -> EffectSource:
@@ -252,7 +252,7 @@ func _get_effect_source_adjusted_for_falloff(effect_src: EffectSource, contact_p
 	var apply_to_bad: bool = stats.bad_effects_falloff
 	var apply_to_good: bool = stats.good_effects_falloff
 
-	var point_to_sample: float = float(global_position.distance_to(contact_point) / s_mods.get_stat("hitscan_max_distance"))
+	var point_to_sample: float = float(global_position.distance_to(contact_point) / sc.get_stat("hitscan_max_distance"))
 	var sampled_point: float = stats.hitscan_effect_falloff.sample_baked(point_to_sample)
 	var falloff_mult: float = max(0.05, sampled_point)
 

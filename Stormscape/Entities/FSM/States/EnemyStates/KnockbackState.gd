@@ -17,7 +17,7 @@ func state_physics_process(delta: float) -> void:
 	_animate()
 
 func _do_entity_knockback(delta: float) -> void:
-	var stats: StatModsCacheResource = entity.stats
+	var stats: StatModsCache = entity.stats
 
 	if controller.knockback_vector.length() > 0:
 		entity.velocity = controller.knockback_vector

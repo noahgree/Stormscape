@@ -62,12 +62,17 @@ func create_ii(quantity: int) -> II:
 	new.q = quantity
 	return new
 
+## Copies an item instance, keeping the same exported properties.
+func copy_ii(original_ii: II) -> II:
+	var new: II = original_ii.duplicate()
+	return new
+
 ## Finds the place a stat is stored at within the resource and returns it. Can optionally get the unmodified stat
 ## if it exists in the stat mods cache.
 func get_nested_stat(stat: StringName, get_original: bool = false) -> float:
-	if "s_mods" in self and get("s_mods").has_stat(stat):
-		if not get_original: return get("s_mods").get_stat(stat)
-		else: return get("s_mods").get_original_stat(stat)
+	if "sc" in self and get("sc").has_stat(stat):
+		if not get_original: return get("sc").get_stat(stat)
+		else: return get("sc").get_original_stat(stat)
 	elif stat in self:
 		return get(stat)
 	elif stat in get("effect_source"):

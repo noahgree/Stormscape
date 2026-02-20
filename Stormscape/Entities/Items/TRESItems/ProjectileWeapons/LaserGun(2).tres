@@ -14,7 +14,6 @@
 [ext_resource type="PackedScene" uid="uid://baxpb3crwepc0" path="res://Entities/Items/Weapons/ProjectileWeapons/LaserGun/LaserGun.tscn" id="11_ykm1j"]
 [ext_resource type="Script" uid="uid://ctxa7i1mbt7ab" path="res://Entities/Player/UI/Inventory/Panels/CraftingPanel/CraftingIngredient.gd" id="13_8yr7t"]
 [ext_resource type="Script" uid="uid://dvasncq3tgljs" path="res://Entities/Items/Weapons/ProjectileWeapons/ProjWeaponCore/ProjWeaponStats.gd" id="15_gch3x"]
-[ext_resource type="Script" uid="uid://c2gdoebfp12dq" path="res://Entities/Stats/StatMod/StatModsCacheResource.gd" id="17_ayb4m"]
 
 [sub_resource type="Curve" id="Curve_kfl3v"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.259631, 0), 0.0, 0.0, 0, 0, Vector2(0.757194, 0.277558), 0.0, 0.0, 0, 0, Vector2(1, 1), 2.89929, 0.0, 0, 0]
@@ -35,7 +34,7 @@ source_type = 1
 can_hit_self = false
 base_damage = 1
 status_effects = Array[ExtResource("2_gdqw7")]([ExtResource("4_v5gng")])
-metadata/_custom_type_script = ExtResource("2_v1b1g")
+metadata/_custom_type_script = "uid://dkfssottmsrch"
 
 [sub_resource type="Curve" id="Curve_j8kuh"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.69563), 0.0, 0.0, 0, 0]
@@ -89,9 +88,6 @@ split_delays = Array[float]([0.2, 0.15])
 split_cam_fx = null
 aoe_effect_falloff_curve = SubResource("Curve_3rmxf")
 
-[sub_resource type="Resource" id="Resource_wi7kk"]
-script = ExtResource("17_ayb4m")
-
 [sub_resource type="Curve" id="Curve_21u6p"]
 _data = [Vector2(0, 0.0632948), 0.0, 0.0, 0, 0, Vector2(1, 0.0743148), 0.0, 0.0, 0, 0]
 point_count = 2
@@ -130,7 +126,6 @@ bloom_decrease_rate = SubResource("Curve_uquue")
 warmup_delay_curve = SubResource("Curve_6cio3")
 warmup_increase_rate = SubResource("Curve_uh021")
 warmup_decrease_rate = SubResource("Curve_21u6p")
-s_mods = SubResource("Resource_wi7kk")
 id = "laser_gun"
 name = "Laser Gun"
 item_type = 1

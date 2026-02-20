@@ -135,13 +135,13 @@ func _on_mod_slot_changed(slot: ModSlot, old_ii: II, new_ii: II) -> void:
 
 	if item_viewer_slot.ii.stats is WeaponStats:
 		if old_ii != null:
-			WeaponModsManager.remove_weapon_mod(item_viewer_slot.ii.stats, old_ii.stats, slot.mod_slot_index, Globals.player_node)
-			_assign_item_details(item_viewer_slot.ii.stats)
+			WeaponModsManager.remove_weapon_mod(item_viewer_slot.ii, old_ii.stats, slot.mod_slot_index, Globals.player_node)
+			_assign_item_details(item_viewer_slot.ii)
 
 		if new_ii != null:
 			await get_tree().process_frame # Let the drag and drop finish and the removal happen before re-adding
-			WeaponModsManager.handle_weapon_mod(item_viewer_slot.ii.stats, new_ii.stats, slot.mod_slot_index, Globals.player_node)
-			_assign_item_details(item_viewer_slot.ii.stats)
+			WeaponModsManager.handle_weapon_mod(item_viewer_slot.ii, new_ii.stats, slot.mod_slot_index, Globals.player_node)
+			_assign_item_details(item_viewer_slot.ii)
 
 		item_viewer_slot.update_corner_icons(item_viewer_slot.ii)
 
@@ -197,14 +197,14 @@ func _on_item_viewer_slot_changed(_slot: Slot, _old_ii: II, new_ii: II) -> void:
 		item_rarity_margin.visible = true
 		info_label.text = new_ii.stats.info
 		info_margin.visible = true
-		_assign_item_details(new_ii.stats)
+		_assign_item_details(new_ii)
 		if not is_updating_via_hover:
 			pinned = true
 
 	if (new_ii.stats is WeaponStats) and (new_ii.stats.max_mods_override != 0):
 		_change_mod_slot_visibilities(true, new_ii.stats)
 		var i: int = 0
-		for weapon_mod_entry: Dictionary in new_ii.stats.current_mods:
+		for weapon_mod_entry: Dictionary in new_ii.current_mods:
 			if weapon_mod_entry.values()[0] != null:
 				mod_slots[i].ii = weapon_mod_entry.values()[0].create_ii(1)
 			i += 1
@@ -213,12 +213,12 @@ func _on_item_viewer_slot_changed(_slot: Slot, _old_ii: II, new_ii: II) -> void:
 
 	if new_ii.stats is WeaponStats:
 		if not new_ii.stats.no_levels:
-			var level: int = new_ii.stats.level
+			var level: int = new_ii.level
 			item_level_label.text = str(level) if level != WeaponII.MAX_LEVEL else "MAX LEVEL"
 			if level < WeaponII.MAX_LEVEL:
 				lvl_progress_margins.show()
-				item_lvl_margin.get_node("%ItemLvlProgressBar").value = WeaponII.visual_percent_of_lvl_progress(new_ii.stats) * 100.0
-				if new_ii.stats.allowed_lvl > level:
+				item_lvl_margin.get_node("%ItemLvlProgressBar").value = WeaponII.visual_percent_of_lvl_progress(new_ii) * 100.0
+				if new_ii.allowed_lvl > level:
 					lvl_up_inner_margin.show()
 			else:
 				lvl_progress_margins.hide()
@@ -243,8 +243,8 @@ func _show_and_update_item_title(title: String) -> void:
 	item_name_label.text = Globals.invis_char + title.to_upper() + Globals.invis_char
 
 ## Gets the details for the currently viewed item stats.
-func _assign_item_details(stats: ItemStats) -> void:
-	var details: Array[String] = item_details_creator.parse_item(stats)
+func _assign_item_details(ii: II) -> void:
+	var details: Array[String] = item_details_creator.parse_item(ii)
 	_format_and_update_details(details)
 
 ## Gets the details for the player.
@@ -289,10 +289,10 @@ func _on_hover_delay_ended() -> void:
 		if slot.ii != null:
 			var info: String = slot.ii.stats.get_item_type_string(true)
 			if slot.ii.stats is WeaponStats and not slot.ii.stats.no_levels:
-				info += " (Lvl. " + str(slot.ii.stats.level) + ")"
+				info += " (Lvl. " + str(slot.ii.level) + ")"
 			CursorManager.update_tooltip(slot.ii.stats.name, Globals.ui_colors.ui_light_tan, info, Globals.rarity_colors.ui_text.get(slot.ii.stats.rarity))
 	elif slot.ii != null:
 		is_updating_via_hover = true
-		var temp_item: II = slot.ii.duplicate()
+		var temp_item: II = slot.ii.stats.copy_ii(slot.ii)
 		item_viewer_slot.set_ii(temp_item)
 		is_updating_via_hover = false

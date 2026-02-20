@@ -41,7 +41,7 @@ func attempt_reload() -> void:
 
 ## Checks to see if the mag is already full. Returns true if it is.
 func mag_is_full() -> bool:
-	return weapon.stats.ammo_in_mag >= weapon.stats.s_mods.get_stat("mag_size")
+	return weapon.ii.ammo_in_mag >= weapon.ii.sc.get_stat("mag_size")
 
 ## Starts the timer that tracks the entire duration of the reload in order to provide the UI with
 ## continuous progress.
@@ -53,10 +53,10 @@ func _start_reload_dur_timer() -> void:
 	var total_reload_duration: float = weapon.stats.reload_delay
 	match weapon.stats.reload_type:
 		ProjWeaponStats.ReloadType.MAGAZINE:
-			total_reload_duration += weapon.stats.s_mods.get_stat("mag_reload_time")
+			total_reload_duration += weapon.ii.sc.get_stat("mag_reload_time")
 		ProjWeaponStats.ReloadType.SINGLE:
 			var needed: int = _get_needed_single_reloads_count()
-			var single_proj_reload_time: float = weapon.stats.s_mods.get_stat("single_proj_reload_time")
+			var single_proj_reload_time: float = weapon.ii.sc.get_stat("single_proj_reload_time")
 			total_reload_duration += (needed * single_proj_reload_time)
 
 	reload_dur_timer.start(total_reload_duration)
@@ -94,7 +94,7 @@ func _on_reload_delay_timer_timeout() -> void:
 
 ## This is the entry point for starting a magazine reload sequence.
 func _start_magazine_reload() -> void:
-	var reload_time: float = weapon.stats.s_mods.get_stat("mag_reload_time")
+	var reload_time: float = weapon.ii.sc.get_stat("mag_reload_time")
 	var mag_reload_anim_delay: float = min(reload_time, weapon.stats.mag_reload_anim_delay)
 	if (mag_reload_anim_delay != 0) and (reload_time - mag_reload_anim_delay) > 0.05:
 		mag_reload_anim_delay_timer.set_meta("anim_time", reload_time - mag_reload_anim_delay)
@@ -110,7 +110,7 @@ func _on_mag_reload_anim_delay_timer_timeout() -> void:
 ## Starts a single reload.
 func _start_single_reload() -> void:
 	var reloads_needed: int = _get_needed_single_reloads_count()
-	var reload_time: float = weapon.stats.s_mods.get_stat("single_proj_reload_time")
+	var reload_time: float = weapon.ii.sc.get_stat("single_proj_reload_time")
 	if reloads_needed > 1:
 		_start_reload_animation("single_reload", reload_time)
 	elif reloads_needed == 1:
@@ -148,19 +148,19 @@ func _on_reload_animation_finished(anim_name: StringName) -> void:
 
 ## This is the exit point for the magazine reload sequence.
 func _complete_mag_reload() -> void:
-	var mag_size: int = int(weapon.stats.s_mods.get_stat("mag_size"))
-	var ammo_needed: int = mag_size - weapon.stats.ammo_in_mag
+	var mag_size: int = int(weapon.ii.sc.get_stat("mag_size"))
+	var ammo_needed: int = mag_size - weapon.ii.ammo_in_mag
 	var ammo_available: int = _get_more_reload_ammo(ammo_needed)
-	weapon.update_mag_ammo(weapon.stats.ammo_in_mag + ammo_available)
+	weapon.update_mag_ammo(weapon.ii.ammo_in_mag + ammo_available)
 	end_reload()
 
 ## This is the ending of a single reload iteration, and can either end the sequence or start another iteration.
 func _complete_single_reload() -> void:
-	var mag_size: int = int(weapon.stats.s_mods.get_stat("mag_size"))
-	var ammo_needed: int = mag_size - weapon.stats.ammo_in_mag
-	var reload_quantity: int = int(weapon.stats.s_mods.get_stat("single_reload_quantity"))
+	var mag_size: int = int(weapon.ii.sc.get_stat("mag_size"))
+	var ammo_needed: int = mag_size - weapon.ii.ammo_in_mag
+	var reload_quantity: int = int(weapon.ii.sc.get_stat("single_reload_quantity"))
 	var ammo_available: int = _get_more_reload_ammo(min(ammo_needed, reload_quantity))
-	weapon.update_mag_ammo(weapon.stats.ammo_in_mag + ammo_available)
+	weapon.update_mag_ammo(weapon.ii.ammo_in_mag + ammo_available)
 
 	if ammo_available <= 0:
 		end_reload()
@@ -170,9 +170,9 @@ func _complete_single_reload() -> void:
 
 ## Returns the number of remaining needed single reloads.
 func _get_needed_single_reloads_count() -> int:
-	var mag_size: int = int(weapon.stats.s_mods.get_stat("mag_size"))
-	var ammo_needed: int = mag_size - weapon.stats.ammo_in_mag
-	var reload_quantity: int = int(weapon.stats.s_mods.get_stat("single_reload_quantity"))
+	var mag_size: int = int(weapon.ii.sc.get_stat("mag_size"))
+	var ammo_needed: int = mag_size - weapon.ii.ammo_in_mag
+	var reload_quantity: int = int(weapon.ii.sc.get_stat("single_reload_quantity"))
 	var reloads_needed: int = ceili(float(ammo_needed) / float(reload_quantity))
 	return reloads_needed
 
@@ -191,9 +191,9 @@ func do_post_reload_animation_cleanup() -> void:
 
 ## When an ammo recharge delay is finished, this is called to resync the ammo in mag with the ammo ui.
 func _on_ammo_recharge_delay_completed(item_id: StringName) -> void:
-	if item_id != str(weapon.stats.session_uid):
+	if item_id != str(weapon.ii.uid):
 		return
-	weapon.update_mag_ammo(weapon.stats.ammo_in_mag)
+	weapon.update_mag_ammo(weapon.ii.ammo_in_mag)
 
 ## Searches through the source entity's inventory for more ammo to fill the magazine.
 ## Can optionally be used to only check for ammo when told not to take from the inventory when found.
@@ -209,19 +209,19 @@ func _get_more_reload_ammo(max_amount_needed: int, take_from_inventory: bool = t
 ## When we have recently fired, we should not instantly keep recharging ammo, so we send a cooldown
 ## to the recharger.
 func restart_ammo_recharge_delay() -> void:
-	auto_decrementer.update_recharge_delay(str(weapon.stats.session_uid), weapon.stats.auto_ammo_delay)
+	auto_decrementer.update_recharge_delay(str(weapon.ii.uid), weapon.stats.auto_ammo_delay)
 
 ## This is called (usually after firing) to request a new ammo recharge instance.
 func request_ammo_recharge() -> void:
 	if weapon.stats.ammo_type in [ProjWeaponStats.ProjAmmoType.SELF, ProjWeaponStats.ProjAmmoType.STAMINA]:
 		return
-	if weapon.stats.ammo_in_mag >= weapon.stats.s_mods.get_stat("mag_size"):
+	if weapon.ii.ammo_in_mag >= weapon.ii.sc.get_stat("mag_size"):
 		return
 
-	var recharge_dur: float = weapon.stats.s_mods.get_stat("auto_ammo_interval")
+	var recharge_dur: float = weapon.ii.sc.get_stat("auto_ammo_interval")
 	if recharge_dur <= 0:
 		return
-	auto_decrementer.request_recharge(str(weapon.stats.session_uid), weapon.stats)
+	auto_decrementer.request_recharge(str(weapon.ii.uid), weapon.ii)
 
 ## Updates the overhead UI and the mouse cursor with the progress of the reload.
 func update_overhead_and_cursor_ui() -> void:

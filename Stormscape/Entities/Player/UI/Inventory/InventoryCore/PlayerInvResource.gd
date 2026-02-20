@@ -24,30 +24,36 @@ func initialize_inventory(source: Node2D) -> void:
 ## Handles the logic needed for adding an item to the inventory when picked up from the ground. Respects stack size.
 ## Any extra quantity that does not fit will be left on the ground as a physical item.
 func add_item_from_world(original_item: WorldItem) -> void:
-	var original_quantity: int = original_item.q
+	var original_quantity: int = original_item.ii.q
 	var remaining: int = 0
-	if original_item.stats is ProjAmmoStats:
-		remaining = _fill_ammo(original_item)
+	if original_item.ii.stats is ProjAmmoStats:
+		remaining = _fill_ammo(original_item.ii)
 		if remaining != 0:
 			original_item.respawn_item_after_quantity_change()
-			MessageManager.add_msg_preset(original_item.stats.name + " Storage Full", MessageManager.Presets.FAIL, 3.0)
-	elif original_item.stats is CurrencyStats:
-		remaining = _fill_currency(original_item)
+			MessageManager.add_msg_preset(original_item.ii.stats.name + " Storage Full", MessageManager.Presets.FAIL, 3.0)
+		else:
+			original_item.remove_from_world()
+	elif original_item.ii.stats is CurrencyStats:
+		remaining = _fill_currency(original_item.ii)
 		if remaining != 0:
 			original_item.respawn_item_after_quantity_change()
-			MessageManager.add_msg_preset(original_item.stats.name + " Storage Full", MessageManager.Presets.FAIL, 3.0)
+			MessageManager.add_msg_preset(original_item.ii.stats.name + " Storage Full", MessageManager.Presets.FAIL, 3.0)
+		else:
+			original_item.remove_from_world()
 	else:
-		remaining = _fill_hotbar(original_item)
+		remaining = _fill_hotbar(original_item.ii)
 		if remaining != 0:
-			remaining = _fill_main_inventory(original_item)
+			remaining = _fill_main_inventory(original_item.ii)
 		if remaining != 0:
 			original_item.respawn_item_after_quantity_change()
 			MessageManager.add_msg_preset("Inventory Full", MessageManager.Presets.FAIL, 3.0)
+		else:
+			original_item.remove_from_world()
 
 	var picked_up_quantity: int = original_quantity - remaining
 	if picked_up_quantity > 0:
 
-		MessageManager.add_msg("[color=white]+" + str(picked_up_quantity) + "[/color] " + original_item.stats.name, Globals.rarity_colors.ui_text.get(original_item.stats.rarity), original_item.stats.inv_icon, Color.WHITE, MessageManager.default_display_time, true)
+		MessageManager.add_msg("[color=white]+" + str(picked_up_quantity) + "[/color] " + original_item.ii.stats.name, Globals.rarity_colors.ui_text.get(original_item.ii.stats.rarity), original_item.ii.stats.inv_icon, Color.WHITE, MessageManager.default_display_time, true)
 
 ## Handles the logic needed for adding an item to the inventory from a given inventory item resource.
 ## Respects stack size. By default, any extra quantity that does not fit will be ignored and deleted.
@@ -75,25 +81,25 @@ func insert_from_inv_item(original_ii: II, delete_extra: bool = true, hotbar_fir
 		if original_ii.stats is WeaponStats:
 			ii = original_ii.stats.create_ii(original_ii.q)
 		else:
-			ii = original_ii.duplicate()
+			ii = original_ii.stats.copy_ii(original_ii)
 		WorldItem.spawn_on_ground(ii, Globals.player_node.global_position, 8, false, true)
 
-## Attempts to fill the hotbar with the item passed in. Can either be an WorldItem or an II.
+## Attempts to fill the hotbar with the item passed in.
 ## Returns any leftover quantity that did not fit.
-func _fill_hotbar(original_item: Variant) -> int:
-	return _do_add_item_checks(original_item, Globals.MAIN_PLAYER_INV_SIZE, Globals.MAIN_PLAYER_INV_SIZE + Globals.HOTBAR_SIZE)
+func _fill_hotbar(original_ii: II) -> int:
+	return _do_add_item_checks(original_ii, Globals.MAIN_PLAYER_INV_SIZE, Globals.MAIN_PLAYER_INV_SIZE + Globals.HOTBAR_SIZE)
 
-## Attempts to fill the main inventory with the item passed in. Can either be an WorldItem or an II.
+## Attempts to fill the main inventory with the item passed in.
 ## Returns any leftover quantity that did not fit.
-func _fill_main_inventory(original_item: Variant) -> int:
-	return _do_add_item_checks(original_item, 0, Globals.MAIN_PLAYER_INV_SIZE)
+func _fill_main_inventory(original_ii: II) -> int:
+	return _do_add_item_checks(original_ii, 0, Globals.MAIN_PLAYER_INV_SIZE)
 
-## Attempts to fill the ammo slots in the inventory with the passed in ammo. Can either be an WorldItem or
-## an II. Returns any leftover quantity that did not fit.
-func _fill_ammo(original_item: Variant) -> int:
-	var relative_index: int = ammo_slot_manager.type_order.find(original_item.stats.ammo_type)
+## Attempts to fill the ammo slots in the inventory with the passed in ammo.
+## Returns any leftover quantity that did not fit.
+func _fill_ammo(original_ii: II) -> int:
+	var relative_index: int = ammo_slot_manager.type_order.find(original_ii.stats.ammo_type)
 	var placement_index: int = ammo_slot_manager.starting_index + relative_index
-	return _do_add_item_checks(original_item, placement_index, placement_index + 1)
+	return _do_add_item_checks(original_ii, placement_index, placement_index + 1)
 
 ## Attempts to fill the currency slots in the inventory with the passed in currency. Can either be an WorldItem or
 ## an II. Returns any leftover quantity that did not fit.

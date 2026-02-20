@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://df8efruyxa73h" path="res://Entities/Items/Weapons/MeleeWeapons/ZombieHands/ZombieHandsBaseFrameCT.tres" id="6_45hyk"]
 [ext_resource type="PackedScene" uid="uid://cdbf0tdqr3eww" path="res://Entities/Items/Weapons/MeleeWeapons/ZombieHands/ZombieHands.tscn" id="7_yw8i5"]
 [ext_resource type="Script" uid="uid://ctxa7i1mbt7ab" path="res://Entities/Player/UI/Inventory/Panels/CraftingPanel/CraftingIngredient.gd" id="8_5erv1"]
-[ext_resource type="Script" uid="uid://c2gdoebfp12dq" path="res://Entities/Stats/StatMod/StatModsCacheResource.gd" id="11_2j3bo"]
+[ext_resource type="Script" uid="uid://c2gdoebfp12dq" path="res://Entities/Stats/StatMod/StatModsCache.gd" id="11_2j3bo"]
 [ext_resource type="Script" uid="uid://djlk3y511igng" path="res://Entities/Items/Weapons/MeleeWeapons/MeleeWeaponCore/MeleeWeaponStats.gd" id="12_8jcwo"]
 
 [sub_resource type="Resource" id="Resource_lgq7u"]

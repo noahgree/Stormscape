@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="MeleeWeaponResource" format=3 uid="uid://o4jrwlfkertl"]
+[gd_resource type="Resource" script_class="MeleeWeaponStats" format=3 uid="uid://o4jrwlfkertl"]
 
 [ext_resource type="Resource" uid="uid://b5dad578bsduf" path="res://Entities/Player/PlayerCore/PlayerCamera/CamFXPresets/3(NoFreeze).tres" id="1_ef0fw"]
 [ext_resource type="Script" uid="uid://dkfssottmsrch" path="res://Entities/Stats/EffectSystemResources/EffectSources/EffectSource.gd" id="2_bfhbg"]
@@ -7,10 +7,7 @@
 [ext_resource type="Script" uid="uid://cowjdnic7xmkp" path="res://Entities/Player/UI/Inventory/Panels/ItemDetailsPanel/StatDetail.gd" id="5_2eemx"]
 [ext_resource type="Texture2D" uid="uid://c8mku0yilyape" path="res://Entities/Items/Weapons/MeleeWeapons/Axe/AxeWoodCT.tres" id="6_5lu8p"]
 [ext_resource type="PackedScene" uid="uid://4jfk7na2inix" path="res://Entities/Items/Weapons/MeleeWeapons/Axe/AxeWood.tscn" id="7_5lu8p"]
-[ext_resource type="Resource" uid="uid://8uj8fwadqlk0" path="res://Entities/Items/TRESItems/WorldResources/Stick(0).tres" id="9_bfhbg"]
 [ext_resource type="Script" uid="uid://ctxa7i1mbt7ab" path="res://Entities/Player/UI/Inventory/Panels/CraftingPanel/CraftingIngredient.gd" id="9_gpb85"]
-[ext_resource type="Script" uid="uid://c2gdoebfp12dq" path="res://Entities/Stats/StatMod/StatModsCacheResource.gd" id="10_dwct0"]
-[ext_resource type="Resource" uid="uid://ddtvqrt702vcs" path="res://Entities/Items/TRESItems/WorldResources/Twine(0).tres" id="10_r1oeb"]
 [ext_resource type="Script" uid="uid://djlk3y511igng" path="res://Entities/Items/Weapons/MeleeWeapons/MeleeWeaponCore/MeleeWeaponStats.gd" id="11_4pa72"]
 
 [sub_resource type="Resource" id="Resource_bfhbg"]
@@ -22,7 +19,7 @@ base_damage = 25
 object_damage_mult = 5.0
 crit_chance = 5
 impact_cam_fx = ExtResource("1_ef0fw")
-metadata/_custom_type_script = ExtResource("2_bfhbg")
+metadata/_custom_type_script = "uid://dkfssottmsrch"
 
 [sub_resource type="Resource" id="Resource_r1oeb"]
 script = ExtResource("2_bfhbg")
@@ -32,27 +29,7 @@ can_hit_self = false
 base_damage = 8
 object_damage_mult = 5.0
 impact_cam_fx = ExtResource("4_2hf6i")
-metadata/_custom_type_script = ExtResource("2_bfhbg")
-
-[sub_resource type="Resource" id="Resource_2hf6i"]
-script = ExtResource("9_gpb85")
-item = ExtResource("9_bfhbg")
-quantity = 2
-metadata/_custom_type_script = "uid://ctxa7i1mbt7ab"
-
-[sub_resource type="Resource" id="Resource_2eemx"]
-script = ExtResource("9_gpb85")
-item = ExtResource("10_r1oeb")
-metadata/_custom_type_script = "uid://ctxa7i1mbt7ab"
-
-[sub_resource type="Resource" id="Resource_ewff2"]
-script = ExtResource("9_gpb85")
-type = "Tags"
-tags = Array[StringName]([&"log"])
-metadata/_custom_type_script = "uid://ctxa7i1mbt7ab"
-
-[sub_resource type="Resource" id="Resource_ieaky"]
-script = ExtResource("10_dwct0")
+metadata/_custom_type_script = "uid://dkfssottmsrch"
 
 [resource]
 script = ExtResource("11_4pa72")
@@ -60,7 +37,6 @@ effect_source = SubResource("Resource_r1oeb")
 use_cooldown = 0.25
 swing_angle = 110
 charge_effect_source = SubResource("Resource_bfhbg")
-s_mods = SubResource("Resource_ieaky")
 id = "axe"
 name = "Axe"
 tags = Array[StringName]([&"tool"])
@@ -70,6 +46,5 @@ info = "A mighty axe."
 ground_icon = ExtResource("6_5lu8p")
 in_hand_icon = ExtResource("6_5lu8p")
 inv_icon = ExtResource("6_5lu8p")
-recipe = Array[ExtResource("9_gpb85")]([SubResource("Resource_2hf6i"), SubResource("Resource_2eemx"), SubResource("Resource_ewff2")])
 item_scene = ExtResource("7_5lu8p")
 shown_cooldown_fills = Array[String](["default"])

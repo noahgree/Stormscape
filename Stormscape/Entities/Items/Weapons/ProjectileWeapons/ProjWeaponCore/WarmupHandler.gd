@@ -34,17 +34,17 @@ func start_warmup() -> void:
 
 ## Increases current warmup level via sampling the increase curve using the current warmup.
 func add_warmup() -> void:
-	if weapon.stats.s_mods.get_stat("initial_fire_rate_delay") <= 0:
+	if weapon.ii.sc.get_stat("initial_fire_rate_delay") <= 0:
 		return
 	if weapon.stats.firing_mode != ProjWeaponStats.FiringType.AUTO:
 		return
 
-	var current_warmup: float = auto_decrementer.get_warmup(str(weapon.stats.session_uid))
+	var current_warmup: float = auto_decrementer.get_warmup(str(weapon.ii.uid))
 	var sampled_point: float = weapon.stats.warmup_increase_rate.sample_baked(current_warmup)
-	var increase_rate_multiplier: float = weapon.stats.s_mods.get_stat("warmup_increase_rate_multiplier")
+	var increase_rate_multiplier: float = weapon.ii.sc.get_stat("warmup_increase_rate_multiplier")
 	var increase_amount: float = max(0.01, sampled_point * increase_rate_multiplier)
 	auto_decrementer.add_warmup(
-		str(weapon.stats.session_uid),
+		str(weapon.ii.uid),
 		min(1, increase_amount),
 		weapon.stats.warmup_decrease_rate,
 		weapon.stats.warmup_decrease_delay
@@ -52,10 +52,10 @@ func add_warmup() -> void:
 
 ## Grabs a point from the warmup curve based on current warmup level given by the auto decrementer.
 func _get_warmup_delay() -> float:
-	var current_warmup: float = auto_decrementer.get_warmup(str(weapon.stats.session_uid))
+	var current_warmup: float = auto_decrementer.get_warmup(str(weapon.ii.uid))
 	if current_warmup > 0:
 		var sampled_delay_multiplier: float = weapon.stats.warmup_delay_curve.sample_baked(current_warmup)
-		var max_delay: float = weapon.stats.s_mods.get_stat("initial_fire_rate_delay")
+		var max_delay: float = weapon.ii.sc.get_stat("initial_fire_rate_delay")
 		return sampled_delay_multiplier * max_delay
 	else:
 		return 0

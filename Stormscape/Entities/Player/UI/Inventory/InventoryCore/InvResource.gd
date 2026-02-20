@@ -96,7 +96,7 @@ func _fill_all_slots_in_order(original_ii: II) -> int:
 ## Wrapper function to let child functions check whether to add quantity to an item slot.
 ## Checks between the indices give by the start index and the stop index.
 func _do_add_item_checks(original_ii: II, start_i: int, stop_i: int) -> int:
-	var ii: II = original_ii.duplicate()
+	var ii: II = original_ii.stats.copy_ii(original_ii)
 
 	for index: int in range(start_i, stop_i):
 		if inv[index] != null and inv[index].stats.is_same_as(ii.stats):
@@ -147,7 +147,7 @@ func _put_what_fits_in_empty_index_and_continue(index: int, ii: II, original_ii:
 func remove_item(index: int, amount: int) -> void:
 	if inv[index] == null:
 		return
-	var updated_ii: II = inv[index].duplicate()
+	var updated_ii: II = inv[index].stats.copy_ii(inv[index])
 	updated_ii.q = max(0, updated_ii.q - amount)
 	if updated_ii.q <= 0:
 		inv[index] = null

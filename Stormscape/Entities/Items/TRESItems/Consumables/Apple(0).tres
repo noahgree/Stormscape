@@ -36,6 +36,5 @@ inv_icon = ExtResource("4_8vr7p")
 item_scene = ExtResource("2_1oeu8")
 holding_offset = Vector2(1, -2)
 main_hand_offset = Vector2(0, 1)
-cooldowns_per_suid = false
 shown_cooldown_fills = Array[String](["default"])
 show_cursor_cooldown = true

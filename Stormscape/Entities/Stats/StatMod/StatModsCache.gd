@@ -1,22 +1,14 @@
 extends Resource
-class_name StatModsCacheResource
+class_name StatModsCache
 ## A resource that caches and works with stat mods applied to the entity on which it is defined.
 
-var affected_entity: Entity = null ## The entity that this cache resource works for. If working with a weapon, this will be null.
-var stat_mods: Dictionary[StringName, Dictionary] = {} ## The cache of mod resources currently applied to the entity's stats.
-var cached_stats: Dictionary[StringName, float] = {} ## The up-to-date and calculated stats to be used by anything that depend on them.
-var base_values: Dictionary[StringName, float] = {} ## The unchanging base values of each moddable stat, usually set by copying the exported values from the component into a dictionary that is passed into the setup function below.
+var affected_entity: Entity ## The entity that this cache resource works for. If working with a weapon, this will be null.
+var stat_mods: Dictionary[StringName, Dictionary] ## The cache of mod resources currently applied to the entity's stats.
+var cached_stats: Dictionary[StringName, float] ## The up-to-date and calculated stats to be used by anything that depend on them.
+var base_values: Dictionary[StringName, float] ## The unchanging base values of each moddable stat, usually set by copying the exported values from the component into a dictionary that is passed into the setup function below.
 var is_loading: bool = false ## Blocks print spam of changes during loads.
-var associated_callables: Dictionary[StringName, Callable] = {} ## This maps stats to a callable that should be called when they are changed.
+var associated_callables: Dictionary[StringName, Callable] ## This maps stats to a callable that should be called when they are changed.
 
-
-## Clears out the cached stats and recalculates everything based on base values.
-func reinit_on_load() -> void:
-	is_loading = true
-	cached_stats = {}
-	for stat_id: String in base_values:
-		_recalculate_stat(stat_id, base_values.get(stat_id))
-	is_loading = false
 
 ## Sets up the base values dict and calculates initial values based on any already present mods.
 func add_moddable_stats(base_valued_stats: Dictionary[StringName, float]) -> void:
@@ -76,7 +68,7 @@ func _update_ui_for_stat(stat_id: StringName, new_value: float) -> void:
 	if callable == null: # Usually means the stat was added normally and does not have an associated callable
 		return
 	if not callable.is_valid():
-		push_warning("StatModsCacheResource tried to call the callable \"" + callable.get_method() + "\" on the node \"" + affected_entity.name + "\" and failed. Make sure the source of the moddable stat \"" + stat_id + "\" is passing the correct callable and is still valid." )
+		push_warning("StatModsCache tried to call the callable \"" + callable.get_method() + "\" on the node \"" + affected_entity.name + "\" and failed. Make sure the source of the moddable stat \"" + stat_id + "\" is passing the correct callable and is still valid." )
 	else:
 		callable.call_deferred(new_value)
 

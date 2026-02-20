@@ -18,7 +18,7 @@ class_name HandsComponent
 @onready var drawn_off_hand: Sprite2D = $HandsAnchor/DrawnOffHand ## The extra off hand sprite that is drawn on top of a weapon that needs it. See the equippability details inside the item resources for more info.
 @onready var smoke_particles: CPUParticles2D = $HandsAnchor/SmokeParticles ## The smoke particles used when an item has overheated.
 
-var equipped_item: EquippableItem = null ## The currently equipped equippable item that the entity is holding.
+var equipped_item: EquippableItem ## The currently equipped equippable item that the entity is holding.
 var active_slot_info: Control ## UI for displaying information about the active slot's item. Only for the player.
 var current_x_direction: int = 1 ## A pos or neg toggle for which direction the anim vector has us facing. Used to flip the x-scale.
 var scale_is_lerping: bool = false ## Whether or not the scale is currently lerping between being negative or positive.
@@ -164,7 +164,7 @@ func on_equipped_ii_change(ii: II, inv_index: int) -> void:
 	_update_anchor_scale("x", 1)
 	_update_anchor_scale("y", 1)
 	main_hand.rotation = 0
-	entity.facing_component.rotation_lerping_factor = ii.s_mods.get_stat("rotation_lerping") if equipped_item is Weapon else equipped_item.stats.rotation_lerping
+	entity.facing_component.rotation_lerping_factor = ii.sc.get_stat("rotation_lerping") if equipped_item is Weapon else equipped_item.stats.rotation_lerping
 	scale_is_lerping = false
 
 	_change_off_hand_sprite_visibility(true)
@@ -212,7 +212,7 @@ func do_these_stats_match_equipped_item(stats_to_check: ItemStats) -> bool:
 ## Based on the current anim vector, we artificially move the rotation of the hands over before
 ## the items to simulate a pullout animation.
 func _prep_for_pullout_anim() -> void:
-	if equipped_item.stats is WeaponStats and equipped_item.stats.s_mods.get_stat("pullout_delay") == 0:
+	if equipped_item is Weapon and equipped_item.ii.sc.get_stat("pullout_delay") == 0:
 		return
 
 	hands_anchor.global_rotation = _get_facing_dir().angle()
@@ -418,13 +418,13 @@ func _check_is_holding_weapon() -> bool:
 func add_mod_to_weapon_by_id(mod_cache_id: StringName) -> void:
 	if not _check_is_holding_weapon():
 		return
-	var equipped_stats: ItemStats = Globals.player_node.hands.equipped_item.stats
+	var equipped_ii: WeaponII = Globals.player_node.hands.equipped_item.ii
 	var mod: ItemStats = Items.get_item_by_id(mod_cache_id, true)
 	if mod == null or mod is not WeaponModStats:
 		printerr("The mod of id \"" + mod_cache_id + "\" does not exist.")
 		return
 	WeaponModsManager.handle_weapon_mod(
-		equipped_stats, mod, WeaponModsManager.get_next_open_mod_slot(equipped_stats), Globals.player_node
+		equipped_ii, mod, WeaponModsManager.get_next_open_mod_slot(equipped_ii), Globals.player_node
 	)
 
 ## Tries to toggle a weapon between using hitscan or not.

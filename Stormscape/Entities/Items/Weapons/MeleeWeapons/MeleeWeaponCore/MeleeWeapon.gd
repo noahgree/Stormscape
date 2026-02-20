@@ -32,8 +32,8 @@ func _ready() -> void:
 
 ## Called when the weapon first enters, but after the _ready function.
 func enter() -> void:
-	if stats.s_mods.get_stat("pullout_delay") > 0:
-		pullout_delay_timer.start(stats.s_mods.get_stat("pullout_delay"))
+	if ii.sc.get_stat("pullout_delay") > 0:
+		pullout_delay_timer.start(ii.sc.get_stat("pullout_delay"))
 
 	update_ammo_ui()
 
@@ -61,9 +61,9 @@ func _can_activate_at_all(for_charged: bool) -> bool:
 		return false
 	match state:
 		WeaponState.IDLE:
-			var cost: float = stats.s_mods.get_stat("stamina_cost")
+			var cost: float = ii.sc.get_stat("stamina_cost")
 			if for_charged:
-				cost = stats.s_mods.get_stat("charge_stamina_cost")
+				cost = ii.sc.get_stat("charge_stamina_cost")
 				if not stats.can_do_charge_use:
 					return false
 			if source_entity.stamina_component.has_enough_stamina(cost):
@@ -84,7 +84,7 @@ func activate() -> void:
 func hold_activate(delta: float) -> void:
 	if stats.can_do_charge_use:
 		if _can_activate_at_all(true):
-			if stats.auto_do_charge_use and (hold_time >= stats.s_mods.get_stat("min_charge_time")):
+			if stats.auto_do_charge_use and (hold_time >= ii.sc.get_stat("min_charge_time")):
 				if stats.reset_charge_on_use:
 					hold_time = 0
 				_charge_swing()
@@ -102,7 +102,7 @@ func hold_activate(delta: float) -> void:
 
 ## Called when a trigger is released.
 func release_hold_activate() -> void:
-	if (hold_time >= stats.s_mods.get_stat("min_charge_time")) and _can_activate_at_all(true):
+	if (hold_time >= ii.sc.get_stat("min_charge_time")) and _can_activate_at_all(true):
 		if stats.reset_charge_on_use:
 			hold_time = 0
 		_charge_swing()
@@ -115,7 +115,7 @@ func release_hold_activate() -> void:
 ## Begins the logic for doing a normal weapon swing.
 func _swing() -> void:
 	state = WeaponState.SWINGING
-	source_entity.stamina_component.use_stamina(stats.s_mods.get_stat("stamina_cost"))
+	source_entity.stamina_component.use_stamina(ii.sc.get_stat("stamina_cost"))
 	recent_swing_type = RecentSwingType.NORMAL
 
 	# Force no rotation during normal swings
@@ -124,7 +124,7 @@ func _swing() -> void:
 
 	_set_hitbox_effect_source_and_collision(stats.effect_source)
 	_apply_start_use_effect(false)
-	add_cooldown(stats.s_mods.get_stat("use_cooldown") + stats.s_mods.get_stat("use_speed"))
+	add_cooldown(ii.sc.get_stat("use_cooldown") + ii.sc.get_stat("use_speed"))
 
 	await _start_swing_anim_and_fx(false)
 
@@ -135,7 +135,7 @@ func _swing() -> void:
 ## Begins the logic for doing a charged swing.
 func _charge_swing() -> void:
 	state = WeaponState.SWINGING
-	source_entity.stamina_component.use_stamina(stats.s_mods.get_stat("charge_stamina_cost"))
+	source_entity.stamina_component.use_stamina(ii.sc.get_stat("charge_stamina_cost"))
 	recent_swing_type = RecentSwingType.CHARGED
 
 	# Follow the rotation of the swing during charged swings, since it will likely spin all the way around
@@ -144,7 +144,7 @@ func _charge_swing() -> void:
 
 	_set_hitbox_effect_source_and_collision(stats.charge_effect_source)
 	_apply_start_use_effect(true)
-	add_cooldown(stats.s_mods.get_stat("charge_use_cooldown") + stats.s_mods.get_stat("charge_use_speed"))
+	add_cooldown(ii.sc.get_stat("charge_use_cooldown") + ii.sc.get_stat("charge_use_speed"))
 
 	await _start_swing_anim_and_fx(true)
 
@@ -166,14 +166,14 @@ func _start_swing_anim_and_fx(for_charged: bool) -> void:
 	if (stats.use_anim == "" and not for_charged) or (stats.charge_use_anim == "" and for_charged):
 		var library: AnimationLibrary = anim_player.get_animation_library("MeleeWeaponAnimLibrary")
 		var anim: Animation = library.get_animation("charge_use" if for_charged else "use")
-		var angle_radians: float = deg_to_rad(stats.s_mods.get_stat("charge_swing_angle" if for_charged else "swing_angle"))
+		var angle_radians: float = deg_to_rad(ii.sc.get_stat("charge_swing_angle" if for_charged else "swing_angle"))
 		var main_sprite_track: int = anim.find_track("ItemSprite:rotation", Animation.TYPE_VALUE)
 		anim.track_set_key_value(main_sprite_track, 1, angle_radians)
 		anim_to_play = "MeleeWeaponAnimLibrary/charge_use" if for_charged else "MeleeWeaponAnimLibrary/use"
 	else:
 		anim_to_play = stats.charge_use_anim if for_charged else stats.use_anim
 
-	var use_speed: float = stats.s_mods.get_stat("charge_use_speed" if for_charged else "use_speed")
+	var use_speed: float = ii.sc.get_stat("charge_use_speed" if for_charged else "use_speed")
 	if use_speed > 0:
 		anim_player.speed_scale = 1.0 / use_speed
 		anim_player.play(anim_to_play)

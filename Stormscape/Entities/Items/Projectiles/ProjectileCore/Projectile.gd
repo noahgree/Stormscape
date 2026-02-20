@@ -14,7 +14,7 @@ class_name Projectile
 #region Local Vars
 const MAX_AOE_RADIUS: float = 85.0
 var stats: ProjStats ## The logic for how to operate this projectile.
-var s_mods: StatModsCacheResource ## The cache containing the current numerical values for firing metrics.
+var sc: StatModsCache ## The cache containing the current numerical values for firing metrics.
 var lifetime_timer: Timer = TimerHelpers.create_one_shot_timer(self, -1, _on_lifetime_timer_timeout_or_reached_max_distance) ## The timer tracking how long the projectile has left to exist.
 var aoe_delay_timer: Timer = TimerHelpers.create_one_shot_timer(self) ## The timer tracking how long after starting an AOE do we wait before enabling damage again.
 var initial_boost_timer: Timer = TimerHelpers.create_one_shot_timer(self, -1, func() -> void: current_initial_boost = 1.0) ## The timer that tracks how long we have left in an initial boost.
@@ -55,24 +55,24 @@ func _on_before_load_game() -> void:
 
 #region Core
 ## Creates a projectile and assigns its needed variables in a specific order. Then it returns it.
-static func create(wpn_stats: ProjWeaponStats, src_entity: Entity, pos: Vector2, rot: float) -> Projectile:
-	var proj_scene: PackedScene = wpn_stats.projectile_scn
+static func create(wpn_ii: WeaponII, src_entity: Entity, pos: Vector2, rot: float) -> Projectile:
+	var proj_scene: PackedScene = wpn_ii.stats.projectile_scn
 	var proj: Projectile = proj_scene.instantiate()
 	proj.split_proj_scene = proj_scene
 	proj.global_position = pos
 	proj.rotation = rot
 
-	proj.stats = wpn_stats.projectile_logic
-	proj.s_mods = wpn_stats.s_mods
+	proj.stats = wpn_ii.stats.projectile_logic
+	proj.sc = wpn_ii.sc
 	if proj.stats.speed_curve.point_count == 0:
 		push_error("\"" + src_entity.name + "\" has a weapon attempting to fire projectiles, but the projectile resource within the weapon has a blank speed curve.")
 	proj.max_distance_random_offset = randf_range(0, 15)
 
-	var effect_src: EffectSource = wpn_stats.effect_source
+	var effect_src: EffectSource = wpn_ii.stats.effect_source
 	proj.effect_source = effect_src
 	proj.collision_mask = effect_src.scanned_phys_layers
 	proj.source_entity = src_entity
-	proj.source_weapon = wpn_stats
+	proj.source_ii = wpn_ii
 	return proj
 
 ## Used for debugging the homing system & other collisions. Draws vectors to where we have scanned during
@@ -186,7 +186,7 @@ func _physics_process(delta: float) -> void:
 	previous_position = global_position
 
 	if not is_in_aoe_phase:
-		var max_dist: float = s_mods.get_stat("proj_max_distance")
+		var max_dist: float = sc.get_stat("proj_max_distance")
 		if (global_position - instantiation_position).length() >= (max_dist + max_distance_random_offset):
 			_on_lifetime_timer_timeout_or_reached_max_distance()
 
@@ -212,7 +212,7 @@ func _physics_process(delta: float) -> void:
 ## This moves the projectile based on the current method, accounting for current rotation if we need to.
 ## It chooses speed from the speed curve based on lifetime remaining.
 func _do_projectile_movement(delta: float) -> void:
-	var speed: float = s_mods.get_stat("proj_speed")
+	var speed: float = sc.get_stat("proj_speed")
 	var sampled_point: float = stats.speed_curve.sample_baked(1 - (lifetime_timer.time_left / stats.lifetime))
 	current_sampled_speed = sampled_point * speed * current_initial_boost
 
@@ -294,7 +294,7 @@ func _split_self() -> void:
 
 	for i: int in range(split_into_count_offset_by_one):
 		var angle: float = start_angle + (i * step_angle)
-		var new_proj: Projectile = Projectile.create(source_weapon, source_entity, position, angle)
+		var new_proj: Projectile = Projectile.create(source_ii, source_entity, position, angle)
 		new_proj.splits_so_far = splits_so_far
 		new_proj.spin_dir = spin_dir
 		new_proj.multishot_id = new_multishot_id
@@ -376,7 +376,7 @@ func _handle_aoe() -> void:
 	call_deferred("_assign_new_collider_shape_and_aoe_entities", new_shape)
 
 	if stats.aoe_vfx != null:
-		var radius: float = min(MAX_AOE_RADIUS, s_mods.get_stat("proj_aoe_radius"))
+		var radius: float = min(MAX_AOE_RADIUS, sc.get_stat("proj_aoe_radius"))
 		var dur: float = stats.aoe_vfx_dur if stats.aoe_vfx_dur != 0.0 else max(0.05, stats.aoe_effect_dur)
 		AreaOfEffectVFX.create(stats.aoe_vfx, Globals.world_root, self, radius, dur)
 	AudioManager.play_2d(stats.aoe_sound, global_position)
@@ -395,7 +395,7 @@ func _hide_sprite_after_aoe_anim_ends() -> void:
 ## This also applies the initial hit of the aoe effect source to entities in range. The handling
 ## function won't apply status effects as a result of this hit.
 func _assign_new_collider_shape_and_aoe_entities(new_shape: Shape2D) -> void:
-	var radius: float = min(MAX_AOE_RADIUS, s_mods.get_stat("proj_aoe_radius"))
+	var radius: float = min(MAX_AOE_RADIUS, sc.get_stat("proj_aoe_radius"))
 	new_shape.radius = (radius / scale.x)
 	collider.shape = new_shape
 	_enable_collider()
@@ -416,7 +416,7 @@ func _assign_new_collider_shape_and_aoe_entities(new_shape: Shape2D) -> void:
 #region Lifetime & Handling
 ## When the lifetime ends, either start an AOE or queue free.
 func _on_lifetime_timer_timeout_or_reached_max_distance() -> void:
-	var original_radius: float = s_mods.get_original_stat("proj_aoe_radius")
+	var original_radius: float = sc.get_original_stat("proj_aoe_radius")
 	if original_radius > 0 and stats.aoe_before_freeing:
 		_handle_aoe()
 	else:
@@ -480,7 +480,7 @@ func _process_hit(object: Node2D) -> void:
 	var sprite_rect: Vector2 = SpriteHelpers.SpriteDetails.get_frame_rect(sprite)
 	debug_recent_hit_location = global_position + Vector2(sprite_rect.x / 2, 0).rotated(rotation)
 	if not is_in_aoe_phase:
-		var ricochet_stat: int = int(s_mods.get_stat("proj_max_ricochet"))
+		var ricochet_stat: int = int(sc.get_stat("proj_max_ricochet"))
 		if stats.ricochet_walls_only and object is TileMapLayer:
 			_handle_ricochet(object)
 			spin_dir *= -1
@@ -489,7 +489,7 @@ func _process_hit(object: Node2D) -> void:
 			_handle_ricochet(object)
 			return
 
-		var pierce_stat: int = int(s_mods.get_stat("proj_max_pierce"))
+		var pierce_stat: int = int(sc.get_stat("proj_max_pierce"))
 		if pierce_count < pierce_stat:
 			if object is Entity or object is EffectReceiverComponent:
 				_handle_pierce()
@@ -497,7 +497,7 @@ func _process_hit(object: Node2D) -> void:
 
 		_disable_in_air_only_particles() # Since we have to be grounded at this point
 
-		var original_radius: float = s_mods.get_original_stat("proj_aoe_radius")
+		var original_radius: float = sc.get_original_stat("proj_aoe_radius")
 		if original_radius > 0:
 			lifetime_timer.stop()
 			_handle_aoe()
@@ -535,13 +535,13 @@ func _start_being_handled(handling_area: EffectReceiverComponent) -> void:
 		modified_effect_src.multishot_id = multishot_id
 		modified_effect_src.movement_direction = movement_direction
 		modified_effect_src.contact_position = global_position
-		handling_area.handle_effect_source(modified_effect_src, source_entity, source_weapon)
+		handling_area.handle_effect_source(modified_effect_src, source_entity, source_ii)
 	else:
 		if stats.aoe_effect_source == null:
 			stats.aoe_effect_source = effect_source
 		var modified_effect_src: EffectSource = _get_effect_source_adjusted_for_falloff(stats.aoe_effect_source, handling_area, true)
 		modified_effect_src.contact_position = global_position
-		handling_area.handle_effect_source(modified_effect_src, source_entity, source_weapon, false) # Don't reapply status effects.
+		handling_area.handle_effect_source(modified_effect_src, source_entity, source_ii, false) # Don't reapply status effects.
 
 ## When we hit a handling area during an AOE, we need to apply falloff based on distance from the center of the AOE.
 func _get_effect_source_adjusted_for_falloff(effect_src: EffectSource, handling_area: EffectReceiverComponent,
@@ -555,7 +555,7 @@ func _get_effect_source_adjusted_for_falloff(effect_src: EffectSource, handling_
 	if is_aoe:
 		apply_to_bad = stats.bad_effects_aoe_falloff
 		apply_to_good = stats.good_effects_aoe_falloff
-		var radius: float = min(MAX_AOE_RADIUS, s_mods.get_stat("proj_aoe_radius"))
+		var radius: float = min(MAX_AOE_RADIUS, sc.get_stat("proj_aoe_radius"))
 		falloff_mult = max(0.05, stats.aoe_effect_falloff_curve.sample_baked(dist_to_center / radius))
 	else:
 		apply_to_bad = stats.bad_effects_falloff

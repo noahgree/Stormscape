@@ -4,7 +4,7 @@ class_name StateFunctions
 
 ## Handles the decision logic for choosing run vs sprint and moves the entity accordingly.
 static func handle_run_logic(delta: float, entity: Entity, controller: DynamicController,
-								stats: StatModsCacheResource, max_anim_scale: float, default_anim_scale: float,
+								stats: StatModsCache, max_anim_scale: float, default_anim_scale: float,
 								extra_run_mult: float = 1.0, extra_sprint_mult: float = 1.0) -> void:
 	if controller.knockback_vector.length() > 0:
 		entity.velocity = controller.knockback_vector
@@ -28,7 +28,7 @@ static func handle_run_logic(delta: float, entity: Entity, controller: DynamicCo
 
 ## Applies sprint movement to the entity's velocity.
 static func apply_sprint_movement(delta: float, entity: Entity, controller: DynamicController,
-									stats: StatModsCacheResource, max_anim_scale: float, default_anim_scale: float,
+									stats: StatModsCache, max_anim_scale: float, default_anim_scale: float,
 									extra_multiplier: float = 1.0) -> void:
 	# Update anim speed multiplier
 	var sprint_mult: float = stats.get_stat("sprint_multiplier")
@@ -44,7 +44,7 @@ static func apply_sprint_movement(delta: float, entity: Entity, controller: Dyna
 
 ## Applies non-sprint movement to the entity's velocity.
 static func apply_non_sprint_movement(delta: float, entity: Entity, controller: DynamicController,
-										stats: StatModsCacheResource, max_anim_scale: float,
+										stats: StatModsCache, max_anim_scale: float,
 										default_anim_scale: float, extra_multiplier: float = 1.0) -> void:
 	var anim_time_scale: float = min(max_anim_scale, default_anim_scale * (stats.get_stat("max_speed") / stats.get_original_stat("max_speed")))
 	entity.facing_component.update_time_scale("run", anim_time_scale)

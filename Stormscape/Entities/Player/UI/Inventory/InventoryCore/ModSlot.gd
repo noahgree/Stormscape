@@ -18,15 +18,15 @@ func _ready() -> void:
 
 ## Determines if the slot we are hovering over during a drag can accept drag data on mouse release.
 func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
-	if data.item == null or not synced_inv or not data.item.stats is WeaponModStats or is_hidden:
+	if data.ii == null or not synced_inv or not data.ii.stats is WeaponModStats or is_hidden:
 		CursorManager.update_tooltip("Invalid!", Globals.ui_colors.ui_glow_strong_fail)
 		return false
 	if is_same_slot_as(data):
 		return false
-	if not WeaponModsManager.check_mod_compatibility(item_viewer_slot.item.stats, data.item.stats):
+	if not WeaponModsManager.check_mod_compatibility(item_viewer_slot.ii.stats, data.ii.stats):
 		CursorManager.update_tooltip("Incompatible!", Globals.ui_colors.ui_glow_strong_fail)
 		return false
-	if item_viewer_slot.item.stats.has_mod(data.item.stats.id):
+	if item_viewer_slot.ii.has_mod(data.ii.stats.id):
 		if data is not ModSlot:
 			CursorManager.update_tooltip("Already Used!", Globals.ui_colors.ui_glow_strong_fail)
 			return false

@@ -23,15 +23,15 @@ func _init(parent_weapon: ProjectileWeapon) -> void:
 
 ## Increases current overheat level via sampling the increase curve using the current overheat.
 func add_overheat() -> void:
-	if weapon.stats.s_mods.get_stat("overheat_penalty") <= 0:
+	if weapon.ii.sc.get_stat("overheat_penalty") <= 0:
 		return
 
 	var current_overheat: float = _get_overheat()
 	var sampled_point: float = weapon.stats.overheat_inc_rate.sample_baked(current_overheat)
-	var increase_rate_multiplier: float = weapon.stats.s_mods.get_stat("overheat_increase_rate_multiplier")
+	var increase_rate_multiplier: float = weapon.ii.sc.get_stat("overheat_increase_rate_multiplier")
 	var increase_amount: float = max(0.005, sampled_point * increase_rate_multiplier)
 	auto_decrementer.add_overheat(
-		str(weapon.stats.session_uid),
+		str(weapon.ii.uid),
 		min(1.0, increase_amount),
 		weapon.stats.overheat_dec_rate,
 		weapon.stats.overheat_dec_delay
@@ -41,19 +41,19 @@ func add_overheat() -> void:
 ## visuals if so.
 func check_is_overheated() -> bool:
 	if _get_overheat() >= 1.0:
-		weapon.add_cooldown(weapon.stats.s_mods.get_stat("overheat_penalty"), "overheat_penalty")
+		weapon.add_cooldown(weapon.ii.sc.get_stat("overheat_penalty"), "overheat_penalty")
 		start_max_overheat_visuals(false)
 		return true
 	return false
 
 ## Returns the current overheat level.
 func _get_overheat() -> float:
-	return auto_decrementer.get_overheat(str(weapon.stats.session_uid))
+	return auto_decrementer.get_overheat(str(weapon.ii.uid))
 
 ## When an overheat ends that matches this item's id and we aren't still on max overheat penalty,
 ## stop the visuals.
 func _on_overheat_emptied(item_id: StringName) -> void:
-	if item_id != str(weapon.stats.session_uid):
+	if item_id != str(weapon.ii.uid):
 		return
 
 	# Only hide the bar and change the cursor at 0 overheat progress if the penalty isn't active
@@ -111,7 +111,7 @@ func end_max_overheat_visuals() -> void:
 
 ## Detects when the cooldown from the overheat penalty ends, then calls to end the max overheat visuals.
 func _on_overheat_penalty_cooldown_ended(item_id: StringName, source_title: String) -> void:
-	if (item_id != str(weapon.stats.session_uid)) or (source_title != "overheat_penalty"):
+	if (item_id != str(weapon.ii.uid)) or (source_title != "overheat_penalty"):
 		return
 	end_max_overheat_visuals()
 

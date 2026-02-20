@@ -4,7 +4,7 @@ class_name HitscanStats
 
 @export_group("General")
 @export var continuous_beam: bool = true ## Whether to keep the hitscan on and continue to consume ammo while the trigger is held.
-@export_custom(PROPERTY_HINT_NONE, "suffix:seconds") var hitscan_effect_interval: float = -1 ## How long after we last did damage should we do it again. '-1' means only once.
+@export_custom(PROPERTY_HINT_NONE, "suffix:seconds") var hitscan_effect_interval: float = 0.5 ## How long after we last did damage should we do it again. '-1' means only once.
 @export_custom(PROPERTY_HINT_NONE, "suffix:pixels") var hitscan_max_distance: int = 225 ## The max distance the hitscan ray can travel.
 @export var hitscan_pierce_count: int ## How many objects the hitscan can pierce through.
 

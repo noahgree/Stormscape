@@ -37,13 +37,13 @@ func start_firing() -> void:
 	if not firing_duration_timer.is_stopped():
 		await firing_duration_timer.timeout
 
-	weapon.add_cooldown(weapon.stats.s_mods.get_stat("fire_cooldown"))
+	weapon.add_cooldown(weapon.ii.sc.get_stat("fire_cooldown"))
 
 	await _start_post_firing_animation_and_fx()
 
 ## Handles the bursting logic that the weapon may have. Also just the starting point for the spawning sequence.
 func _handle_bursting() -> void:
-	var bursts: int = int(weapon.stats.s_mods.get_stat("projectiles_per_fire"))
+	var bursts: int = int(weapon.ii.sc.get_stat("projectiles_per_fire"))
 
 	# If we only need to add it once, do it now, otherwise do it for every shot in the below loop
 	if not weapon.stats.add_overheat_per_burst_shot:
@@ -73,10 +73,10 @@ func _handle_bursting() -> void:
 
 ## Handles the barraging logic that the weapon may have. This is called for each burst iteration.
 func _handle_barraging() -> void:
-	var barrage_count: int = weapon.stats.s_mods.get_stat("barrage_count")
+	var barrage_count: int = weapon.ii.sc.get_stat("barrage_count")
 	var angular_spread_rads: float = 0
 	if barrage_count > 1:
-		angular_spread_rads = deg_to_rad(weapon.stats.s_mods.get_stat("angular_spread"))
+		angular_spread_rads = deg_to_rad(weapon.ii.sc.get_stat("angular_spread"))
 
 	# If the spread is close to a full circle, decrease the width between the spreads so they don't overlap near 360º
 	var close_to_360_adjustment: int = 0 if angular_spread_rads > 5.41 else 1
@@ -106,7 +106,7 @@ func _handle_barraging() -> void:
 ## Spawns a projectile with the given multishot id and applied rotation.
 func _spawn_projectile(proj_rot: float, multishot_id: int) -> void:
 	var total_proj_rot: float = proj_rot + _get_bloom_to_add_radians()
-	var proj: Projectile = Projectile.create(weapon.stats, weapon.source_entity, weapon.proj_origin_node.global_position, total_proj_rot)
+	var proj: Projectile = Projectile.create(weapon.ii, weapon.source_entity, weapon.proj_origin_node.global_position, total_proj_rot)
 	proj.multishot_id = multishot_id
 
 	if weapon is UniqueProjWeapon:
@@ -156,11 +156,11 @@ func _on_hitscan_hands_freeze_timer_timeout() -> void:
 
 ## Grabs a point from the bloom curve based on current bloom level given by the auto decrementer.
 func _get_bloom_to_add_radians() -> float:
-	var current_bloom: float = auto_decrementer.get_bloom(str(weapon.stats.session_uid))
+	var current_bloom: float = auto_decrementer.get_bloom(str(weapon.ii.uid))
 	if current_bloom > 0:
 		var deviation: float = weapon.stats.bloom_curve.sample_baked(current_bloom)
 		var random_direction: int = 1 if randf() < 0.5 else -1
-		var max_current_bloom: float = deviation * weapon.stats.s_mods.get_stat("max_bloom")
+		var max_current_bloom: float = deviation * weapon.ii.sc.get_stat("max_bloom")
 		var random_amount_of_max_current_bloom: float = max_current_bloom * random_direction * randf()
 		return deg_to_rad(random_amount_of_max_current_bloom)
 	else:
@@ -168,15 +168,15 @@ func _get_bloom_to_add_radians() -> float:
 
 ## Increases current bloom level via sampling the increase curve using the current bloom.
 func _add_bloom() -> void:
-	if weapon.stats.s_mods.get_stat("max_bloom") <= 0:
+	if weapon.ii.sc.get_stat("max_bloom") <= 0:
 		return
 
-	var current_bloom: float = auto_decrementer.get_bloom(str(weapon.stats.session_uid))
+	var current_bloom: float = auto_decrementer.get_bloom(str(weapon.ii.uid))
 	var sampled_point: float = weapon.stats.bloom_increase_rate.sample_baked(current_bloom)
-	var increase_rate_multiplier: float = weapon.stats.s_mods.get_stat("bloom_increase_rate_multiplier")
+	var increase_rate_multiplier: float = weapon.ii.sc.get_stat("bloom_increase_rate_multiplier")
 	var increase_amount: float = max(0.01, sampled_point * increase_rate_multiplier)
 	auto_decrementer.add_bloom(
-		str(weapon.stats.session_uid),
+		str(weapon.ii.uid),
 		min(1, (increase_amount)),
 		weapon.stats.bloom_decrease_rate,
 		weapon.stats.bloom_decrease_delay
@@ -194,7 +194,7 @@ func _consume_ammo() -> void:
 			weapon.source_entity.inv.remove_item(weapon.inv_index, 1)
 			weapon.update_ammo_ui()
 		_:
-			weapon.update_mag_ammo(weapon.stats.ammo_in_mag - 1)
+			weapon.update_mag_ammo(weapon.ii.ammo_in_mag - 1)
 			weapon.reload_handler.request_ammo_recharge()
 
 ## Starts the main firing animation if one exists, potentially waiting for it to end before returning control back
@@ -227,8 +227,8 @@ func _start_firing_fx() -> void:
 		weapon.firing_vfx.start()
 
 	AudioManager.play_2d(weapon.stats.firing_sound, weapon.global_position, 0)
-	var mag_size: int = int(weapon.stats.s_mods.get_stat("mag_size"))
-	var ammo_left: int = weapon.stats.ammo_in_mag
+	var mag_size: int = int(weapon.ii.sc.get_stat("mag_size"))
+	var ammo_left: int = weapon.ii.ammo_in_mag
 	if weapon.source_entity is Player:
 		if (mag_size > 8) and (ammo_left <= 10) and (float(ammo_left) / float(mag_size) <= 0.25):
 			AudioManager.play_2d(weapon.stats.mag_almost_empty_sound, weapon.global_position, 0)
@@ -242,7 +242,7 @@ func _start_post_firing_animation_and_fx() -> void:
 			await weapon.get_tree().create_timer(0.07, false).timeout
 		return
 
-	var firing_cooldown: float = weapon.stats.s_mods.get_stat("fire_cooldown")
+	var firing_cooldown: float = weapon.ii.sc.get_stat("fire_cooldown")
 	var post_fire_anim_delay: float = weapon.stats.post_fire_anim_delay
 	var available_time: float = firing_cooldown - post_fire_anim_delay
 	if available_time <= 0:

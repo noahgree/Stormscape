@@ -78,8 +78,8 @@ func disable() -> void:
 
 ## Called when the weapon first enters, but after the _ready function.
 func enter() -> void:
-	if stats.s_mods.get_stat("pullout_delay") > 0:
-		pullout_delay_timer.start(stats.s_mods.get_stat("pullout_delay"))
+	if ii.sc.get_stat("pullout_delay") > 0:
+		pullout_delay_timer.start(ii.sc.get_stat("pullout_delay"))
 		pullout_delay_timer.timeout.connect(_on_pullout_delay_timer_timeout)
 
 	reload_handler.request_ammo_recharge()
@@ -232,7 +232,7 @@ func _can_activate_at_all() -> bool:
 ## Called when a trigger is initially pressed.
 func activate() -> void:
 	if not _can_activate_at_all():
-		if source_entity is Player and stats.ammo_in_mag == 0 and state == WeaponState.IDLE:
+		if source_entity is Player and ii.ammo_in_mag == 0 and state == WeaponState.IDLE:
 			AudioManager.play_2d(stats.empty_mag_sound, global_position)
 		return
 
@@ -263,7 +263,7 @@ func hold_activate(delta: float) -> void:
 				source_entity.effect_receiver.handle_status_effect(effect)
 			is_charging = true
 
-			if stats.auto_do_charge_use and hold_time >= stats.s_mods.get_stat("min_charge_time"):
+			if stats.auto_do_charge_use and hold_time >= ii.sc.get_stat("min_charge_time"):
 				if stats.reset_charge_on_fire:
 					hold_time = 0
 				start_firing_sequence()
@@ -280,7 +280,7 @@ func release_hold_activate() -> void:
 			source_entity.effects.request_effect_removal_by_source(stats.charging_stat_effect.id, Globals.StatusEffectSourceType.FROM_SELF)
 		is_charging = false
 
-		if hold_time >=  stats.s_mods.get_stat("min_charge_time"):
+		if hold_time >=  ii.sc.get_stat("min_charge_time"):
 			if stats.reset_charge_on_fire:
 				hold_time = 0
 			start_firing_sequence()
@@ -342,7 +342,7 @@ func reload() -> void:
 func ensure_enough_ammo() -> bool:
 	var has_needed_ammo: bool = false
 
-	var ammo_needed: int = int(stats.s_mods.get_stat("projectiles_per_fire"))
+	var ammo_needed: int = int(ii.sc.get_stat("projectiles_per_fire"))
 	if not stats.use_ammo_per_burst_proj:
 		ammo_needed = 1
 
@@ -353,7 +353,7 @@ func ensure_enough_ammo() -> bool:
 		ProjWeaponStats.ProjAmmoType.SELF:
 			has_needed_ammo = true
 		_:
-			has_needed_ammo = (stats.ammo_in_mag >= ammo_needed)
+			has_needed_ammo = (ii.ammo_in_mag >= ammo_needed)
 
 	if has_needed_ammo:
 		return true
@@ -361,7 +361,7 @@ func ensure_enough_ammo() -> bool:
 
 ## Updates the ammo in the weapon's magazine and then calls to update the ammo UI.
 func update_mag_ammo(new_amount: int) -> void:
-	stats.ammo_in_mag = new_amount
+	ii.ammo_in_mag = new_amount
 	update_ammo_ui()
 
 ## Updates the ammo UI with the ammo in the magazine.
@@ -381,7 +381,7 @@ func update_ammo_ui() -> void:
 		ProjWeaponStats.ProjAmmoType.NONE when stats.dont_consume_ammo:
 			count_str = "∞"
 		_:
-			count_str = str(stats.ammo_in_mag)
+			count_str = str(ii.ammo_in_mag)
 	ammo_ui.update_mag_ammo_ui(count_str)
 	ammo_ui.calculate_inv_ammo()
 
@@ -404,7 +404,7 @@ func _eject_casing(per_used_ammo: bool = false) -> void:
 	if not casing_ejection_point:
 		return
 
-	for i: int in range((stats.s_mods.get_stat("mag_size") - stats.ammo_in_mag) if per_used_ammo else 1):
+	for i: int in range((ii.sc.get_stat("mag_size") - ii.ammo_in_mag) if per_used_ammo else 1):
 		var casing: Node2D = casing_scene.instantiate()
 		var casing_rand_offset: Vector2 = Vector2(randf_range(-1, 1), randf_range(-1, 1))
 		casing.global_position = casing_ejection_point.global_position + casing_rand_offset

@@ -31,7 +31,7 @@ func state_physics_process(delta: float) -> void:
 	_animate()
 
 func _do_entity_chase(delta: float) -> void:
-	var stats: StatModsCacheResource = entity.stats
+	var stats: StatModsCache = entity.stats
 	StateFunctions.handle_run_logic(delta, entity, controller, stats, max_run_anim_time_scale, default_run_anim_time_scale, chase_speed_mult, chase_sprint_speed_mult)
 
 func _equip_primary_item() -> void:

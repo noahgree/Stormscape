@@ -54,7 +54,7 @@ func _ready() -> void:
 
 ## Handles an incoming effect source, passing it to present receivers for further processing before changing
 ## entity stats.
-func handle_effect_source(effect_source: EffectSource, source_entity: Entity, source_weapon: WeaponStats,
+func handle_effect_source(effect_source: EffectSource, source_entity: Entity, source_ii: WeaponII,
 							process_status_effects: bool = true) -> void:
 	# --- Applying Cam FX & Hit Sound ----
 	_handle_cam_fx(effect_source)
@@ -98,7 +98,7 @@ func handle_effect_source(effect_source: EffectSource, source_entity: Entity, so
 	# --- Applying Base Damage & Base Healing ---
 	var xp: int = 0
 	var do_hitflash: bool = false
-	var source_level: int = source_weapon.level if source_weapon else 1
+	var source_level: int = source_ii.level if source_ii else 1
 	if effect_source.base_damage > 0 and dmg_handler != null:
 		if _check_same_team(source_entity) and _check_if_bad_effects_apply_to_allies(effect_source):
 			dmg_handler.handle_instant_damage(effect_source, source_level, _get_life_steal(effect_source, source_entity))
@@ -119,9 +119,9 @@ func handle_effect_source(effect_source: EffectSource, source_entity: Entity, so
 		affected_entity.sprite.start_hitflash(effect_source.hit_flash_color, false)
 
 	# --- Applying Resulting Weapon XP ---
-	if source_entity is Player and source_weapon and is_instance_valid(source_weapon):
+	if source_entity is Player and source_ii and is_instance_valid(source_ii):
 		var xp_to_add: int = ceili(WeaponII.EFFECT_AMOUNT_XP_MULT * xp)
-		source_weapon.add_xp(xp_to_add)
+		source_ii.add_xp(xp_to_add)
 
 	# --- Start of Status Effect Processing Chain ---
 	if process_status_effects:

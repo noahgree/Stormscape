@@ -63,13 +63,13 @@ func _find_and_combine_neighbors(item: WorldItem, processed_items: Dictionary[Wo
 					neighbors.append(neighbor as WorldItem)
 
 	for neighbor: WorldItem in neighbors:
-		if neighbor != item and item.stats.is_same_as(neighbor.stats):
+		if neighbor != item and item.ii.stats.is_same_as(neighbor.ii.stats):
 			_combine_items(item, neighbor)
 			processed_items[neighbor] = true
 
 ## Combines the items by adding the quantities. Removes the old item after tweening its location and scale.
 func _combine_items(item_1: WorldItem, item_2: WorldItem) -> void:
-	item_1.quantity += item_2.quantity
+	item_1.ii.q += item_2.ii.q
 	remove_item(item_2)
 	item_2.can_be_picked_up_at_all = false
 

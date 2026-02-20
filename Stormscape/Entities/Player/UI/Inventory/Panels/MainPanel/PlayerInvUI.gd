@@ -137,7 +137,7 @@ func _on_blank_space_input_event(event: InputEvent) -> void:
 
 ## Determines if this control node can have item slot data dropped into it.
 func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
-	if (data != null) and ("item" in data) and (data.item != null):
+	if (data != null) and ("ii" in data) and (data.ii != null):
 		CursorManager.update_tooltip("Drop", Globals.ui_colors.ui_light_tan)
 		return true
 	else:
@@ -152,7 +152,7 @@ func _drop_data(_at_position: Vector2, data: Variant) -> void:
 		data._on_mouse_exited()
 		return
 
-	var world_item_ii: II = data.ii.duplicate()
+	var world_item_ii: II = data.ii.stats.copy_ii(data.ii)
 
 	if data.dragging_only_one:
 		world_item_ii.q = 1

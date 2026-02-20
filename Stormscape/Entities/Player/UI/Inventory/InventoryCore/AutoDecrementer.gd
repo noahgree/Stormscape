@@ -190,16 +190,16 @@ func get_overheat(item_id: StringName) -> float:
 
 #region Recharges
 ## Adds a recharge request to the dictionary.
-func request_recharge(item_id: StringName, stats: WeaponStats) -> void:
+func request_recharge(item_id: StringName, ii: WeaponII) -> void:
 	if item_id in recharges:
-		recharges[item_id].stats = stats
+		recharges[item_id].ii = ii
 	else:
-		var auto_ammo_interval: float = stats.s_mods.get_stat("auto_ammo_interval")
+		var auto_ammo_interval: float = ii.sc.get_stat("auto_ammo_interval")
 		recharges[item_id] = {
 			&"progress" : auto_ammo_interval,
 			&"original_duration" : auto_ammo_interval,
-			&"decrease_delay" : stats.auto_ammo_delay,
-			&"stats" : stats
+			&"decrease_delay" : ii.stats.auto_ammo_delay,
+			&"ii" : ii
 		}
 
 ## Adds a delay to the recharge.
@@ -218,30 +218,30 @@ func _update_recharges(delta: float) -> void:
 			current.decrease_delay -= delta
 
 		if current.progress <= 0:
-			if is_instance_valid(current.stats):
-				var mag_size: int = current.stats.s_mods.get_stat("mag_size")
-				var ammo_needed: int = mag_size - current.stats.ammo_in_mag
-				var auto_ammo_count: int = int(current.stats.s_mods.get_stat("auto_ammo_count"))
+			if is_instance_valid(current.ii):
+				var mag_size: int = current.ii.sc.get_stat("mag_size")
+				var ammo_needed: int = mag_size - current.ii.ammo_in_mag
+				var auto_ammo_count: int = int(current.ii.sc.get_stat("auto_ammo_count"))
 				ammo_needed = min(ammo_needed, auto_ammo_count)
 
-				if current.stats.recharge_uses_inv:
-					if current.stats.ammo_type == ProjWeaponStats.ProjAmmoType.CHARGES:
-						current.stats.ammo_in_mag += ammo_needed
+				if current.ii.stats.recharge_uses_inv:
+					if current.ii.stats.ammo_type == ProjWeaponStats.ProjAmmoType.CHARGES:
+						current.ii.ammo_in_mag += ammo_needed
 					else:
-						var retrieved_ammo: int = inv.get_more_ammo(ammo_needed, true, current.stats.ammo_type)
+						var retrieved_ammo: int = inv.get_more_ammo(ammo_needed, true, current.ii.stats.ammo_type)
 						if retrieved_ammo == 0:
 							# Don't keep trying to recharge if we are out of inventory ammo
 							to_remove.append(item_id)
-						current.stats.ammo_in_mag += retrieved_ammo
+						current.ii.ammo_in_mag += retrieved_ammo
 				else:
-					current.stats.ammo_in_mag = min(mag_size, current.stats.ammo_in_mag + auto_ammo_count)
+					current.ii.ammo_in_mag = min(mag_size, current.ii.ammo_in_mag + auto_ammo_count)
 
-				if current.stats.ammo_in_mag >= mag_size:
+				if current.ii.ammo_in_mag >= mag_size:
 					# Don't keep recharging if we are at max ammo
 					to_remove.append(item_id)
 				else:
 					# If we aren't at max ammo, reset the progress and charge up again
-					current.progress = current.stats.s_mods.get_stat("auto_ammo_interval")
+					current.progress = current.ii.sc.get_stat("auto_ammo_interval")
 			else:
 				# Don't keep trying to recharge if the stats are no longer valid
 				to_remove.append(item_id)
