@@ -16,6 +16,24 @@ signal q_changed(new_q: int)
 		q = new_q
 		q_changed.emit(q)
 
+## Finds the place a stat is stored at within the resource and returns it. Can optionally get the unmodified stat
+## if it exists in the stat mods cache.
+func get_nested_stat(stat: StringName, get_original: bool = false) -> float:
+	if "sc" in self and get("sc").has_stat(stat):
+		if not get_original: return get("sc").get_stat(stat)
+		else: return get("sc").get_original_stat(stat)
+	elif stat in self:
+		return get(stat)
+	elif stat in stats:
+		return stats.get(stat)
+	elif stat in stats.get("effect_source"):
+		return stats.get("effect_source").get(stat)
+	elif "projectile_logic" in stats and stat in stats.get("projectile_logic"):
+		return stats.get("projectile_logic").get(stat)
+	else:
+		push_error("Couldn't find the requested stat (" + stat + ") anywhere.")
+		return 0
+
 ## Returns the cooldown id based on how cooldowns are determined for this item.
 func get_cooldown_id() -> StringName:
 	if stats.cooldowns_shared:

@@ -211,9 +211,9 @@ func _update_crafting_result() -> void:
 		if _is_item_craftable(item_stats):
 			output_slot.set_ii(item_stats.create_ii(item_stats.output_quantity))
 
-			if output_slot.ii.stats.upgrade_recipe and output_slot.ii.stats is WeaponStats:
-				var upgrade_origin_stats: ItemStats = get_upgrade_source(output_slot.ii.stats)
-				output_slot.ii.stats.migrate_from_rarity_upgrade(upgrade_origin_stats, Globals.player_node, false)
+			if output_slot.ii.stats.upgrade_recipe and output_slot.ii is WeaponII:
+				var upgrade_origin_ii: WeaponII = get_upgrade_source(output_slot.ii.stats)
+				output_slot.ii.stats.copy_ii(upgrade_origin_ii)
 			return
 
 	output_slot.set_ii(null)
@@ -262,7 +262,7 @@ func _consume_recipe(stats_of_item_to_craft: ItemStats, target_count: int) -> Di
 	result.successful_crafts = max_can_craft if target_count == -1 else min(target_count, max_can_craft)
 
 	if stats_of_item_to_craft.upgrade_recipe and stats_of_item_to_craft is WeaponStats:
-		result.saved_items[&"upgrade_origin_stats"] = get_upgrade_source(stats_of_item_to_craft)
+		result.saved_items[&"upgrade_origin_ii"] = get_upgrade_source(stats_of_item_to_craft)
 
 	for ingredient: CraftingIngredient in recipe:
 		if not _consume_ingredient(ingredient, result.successful_crafts):
@@ -276,11 +276,11 @@ func _consume_recipe(stats_of_item_to_craft: ItemStats, target_count: int) -> Di
 	return result
 
 ## If we are upgrading a weapon as this craft, this will find the first weapon in the inputs that matches the
-## recipe and return its stats. This acts as the source for the upgrade.
-func get_upgrade_source(stats_of_item_to_craft: ItemStats) -> ItemStats:
+## recipe and return its ii. This acts as the source for the upgrade.
+func get_upgrade_source(stats_of_craft: ItemStats) -> WeaponII:
 	for slot: CraftingSlot in input_slots:
-		if slot.ii and check_if_item_in_ingredient_list(slot.ii.stats, stats_of_item_to_craft) and slot.ii.stats is WeaponStats:
-			return slot.ii.stats
+		if slot.ii and check_if_item_in_ingredient_list(slot.ii.stats, stats_of_craft) and slot.ii is WeaponII:
+			return slot.ii
 	return null
 
 ## Gets an array of the quantities for each input slot.
@@ -344,8 +344,8 @@ func attempt_craft() -> void:
 	if consumption_result.successful_crafts > 0:
 		output_slot.set_ii(output_slot.ii.stats.create_ii(consumption_result.successful_crafts * output_quant_per_craft))
 
-		if output_slot.ii.stats.upgrade_recipe and output_slot.ii.stats is WeaponStats:
-			output_slot.ii.stats.migrate_from_rarity_upgrade(consumption_result.saved_items.upgrade_origin_stats, Globals.player_node)
+		if output_slot.ii.stats.upgrade_recipe and output_slot.ii is WeaponII:
+			output_slot.ii.stats.copy_ii(consumption_result.saved_items.upgrade_origin_stats)
 
 		MessageManager.add_msg_preset(output_slot.ii.get_pretty_string() + " Crafted", MessageManager.Presets.SUCCESS, 3.0, true)
 		AudioManager.play_ui_sound(&"craft_button")

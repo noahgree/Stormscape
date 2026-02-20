@@ -52,7 +52,7 @@ func parse_item(ii: II) -> Array[String]:
 			strings.append(_get_status_effects(ii))
 			strings.append(_get_charge_status_effects(ii))
 
-	strings.append_array(_get_extra_details(ii.stats, ii.stats.extra_details, false, false))
+	strings.append_array(_get_extra_details(ii, ii.stats.extra_details, false, false))
 	if ii is WeaponII:
 		strings.append_array(_get_weapon_mod_extra_details(ii))
 
@@ -70,7 +70,8 @@ func parse_player() -> Array[String]:
 	for wearable_dict: Dictionary in Globals.player_node.wearables:
 		var wearable: WearableStats = wearable_dict.values()[0]
 		if wearable != null:
-			strings.append_array(_get_extra_details(wearable, wearable.applied_details, true, true))
+			var ii: II = wearable.create_ii(1)
+			strings.append_array(_get_extra_details(ii, wearable.applied_details, true, true))
 
 	strings = strings.filter(func(string: String) -> bool: return string != "")
 	return strings
@@ -78,21 +79,23 @@ func parse_player() -> Array[String]:
 ## Gets an array of additional detail strings created by the mods attached to the weapon.
 func _get_weapon_mod_extra_details(ii: WeaponII) -> Array[String]:
 	var strings: Array[String] = []
-	for weapon_mod_entry: Dictionary in ii.current_mods:
-		if weapon_mod_entry.values()[0] != null:
-			strings.append_array(_get_extra_details(ii.stats, weapon_mod_entry.values()[0].applied_details, true, false))
+	for mod_slot_index: int in range(ii.current_mods.size()):
+		if ii.current_mods[mod_slot_index] != &"":
+			var mod: WeaponModStats = Items.cached_items.get(ii.current_mods[mod_slot_index], null)
+			if mod != null:
+				strings.append_array(_get_extra_details(ii, mod.applied_details, true, false))
 
 	return strings
 
 ## Returns an array of additional detail strings from given StatDetail resources.
-func _get_extra_details(stats: ItemStats, extra_details_array: Array[StatDetail],
+func _get_extra_details(ii: II, extra_details_array: Array[StatDetail],
 							highlight_when_title_only: bool, for_entity_stats: bool = false) -> Array[String]:
 	var strings: Array[String] = []
 	for detail: StatDetail in extra_details_array:
 		if not detail.stat_array.is_empty():
 			var detail_sum: String
 			if not for_entity_stats:
-				detail_sum = _get_item_sums(stats, detail.stat_array, detail.up_is_good, detail.suffix, [Factor.new(detail.multiplier)], [Factor.new(detail.addition)], detail.fraction_of_orig)
+				detail_sum = _get_item_sums(ii, detail.stat_array, detail.up_is_good, detail.suffix, [Factor.new(detail.multiplier)], [Factor.new(detail.addition)], detail.fraction_of_orig)
 			else:
 				detail_sum = _get_player_sum(detail.stat_array, detail.up_is_good, detail.suffix, [Factor.new(detail.multiplier)], [Factor.new(detail.addition)], detail.fraction_of_orig)
 			strings.append(_get_title(detail.title.to_upper()) + detail_sum)
@@ -115,7 +118,7 @@ func _get_damage(ii: II) -> String:
 
 	# Applying the lvl mult to the original so we don't get a green up arrow bc of its increase
 	var mults: Array[Factor] = [Factor.new(lvl_mult, true, true), Factor.new(proj_count, false, true)]
-	var dmg: String = _get_item_sums(ii.stats, ["base_damage"], true, up_lvl_color if lvl_mult > 1.0 else "", mults)
+	var dmg: String = _get_item_sums(ii, ["base_damage"], true, up_lvl_color if lvl_mult > 1.0 else "", mults)
 	var crit_mult: String = str(ii.stats.effect_source.crit_multiplier) + "x"
 
 	string += dmg
@@ -138,7 +141,7 @@ func _get_charge_damage(ii: II) -> String:
 
 	var string: String = _get_title("CHRG DMG")
 	var lvl_mult: float = ((floori(ii.level / 10.0) * ii.stats.effect_source.lvl_dmg_scalar) / 100.0) + 1
-	var dmg: String = _get_item_sums(ii.stats, ["charge_base_damage"], true, up_lvl_color if lvl_mult > 1.0 else "", [Factor.new(lvl_mult, true, true)])
+	var dmg: String = _get_item_sums(ii, ["charge_base_damage"], true, up_lvl_color if lvl_mult > 1.0 else "", [Factor.new(lvl_mult, true, true)])
 	var crit_mult: String = str(ii.stats.charge_effect_source.crit_multiplier) + "x"
 
 	string += dmg
@@ -161,7 +164,7 @@ func _get_healing(ii: II) -> String:
 
 	# Applying the lvl mult to the original so we don't get a green up arrow bc of its increase
 	var mults: Array[Factor] = [Factor.new(lvl_mult, true, true), Factor.new(proj_count, false, true)]
-	var heal: String = _get_item_sums(ii.stats, ["base_healing"], true, up_lvl_color if lvl_mult > 1.0 else "", mults)
+	var heal: String = _get_item_sums(ii, ["base_healing"], true, up_lvl_color if lvl_mult > 1.0 else "", mults)
 
 	string += heal
 
@@ -179,7 +182,7 @@ func _get_charge_healing(ii: II) -> String:
 
 	var string: String = _get_title("CHRG HEAL")
 	var lvl_mult: float = ((floori(ii.level / 10.0) * ii.stats.effect_source.lvl_heal_scalar) / 100.0) + 1
-	var heal: String = _get_item_sums(ii.stats, ["charge_base_healing"], true, up_lvl_color if lvl_mult > 1.0 else "", [Factor.new(lvl_mult, true, true)])
+	var heal: String = _get_item_sums(ii, ["charge_base_healing"], true, up_lvl_color if lvl_mult > 1.0 else "", [Factor.new(lvl_mult, true, true)])
 
 	string += heal
 
@@ -191,7 +194,7 @@ func _get_charge_healing(ii: II) -> String:
 ## Gets the details for a change in health bars.
 func _get_health_bars_change(ii: II) -> String:
 	var string: String = _get_title("SATURATION")
-	string += _get_item_sums(ii.stats, ["hunger_bar_gain"], true)
+	string += _get_item_sums(ii, ["hunger_bar_gain"], true)
 	return string
 
 ## Gets the attack speed details.
@@ -202,20 +205,20 @@ func _get_use_speed(ii: II) -> String:
 		string = _get_title("FIRE RATE")
 		var sum: String
 		if ii.stats.firing_mode != ProjWeaponStats.FiringType.CHARGE:
-			sum = _get_item_sums(ii.stats, ["firing_duration", "fire_cooldown"], false, "s")
+			sum = _get_item_sums(ii, ["firing_duration", "fire_cooldown"], false, "s")
 		else:
-			sum = _get_item_sums(ii.stats, ["firing_duration", "fire_cooldown", "min_charge_time"], false, "s")
+			sum = _get_item_sums(ii, ["firing_duration", "fire_cooldown", "min_charge_time"], false, "s")
 		string += StringHelpers.remove_trailing_zero(sum)
 	elif ii.stats is MeleeWeaponStats:
 		string = _get_title("USE SPEED")
-		string += _get_item_sums(ii.stats, ["use_speed", "use_cooldown"], false, "s")
+		string += _get_item_sums(ii, ["use_speed", "use_cooldown"], false, "s")
 
 		if ii.stats.can_do_charge_use:
-			var chg_sum: String = _get_item_sums(ii.stats, ["min_charge_time", "charge_use_speed", "charge_use_cooldown"], false, "s")
+			var chg_sum: String = _get_item_sums(ii, ["min_charge_time", "charge_use_speed", "charge_use_cooldown"], false, "s")
 			string += " (" + chg_sum + " chrg)"
 	elif ii.stats is ConsumableStats:
 		string = _get_title("CONSUMPTION SPEED")
-		string += _get_item_sums(ii.stats, ["consumption_time", "consumption_cooldown"], false, "s")
+		string += _get_item_sums(ii, ["consumption_time", "consumption_cooldown"], false, "s")
 
 	return string
 
@@ -225,10 +228,10 @@ func _get_mag_and_reload(ii: II) -> String:
 
 	if ii.stats is MeleeWeaponStats:
 		string = _get_title("STAMINA USE")
-		string += _get_item_sums(ii.stats, ["stamina_cost"], false)
+		string += _get_item_sums(ii, ["stamina_cost"], false)
 
 		if ii.stats.can_do_charge_use:
-			var chg_stamina: String = _get_item_sums(ii.stats, ["charge_stamina_cost"], false)
+			var chg_stamina: String = _get_item_sums(ii, ["charge_stamina_cost"], false)
 			string += " (" + chg_stamina + " chrg)"
 
 		return string
@@ -236,19 +239,19 @@ func _get_mag_and_reload(ii: II) -> String:
 	if ii.stats.dont_consume_ammo:
 		return ""
 
-	var ammo: String = _get_item_sums(ii.stats, ["mag_size"], true)
+	var ammo: String = _get_item_sums(ii, ["mag_size"], true)
 	var reload: String
 
 	if ii.stats.reload_type == ProjWeaponStats.ReloadType.SINGLE:
 		var times_needed_to_reload: float = ceilf(ii.sc.get_stat("mag_size") / ii.sc.get_stat("single_reload_quantity"))
-		reload = _get_item_sums(ii.stats, ["single_proj_reload_time"], false, "s", [Factor.new(times_needed_to_reload, false, true)], [Factor.new(ii.stats.reload_delay, false, true)])
+		reload = _get_item_sums(ii, ["single_proj_reload_time"], false, "s", [Factor.new(times_needed_to_reload, false, true)], [Factor.new(ii.stats.reload_delay, false, true)])
 	else:
-		reload = _get_item_sums(ii.stats, ["mag_reload_time", "reload_delay"], false, "s")
+		reload = _get_item_sums(ii, ["mag_reload_time", "reload_delay"], false, "s")
 
 	if ii.stats.mag_size == -1 and ii.stats.ammo_type != ProjWeaponStats.ProjAmmoType.STAMINA:
 		return _get_title("RELOAD") + reload
 	elif ii.stats.ammo_type == ProjWeaponStats.ProjAmmoType.STAMINA:
-		return _get_title("STAMINA USE") + _get_item_sums(ii.stats, ["stamina_use_per_proj"], false)
+		return _get_title("STAMINA USE") + _get_item_sums(ii, ["stamina_use_per_proj"], false)
 
 	return string + ammo + " (" + reload + " [char=21BA])"
 
@@ -257,7 +260,7 @@ func _get_bloom(ii: II) -> String:
 	if ii.stats is MeleeWeaponStats or ii.stats.max_bloom == 0:
 		return ""
 
-	return _get_title("MAX BLOOM") + _get_item_sums(ii.stats, ["max_bloom"], false, "[char=00B0]")
+	return _get_title("MAX BLOOM") + _get_item_sums(ii, ["max_bloom"], false, "[char=00B0]")
 
 ## Gets the status effects from the normal effect source.
 func _get_status_effects(ii: II) -> String:
@@ -314,16 +317,16 @@ func _get_aoe_stats(ii: II) -> Array[String]:
 	elif ii.stats.projectile_logic.aoe_effect_source.status_effects.size() == 0:
 		return[""]
 
-	var strings: Array[String] = [_get_title("AOE RADIUS") + _get_item_sums(ii.stats, ["proj_aoe_radius"], true, " px")]
+	var strings: Array[String] = [_get_title("AOE RADIUS") + _get_item_sums(ii, ["proj_aoe_radius"], true, " px")]
 
 	var damage: String = _get_title("AOE DMG")
 	if ii.sc.get_stat("proj_aoe_base_damage") > 0:
-		damage += _get_item_sums(ii.stats, ["proj_aoe_base_damage"], true)
+		damage += _get_item_sums(ii, ["proj_aoe_base_damage"], true)
 		strings.append(damage)
 
 	var healing: String = _get_title("AOE HEAL")
 	if ii.sc.get_stat("proj_aoe_base_healing") > 0:
-		healing += _get_item_sums(ii.stats, ["proj_aoe_base_healing"], true)
+		healing += _get_item_sums(ii, ["proj_aoe_base_healing"], true)
 		strings.append(healing)
 
 	var effects: String = _get_title("AOE EFFECTS")
@@ -378,13 +381,13 @@ func _get_title(title: String) -> String:
 	return "[outline_color=1f0900ab][color=f5e4e1]" + title + ":[/color]" + Globals.invis_char + "[/outline_color][outline_color=1f090066]"
 
 ## Gets the sum (index 0) and original sum (index 1) for a list of stats inside an item.
-func _get_item_stat_sums(stats: ItemStats, list: Array[String]) -> Array[float]:
+func _get_item_stat_sums(ii: II, list: Array[String]) -> Array[float]:
 	var sum: float = 0
 	var original_sum: float = 0
 
 	for stat: String in list:
-		sum += stats.get_nested_stat(stat, false)
-		original_sum += stats.get_nested_stat(stat, true)
+		sum += ii.get_nested_stat(stat, false)
+		original_sum += ii.get_nested_stat(stat, true)
 
 	return [sum, original_sum]
 
@@ -401,10 +404,10 @@ func _get_players_stat_sums(list: Array[String]) -> Array[float]:
 
 ## Gets a sum of an array of stat ids and compares it to the original sum. Mods that lower or raise sums will
 ## result in an arrow at the end in the direction of change, colored based on whether higher is better or not.
-func _get_item_sums(stats: ItemStats, list: Array[String], up_is_good: bool, suffix: String = "",
+func _get_item_sums(ii: II, list: Array[String], up_is_good: bool, suffix: String = "",
 				mults: Array[Factor] = [], additions: Array[Factor] = [],
 				fraction_of_original: bool = false) -> String:
-	var sums: Array[float] = _get_item_stat_sums(stats, list)
+	var sums: Array[float] = _get_item_stat_sums(ii, list)
 	var sum: float = sums[0]
 	var original_sum: float = sums[1]
 

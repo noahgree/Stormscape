@@ -5,7 +5,8 @@ enum EffectSourceType { NORMAL, CHARGE, AOE } ## The kinds of effect sources tha
 
 
 ## Checks if the mod can be attached to the weapon.
-static func check_mod_compatibility(weapon_stats: WeaponStats, weapon_mod: WeaponModStats) -> bool:
+static func check_mod_compatibility(weapon_ii: WeaponII, weapon_mod: WeaponModStats) -> bool:
+	var weapon_stats: WeaponStats = weapon_ii.stats
 	if weapon_mod.id in weapon_stats.blocked_mods:
 		return false
 	if weapon_stats is MeleeWeaponStats and weapon_stats.melee_weapon_type not in weapon_mod.allowed_melee_wpns:
@@ -13,12 +14,12 @@ static func check_mod_compatibility(weapon_stats: WeaponStats, weapon_mod: Weapo
 	elif weapon_stats is ProjWeaponStats and weapon_stats.proj_weapon_type not in weapon_mod.allowed_proj_wpns:
 		return false
 	for blocked_mutual: StringName in weapon_mod.blocked_mutuals:
-		if weapon_stats.has_mod(blocked_mutual):
+		if weapon_ii.has_mod(blocked_mutual):
 			return false
 
 	var failed: bool = false
 	for blocked_stat: StringName in weapon_mod.blocked_wpn_stats:
-		if weapon_stats.get_nested_stat(blocked_stat, false) == weapon_mod.blocked_wpn_stats[blocked_stat]:
+		if weapon_ii.get_nested_stat(blocked_stat, false) == weapon_mod.blocked_wpn_stats[blocked_stat]:
 			failed = true
 		elif weapon_mod.req_all_blocked_stats:
 			failed = false
@@ -27,7 +28,7 @@ static func check_mod_compatibility(weapon_stats: WeaponStats, weapon_mod: Weapo
 		return false
 
 	for required_stat: StringName in weapon_mod.required_stats:
-		if weapon_stats.get_nested_stat(required_stat, false) != weapon_mod.required_stats[required_stat]:
+		if weapon_ii.get_nested_stat(required_stat, false) != weapon_mod.required_stats[required_stat]:
 			return false
 
 	return true
@@ -41,30 +42,26 @@ static func get_max_mod_slots(weapon_stats: WeaponStats) -> int:
 
 ## Gets the next open mod slot within range of the max amount of mods the weapon can have. -1 means no open slots.
 static func get_next_open_mod_slot(weapon_ii: WeaponII) -> int:
-	var i: int = 0
-	for weapon_mod_entry: Dictionary in weapon_ii.current_mods:
-		if weapon_mod_entry.values()[0] == null:
-			return i
-		i += 1
+	for mod_slot_index: int in range(weapon_ii.current_mods.size()):
+		if weapon_ii.current_mods[mod_slot_index] == &"":
+			return mod_slot_index
 	return -1
 
 ## Handles an incoming added weapon mod. Removes it first if it already exists and then just re-adds it.
 static func handle_weapon_mod(weapon_ii: WeaponII, weapon_mod: WeaponModStats, index: int,
 						source_entity: Entity) -> void:
-	if not check_mod_compatibility(weapon_ii.stats, weapon_mod):
+	if not check_mod_compatibility(weapon_ii, weapon_mod):
 		return
 	if index > WeaponModsManager.get_max_mod_slots(weapon_ii.stats) - 1:
 		push_error("\"" + weapon_ii.stats.name + "\" tried to add the mod \"" + weapon_mod.name + "\" to slot " + str(index + 1) + " / 6, but that slot is not unlocked for that weapon.")
 		return
 
-	var i: int = 0
-	for weapon_mod_entry: Dictionary in weapon_ii.current_mods:
-		if (weapon_mod.id == weapon_mod_entry.keys()[0]) and (weapon_mod_entry.values()[0] != null):
-			remove_weapon_mod(weapon_ii, weapon_mod_entry.values()[0], i, source_entity)
-		elif i == index and weapon_mod_entry.values()[0] != null:
-			push_warning("\"" + weapon_mod_entry.keys()[0] + "\" was already in mod slot " + str(i) + " and will now be removed to make room for \"" + weapon_mod.id + "\"")
-			remove_weapon_mod(weapon_ii, weapon_mod_entry.values()[0], i, source_entity)
-		i += 1
+	for mod_slot_index: int in range(weapon_ii.current_mods.size()):
+		if weapon_mod.id == weapon_ii.current_mods[mod_slot_index]:
+			remove_weapon_mod(weapon_ii, mod_slot_index, source_entity)
+		elif mod_slot_index == index and weapon_ii.current_mods[mod_slot_index] != &"":
+			push_warning("\"" + weapon_ii.current_mods[mod_slot_index] + "\" was already in mod slot " + str(mod_slot_index) + " and will now be removed to make room for \"" + weapon_mod.get_cache_key() + "\"")
+			remove_weapon_mod(weapon_ii, mod_slot_index, source_entity)
 
 	_add_weapon_mod(weapon_ii, weapon_mod, index, source_entity)
 
@@ -74,7 +71,7 @@ static func _add_weapon_mod(weapon_ii: WeaponII, weapon_mod: WeaponModStats, ind
 	if DebugFlags.weapon_mod_changes:
 		print_rich("-------[color=green]Adding[/color][b] " + weapon_mod.name + " (" + str(weapon_mod.rarity) + ")[/b] [color=gray]to " + weapon_ii.stats.name + " (slot " + str(index) + ")" + "-------")
 
-	weapon_ii.current_mods[index] = { weapon_mod.id : weapon_mod }
+	weapon_ii.current_mods[index] = StringName(weapon_mod.get_cache_key())
 
 	for mod_resource: StatMod in weapon_mod.wpn_stat_mods:
 		weapon_ii.sc.add_mods([mod_resource] as Array[StatMod])
@@ -94,16 +91,19 @@ static func _add_weapon_mod(weapon_ii: WeaponII, weapon_mod: WeaponModStats, ind
 	AudioManager.play_global(weapon_mod.equipping_audio)
 
 ## Removes the weapon mod from the dictionary after calling the on_removal method inside the mod itself.
-static func remove_weapon_mod(weapon_ii: WeaponII, weapon_mod: WeaponModStats, index: int,
-						source_entity: Entity) -> void:
-	if DebugFlags.weapon_mod_changes and weapon_ii.has_mod(weapon_mod.id, index):
-		print_rich("-------[color=red]Removed[/color][b] " + str(weapon_mod.name) + " (" + str(weapon_mod.rarity) + ")[/b] [color=gray]from " + weapon_ii.stats.name + " (slot " + str(index) + ")" + "-------")
+static func remove_weapon_mod(weapon_ii: WeaponII, index: int, source_entity: Entity) -> void:
+	var mod_to_remove: WeaponModStats = Items.cached_items.get(weapon_ii.current_mods[index], null)
+	if mod_to_remove == null:
+		push_error("The mod at index " + str(index) + " of " + weapon_ii.stats.name + " could not be removed.")
+		return
+	if DebugFlags.weapon_mod_changes and weapon_ii.has_mod(mod_to_remove.id, index):
+		print_rich("-------[color=red]Removed[/color][b] " + str(mod_to_remove.name) + " (" + str(mod_to_remove.rarity) + ")[/b] [color=gray]from " + mod_to_remove.stats.name + " (slot " + str(index) + ")" + "-------")
 
-	for mod_resource: StatMod in weapon_mod.wpn_stat_mods:
+	for mod_resource: StatMod in mod_to_remove.wpn_stat_mods:
 		weapon_ii.sc.remove_mod(mod_resource.stat_id, mod_resource.mod_id)
 		_update_effect_source_stats(weapon_ii, mod_resource.stat_id)
 
-	weapon_ii.current_mods[index] = { "EmptySlot" : null }
+	weapon_ii.current_mods[index] = &""
 
 	_remove_mod_status_effects_from_effect_source(weapon_ii, EffectSourceType.NORMAL)
 	if weapon_ii.stats is MeleeWeaponStats:
@@ -114,36 +114,26 @@ static func remove_weapon_mod(weapon_ii: WeaponII, weapon_mod: WeaponModStats, i
 	if DebugFlags.weapon_mod_changes:
 		_debug_print_status_effect_lists(weapon_ii)
 
-	weapon_mod.on_removal(weapon_ii, source_entity.hands.equipped_item if source_entity != null else null)
+	mod_to_remove.on_removal(weapon_ii, source_entity.hands.equipped_item if source_entity != null else null)
 
-	AudioManager.play_global(weapon_mod.removal_audio)
+	AudioManager.play_global(mod_to_remove.removal_audio)
 
 ## Adds all mods in the current_mods array to a weapon's stats.
 static func re_add_all_mods_to_weapon(weapon_ii: WeaponII, source_entity: Entity) -> void:
-	var i: int = 0
-	for weapon_mod_entry: Dictionary in weapon_ii.current_mods:
-		if weapon_mod_entry.values()[0] != null:
-			handle_weapon_mod(weapon_ii, weapon_mod_entry.values()[0], i, source_entity)
-		i += 1
-
-## Copies all mods from a weapon to the new weapon, optionally deleting them from the source afterward.
-static func copy_mods_between_weapons(original_wpn_ii: WeaponII, target_wpn_ii: WeaponII,
-											source_entity: Entity, remove_from_orig: bool) -> void:
-	var i: int = 0
-	for weapon_mod_entry: Dictionary in original_wpn_ii.current_mods:
-		if weapon_mod_entry.values()[0] != null:
-			handle_weapon_mod(target_wpn_ii, weapon_mod_entry.values()[0], i, source_entity)
-			if remove_from_orig:
-				remove_weapon_mod(original_wpn_ii, weapon_mod_entry.values()[0], i, source_entity)
-		i += 1
+	for mod_slot_index: int in range(weapon_ii.current_mods.size()):
+		if weapon_ii.current_mods[mod_slot_index] != &"":
+			var mod: WeaponModStats = Items.cached_items.get(weapon_ii.current_mods[mod_slot_index], null)
+			remove_weapon_mod(weapon_ii, mod_slot_index, source_entity)
+			if mod:
+				handle_weapon_mod(weapon_ii, mod, mod_slot_index, source_entity)
+			else:
+				push_error("Readding all mods to " + weapon_ii.stats.name + " failed.")
 
 ## Removes all mods from a passed in weapon_stats resource.
 static func remove_all_mods_from_weapon(weapon_ii: WeaponII, source_entity: Entity) -> void:
-	var i: int = 0
-	for weapon_mod_entry: Dictionary in weapon_ii.current_mods:
-		if weapon_mod_entry.values()[0] != null:
-			remove_weapon_mod(weapon_ii, weapon_mod_entry.values()[0], i, source_entity)
-		i += 1
+	for mod_slot_index: int in range(weapon_ii.current_mods.size()):
+		if weapon_ii.current_mods[mod_slot_index] != &"":
+			remove_weapon_mod(weapon_ii, mod_slot_index, source_entity)
 
 ## When mods are added or removed that affect the effect source stats, we use this to recalculate them.
 static func _update_effect_source_stats(weapon_ii: WeaponII, stat_id: StringName) -> void:
@@ -225,8 +215,8 @@ static func _remove_mod_status_effects_from_effect_source(weapon_ii: WeaponII,
 		return
 	effect_source.status_effects = orig_array.duplicate()
 
-	for weapon_mod_entry: Dictionary in weapon_ii.current_mods:
-		var mod: WeaponModStats = weapon_mod_entry.values()[0]
+	for mod_slot_index: int in range(weapon_ii.current_mods.size()):
+		var mod: WeaponModStats = Items.cached_items.get(weapon_ii.current_mods[mod_slot_index], null)
 		if mod != null:
 			var mod_status_effects: Array[StatusEffect]
 			match type:

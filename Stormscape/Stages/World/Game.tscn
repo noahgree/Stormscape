@@ -19,7 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://bq12ugc7lnirg" path="res://Utilities/Debug/TestPhysicalInventory.tscn" id="17_om42l"]
 [ext_resource type="Texture2D" uid="uid://cd22xh5jduxd6" path="res://Entities/Player/UI/Interactions/Assets/e_prompt.png" id="18_yw2f7"]
 [ext_resource type="Script" uid="uid://dgibl37gudpj1" path="res://Entities/Player/UI/Interactions/InteractionsCore/InteractionOffer.gd" id="19_04pgg"]
-[ext_resource type="Script" uid="uid://bih5dbgubmxai" path="res://Entities/Items/ItemCore/ItemStats.gd" id="19_27u15"]
+[ext_resource type="Script" uid="uid://cv7ha7muvg5qu" path="res://Entities/Items/ItemCore/II.gd" id="19_e5rpg"]
 [ext_resource type="Script" uid="uid://dwmur0cosbbwh" path="res://Entities/Player/UI/Inventory/InventoryCore/InvResource.gd" id="20_om42l"]
 [ext_resource type="Script" uid="uid://c2f01r3cincl0" path="res://Stages/World/Storm/Storm.gd" id="22_0op7h"]
 [ext_resource type="Script" uid="uid://b8kfccspu3jx8" path="res://Stages/Tilemaps/TileMapDual.gd" id="22_47ykm"]
@@ -27,7 +27,6 @@
 [ext_resource type="Shader" uid="uid://cxi5alvvj1rv2" path="res://Utilities/Game/Shaders/StormShader.gdshader" id="23_05otm"]
 [ext_resource type="Resource" uid="uid://cucuggowaf55y" path="res://Entities/Stats/EffectSystemResources/StatusEffects/BadEffects/StormSyndrome/StormSyndrome1.tres" id="23_5x8gm"]
 [ext_resource type="Resource" uid="uid://cx6t5cil24ca3" path="res://Stages/World/Storm/StormVisuals/DefaultStormVisuals.tres" id="27_5uvpk"]
-[ext_resource type="PackedScene" uid="uid://bl2igmtwo1a3v" path="res://Entities/Enemies/Zombies/Basic/BasicZombie.tscn" id="30_6gn56"]
 [ext_resource type="Shader" uid="uid://bilestavf27wc" path="res://Utilities/Game/Shaders/ScreenFog.gdshader" id="30_rhtsc"]
 [ext_resource type="PackedScene" uid="uid://clf1njlp4stbn" path="res://Utilities/Debug/TestRock2.tscn" id="30_yw2f7"]
 [ext_resource type="Texture2D" uid="uid://daa6casude472" path="res://Utilities/Game/Particles/light_ray.png" id="31_melxk"]
@@ -156,13 +155,13 @@ physics_layer_1/collision_layer = 128
 physics_layer_1/collision_mask = 0
 sources/1 = SubResource("TileSetAtlasSource_lb4xb")
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_27u15"]
+rough = true
+
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_w76bj"]
 rough = true
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_vi22v"]
-rough = true
-
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_jb7gg"]
 rough = true
 
 [sub_resource type="Resource" id="Resource_t15sm"]
@@ -201,10 +200,6 @@ title = "CHEST 2"
 drop_on_death = true
 metadata/_custom_type_script = "uid://dwmur0cosbbwh"
 
-[sub_resource type="Resource" id="Resource_f5fhq"]
-script = ExtResource("20_om42l")
-drop_on_death = true
-
 [sub_resource type="LabelSettings" id="LabelSettings_lfc2v"]
 outline_size = 3
 outline_color = Color(0, 0, 0, 1)
@@ -239,7 +234,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="Resource" id="Resource_3156l"]
+[sub_resource type="Resource" id="Resource_jb7gg"]
 resource_local_to_scene = true
 script = ExtResource("19_04pgg")
 title = "Storm Base"
@@ -362,15 +357,15 @@ y_sort_enabled = true
 
 [node name="TestRigidEntity" parent="WorldRoot/Testing" unique_id=120789680 instance=ExtResource("9_37jga")]
 position = Vector2(127, 27)
-physics_material_override = SubResource("PhysicsMaterial_w76bj")
+physics_material_override = SubResource("PhysicsMaterial_27u15")
 
 [node name="TestRigidEntity2" parent="WorldRoot/Testing" unique_id=294390776 instance=ExtResource("9_37jga")]
 position = Vector2(129, 87)
-physics_material_override = SubResource("PhysicsMaterial_vi22v")
+physics_material_override = SubResource("PhysicsMaterial_w76bj")
 
 [node name="TestRigidEntity3" parent="WorldRoot/Testing" unique_id=941546994 instance=ExtResource("9_37jga")]
 position = Vector2(65, 118)
-physics_material_override = SubResource("PhysicsMaterial_jb7gg")
+physics_material_override = SubResource("PhysicsMaterial_vi22v")
 freeze = true
 immovable = true
 
@@ -454,55 +449,6 @@ inv = SubResource("Resource_27u15")
 position = Vector2(295, 6)
 inv = SubResource("Resource_vi22v")
 
-[node name="BasicZombie" parent="WorldRoot/Testing" unique_id=428325011 instance=ExtResource("30_6gn56")]
-position = Vector2(-3, -3)
-enabled = false
-
-[node name="BasicZombie2" parent="WorldRoot/Testing" unique_id=1509647765 instance=ExtResource("30_6gn56")]
-position = Vector2(7, -30)
-enabled = false
-inv = SubResource("Resource_f5fhq")
-
-[node name="BasicZombie3" parent="WorldRoot/Testing" unique_id=809157416 instance=ExtResource("30_6gn56")]
-position = Vector2(-78, 169)
-enabled = false
-
-[node name="BasicZombie4" parent="WorldRoot/Testing" unique_id=723718841 instance=ExtResource("30_6gn56")]
-position = Vector2(45, 214)
-enabled = false
-
-[node name="BasicZombie5" parent="WorldRoot/Testing" unique_id=1085612893 instance=ExtResource("30_6gn56")]
-position = Vector2(503, 59)
-enabled = false
-
-[node name="BasicZombie6" parent="WorldRoot/Testing" unique_id=566688000 instance=ExtResource("30_6gn56")]
-position = Vector2(548, 91)
-enabled = false
-
-[node name="BasicZombie7" parent="WorldRoot/Testing" unique_id=1397837402 instance=ExtResource("30_6gn56")]
-position = Vector2(527, 108)
-enabled = false
-
-[node name="BasicZombie8" parent="WorldRoot/Testing" unique_id=843128968 instance=ExtResource("30_6gn56")]
-position = Vector2(559, 150)
-enabled = false
-
-[node name="BasicZombie9" parent="WorldRoot/Testing" unique_id=778043553 instance=ExtResource("30_6gn56")]
-position = Vector2(543, 245)
-enabled = false
-
-[node name="BasicZombie10" parent="WorldRoot/Testing" unique_id=1945542360 instance=ExtResource("30_6gn56")]
-position = Vector2(400, 328)
-enabled = false
-
-[node name="BasicZombie11" parent="WorldRoot/Testing" unique_id=809749052 instance=ExtResource("30_6gn56")]
-position = Vector2(371, 338)
-enabled = false
-
-[node name="BasicZombie12" parent="WorldRoot/Testing" unique_id=422108623 instance=ExtResource("30_6gn56")]
-position = Vector2(386, 383)
-enabled = false
-
 [node name="TestRock5" parent="WorldRoot/Testing" unique_id=57795637 instance=ExtResource("30_yw2f7")]
 position = Vector2(437, 158)
 
@@ -553,7 +499,7 @@ sprite_frames = SubResource("SpriteFrames_hkn5b")
 
 [node name="InteractionArea" parent="WorldRoot/StormBase" unique_id=897230405 instance=ExtResource("36_e5rpg")]
 prompt_radius = 36.0
-interaction_offer = SubResource("Resource_3156l")
+interaction_offer = SubResource("Resource_jb7gg")
 prompt_offset = Vector2(0, -23)
 
 [node name="ClippingArea" parent="WorldRoot/StormBase" unique_id=1945922444 instance=ExtResource("48_8jild")]

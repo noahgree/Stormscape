@@ -67,22 +67,6 @@ func copy_ii(original_ii: II) -> II:
 	var new: II = original_ii.duplicate()
 	return new
 
-## Finds the place a stat is stored at within the resource and returns it. Can optionally get the unmodified stat
-## if it exists in the stat mods cache.
-func get_nested_stat(stat: StringName, get_original: bool = false) -> float:
-	if "sc" in self and get("sc").has_stat(stat):
-		if not get_original: return get("sc").get_stat(stat)
-		else: return get("sc").get_original_stat(stat)
-	elif stat in self:
-		return get(stat)
-	elif stat in get("effect_source"):
-		return get("effect_source").get(stat)
-	elif "projectile_logic" in self and stat in get("projectile_logic"):
-		return get("projectile_logic").get(stat)
-	else:
-		push_error("Couldn't find the requested stat (" + stat + ") anywhere.")
-		return 0
-
 ## The custom string representation of this item resource.
 func _to_string() -> String:
 	return str(Globals.ItemType.keys()[item_type]) + ": " + get_rarity_string() + "_" + name

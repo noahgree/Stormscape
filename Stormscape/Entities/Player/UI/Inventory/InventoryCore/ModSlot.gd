@@ -23,7 +23,7 @@ func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
 		return false
 	if is_same_slot_as(data):
 		return false
-	if not WeaponModsManager.check_mod_compatibility(item_viewer_slot.ii.stats, data.ii.stats):
+	if not WeaponModsManager.check_mod_compatibility(item_viewer_slot.ii, data.ii.stats):
 		CursorManager.update_tooltip("Incompatible!", Globals.ui_colors.ui_glow_strong_fail)
 		return false
 	if item_viewer_slot.ii.has_mod(data.ii.stats.id):

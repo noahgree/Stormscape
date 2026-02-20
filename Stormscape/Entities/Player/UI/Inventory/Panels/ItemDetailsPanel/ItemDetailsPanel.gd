@@ -135,7 +135,7 @@ func _on_mod_slot_changed(slot: ModSlot, old_ii: II, new_ii: II) -> void:
 
 	if item_viewer_slot.ii.stats is WeaponStats:
 		if old_ii != null:
-			WeaponModsManager.remove_weapon_mod(item_viewer_slot.ii, old_ii.stats, slot.mod_slot_index, Globals.player_node)
+			WeaponModsManager.remove_weapon_mod(item_viewer_slot.ii, slot.mod_slot_index, Globals.player_node)
 			_assign_item_details(item_viewer_slot.ii)
 
 		if new_ii != null:
@@ -201,13 +201,13 @@ func _on_item_viewer_slot_changed(_slot: Slot, _old_ii: II, new_ii: II) -> void:
 		if not is_updating_via_hover:
 			pinned = true
 
-	if (new_ii.stats is WeaponStats) and (new_ii.stats.max_mods_override != 0):
+	if (new_ii is WeaponII) and (new_ii.stats.max_mods_override != 0):
 		_change_mod_slot_visibilities(true, new_ii.stats)
-		var i: int = 0
-		for weapon_mod_entry: Dictionary in new_ii.current_mods:
-			if weapon_mod_entry.values()[0] != null:
-				mod_slots[i].ii = weapon_mod_entry.values()[0].create_ii(1)
-			i += 1
+		for mod_slot_index: int in range(new_ii.current_mods.size()):
+			if new_ii.current_mods[mod_slot_index] != &"":
+				var mod: WeaponModStats = Items.cached_items.get(new_ii.current_mods[mod_slot_index], null)
+				if mod:
+					mod_slots[mod_slot_index].ii = mod.create_ii(1)
 	else:
 		_change_mod_slot_visibilities(false)
 

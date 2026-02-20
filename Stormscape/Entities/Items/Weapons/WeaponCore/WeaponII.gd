@@ -18,8 +18,8 @@ const EFFECT_AMOUNT_XP_MULT: float = 0.35 ## Multiplies effect src amounts (dmg,
 @export_custom(PROPERTY_HINT_RANGE, "1,40,1", PROPERTY_USAGE_EDITOR) var level: int = 1 ## The level for this weapon.
 @export_storage var allowed_lvl: int = 1 ## The level that the xp gain has allowed this weapon to achieve, potentially pending an upgrade confirmation from the player.
 @export_storage var lvl_progress: int ## Any xp gained towards the progress of the next level is stored here.
-@export_custom(PROPERTY_HINT_RESOURCE_TYPE, "", PROPERTY_USAGE_ALWAYS_DUPLICATE | PROPERTY_USAGE_STORAGE) var sc: StatModsCache ## The cache of all up to date stats for this weapon with mods factored in.
-@export var current_mods: Array[Dictionary] = [{ &"1" : null }, { &"2" : null }, { &"3" : null }, { &"4" : null }, { &"5" : null }, { &"6" : null }] ## The current mods applied to this weapon. This is an array of dictionaries so that the KV pairs can be ordered. Keys are StringName mod names and values are weapon_mod resources.
+@export_custom(PROPERTY_HINT_RESOURCE_TYPE, "", PROPERTY_USAGE_ALWAYS_DUPLICATE | PROPERTY_USAGE_STORAGE) var sc: StatModsCache = null ## The cache of all up to date stats for this weapon with mods factored in.
+@export var current_mods: Array[StringName] = [&"", &"", &"", &"", &"", &""] ## The current mods applied to this weapon in order, with the StringName mod ids as the values.
 @export_storage var original_status_effects: Array[StatusEffect] = [] ## The original status effect list of the effect source before any mods are applied.
 @export_storage var original_charge_status_effects: Array[StatusEffect] = [] ## The original status effect list of the charge effect source before any mods are applied.
 @export_storage var original_aoe_status_effects: Array[StatusEffect] = [] ## The original status effect list of the aoe effect source before any mods are applied.
@@ -110,6 +110,8 @@ func initialize_sc() -> void:
 		sc.add_moddable_stats(normal_moddable_stats)
 		sc.add_moddable_stats(charge_moddable_stats)
 
+	#WeaponModsManager.re_add_all_mods_to_weapon(self, null)
+
 ## Returns the amount of xp we need to attain the next level that we aren't at yet.
 static func xp_needed_for_lvl(weapon_ii: WeaponII, lvl: int) -> int:
 	var rarity_mult: float = 1 + (weapon_ii.stats.rarity * RARITY_LEVELING_FACTOR)
@@ -132,26 +134,24 @@ func is_same_as(other_item: ItemStats) -> bool:
 		return (self.session_uid == other_item.session_uid) and initial_checks
 	return initial_checks
 
-## Checks to see if the weapon has the passed in mod already, regardless of level.
+## Checks to see if the weapon has the passed in mod already, regardless of level. Leaving index as -1 means check
+## every slot, otherwise only check a certain slot index.
 func has_mod(mod_id: StringName, index: int = -1) -> bool:
-	var i: int = 0
-	for weapon_mod_entry: Dictionary in current_mods:
-		if weapon_mod_entry.values()[0] != null:
-			if weapon_mod_entry.keys()[0] == mod_id:
-				if index != -1:
-					if i == index:
-						return true
-					else:
-						i += 1
-						continue
+	for mod_slot_index: int in range(current_mods.size()):
+		if current_mods[mod_slot_index] == mod_id:
+			if index != -1:
+				if mod_slot_index == index:
+					return true
+				else:
+					continue
+			else:
 				return true
-		i += 1
 	return false
 
 ## Returns true if this weapon resource has any mods at all.
 func has_any_mods() -> bool:
-	for weapon_mod_entry: Dictionary in current_mods:
-		if weapon_mod_entry.values()[0] != null:
+	for mod_slot_index: int in range(current_mods.size()):
+		if current_mods[mod_slot_index] != &"":
 			return true
 	return false
 
@@ -203,15 +203,6 @@ func level_up() -> int:
 	var stats_msg: String = ". Stats Increased!" if level % 10 == 0 else ""
 	MessageManager.add_msg(stats.name + " is now [color=white]" + max_lvl_msg  + "[/color]" + stats_msg, Globals.ui_colors.ui_glow_strong_success, stats.inv_icon)
 	return level
-
-## Upgrades a weapon to a higher rarity, transferring all stats and mods.
-func migrate_from_rarity_upgrade(original_wpn_ii: WeaponII, source_entity: Entity,
-									remove_from_orig: bool = true) -> void:
-	uid = original_wpn_ii.uid
-	WeaponModsManager.copy_mods_between_weapons(original_wpn_ii, self, source_entity, remove_from_orig)
-	level = original_wpn_ii.level
-	allowed_lvl = original_wpn_ii.allowed_lvl
-	lvl_progress = original_wpn_ii.lvl_progress
 
 #region DEBUG
 ## prints the total needed xp for each level up to the requested level.
