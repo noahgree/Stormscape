@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="MeleeWeaponStats" format=3 uid="uid://dk3vlbvu2b7eq"]
 
 [ext_resource type="Resource" uid="uid://o8dc73c74md6" path="res://Entities/Player/PlayerCore/PlayerCamera/CamFXPresets/4(NoFreeze).tres" id="1_e5g0w"]
-[ext_resource type="Script" uid="uid://dkfssottmsrch" path="res://Entities/Stats/EffectSystemResources/EffectSources/EffectSource.gd" id="3_67eer"]
+[ext_resource type="Script" uid="uid://dkfssottmsrch" path="res://Entities/Stats/EffectSystemResources/EffectSourceCore/EffectSource.gd" id="3_67eer"]
 [ext_resource type="Script" uid="uid://boo31eu083dqd" path="res://Entities/Stats/EffectSystemResources/StatusEffects/StatusEffect.gd" id="3_e5g0w"]
 [ext_resource type="Resource" uid="uid://y5iqfraea8ry" path="res://Entities/Player/PlayerCore/PlayerCamera/CamFXPresets/2(NoFreeze).tres" id="4_e5g0w"]
 [ext_resource type="Texture2D" uid="uid://b3wtl45dungco" path="res://Entities/Items/Weapons/MeleeWeapons/Sword/SwordBaseCT.tres" id="5_67eer"]

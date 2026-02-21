@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="ProjWeaponStats" format=3 uid="uid://dvnlojpwqoojv"]
 
 [ext_resource type="Resource" uid="uid://cev0y0oe3igus" path="res://Entities/Player/PlayerCore/PlayerCamera/CamFXPresets/6.tres" id="1_bgdcb"]
-[ext_resource type="Script" uid="uid://dkfssottmsrch" path="res://Entities/Stats/EffectSystemResources/EffectSources/EffectSource.gd" id="2_4q57q"]
+[ext_resource type="Script" uid="uid://dkfssottmsrch" path="res://Entities/Stats/EffectSystemResources/EffectSourceCore/EffectSource.gd" id="2_4q57q"]
 [ext_resource type="Script" uid="uid://boo31eu083dqd" path="res://Entities/Stats/EffectSystemResources/StatusEffects/StatusEffect.gd" id="3_be5sn"]
 [ext_resource type="Script" uid="uid://cowjdnic7xmkp" path="res://Entities/Player/UI/Inventory/Panels/ItemDetailsPanel/StatDetail.gd" id="4_ns2jq"]
 [ext_resource type="Texture2D" uid="uid://ndv23me2pjpp" path="res://Entities/Items/Weapons/ProjectileWeapons/BottleOFrost/BottleOFrostBaseCT.tres" id="5_hqxuj"]

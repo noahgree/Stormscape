@@ -3,7 +3,7 @@ class_name StatModsCache
 ## A resource that caches and works with stat mods applied to the entity on which it is defined.
 
 var affected_entity: Entity ## The entity that this cache resource works for. If working with a weapon, this will be null.
-var stat_mods: Dictionary[StringName, Dictionary] ## The cache of mod resources currently applied to the entity's stats.
+var stat_mods: Dictionary[StringName, Dictionary] ## The cache of mod resources currently applied to the entity's stats, keyed by the stat.
 var cached_stats: Dictionary[StringName, float] ## The up-to-date and calculated stats to be used by anything that depend on them.
 var base_values: Dictionary[StringName, float] ## The unchanging base values of each moddable stat, usually set by copying the exported values from the component into a dictionary that is passed into the setup function below.
 var is_loading: bool = false ## Blocks print spam of changes during loads.
@@ -106,7 +106,7 @@ func add_mods(mod_array: Array[StatMod]) -> void:
 				mod.before_stack_value = mod.value
 				stat_mods[mod.stat_id][mod.mod_id] = mod
 
-			_recalculate_stat(mod.stat_id, base_values[mod.stat_id])
+				_recalculate_stat(mod.stat_id, base_values[mod.stat_id])
 		else:
 			_push_mod_not_found_warning(mod.stat_id, mod.mod_id)
 

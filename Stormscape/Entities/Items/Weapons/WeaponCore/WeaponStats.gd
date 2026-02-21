@@ -17,10 +17,5 @@ func create_ii(quantity: int) -> II:
 	new.stats = self
 	new.q = quantity
 	new.initialize_sc()
-	return new
-
-## Copies an item instance, keeping the same exported properties.
-func copy_ii(original_ii: II) -> II:
-	var new: WeaponII = original_ii.duplicate()
-	new.initialize_sc()
+	new.initialize_esis()
 	return new

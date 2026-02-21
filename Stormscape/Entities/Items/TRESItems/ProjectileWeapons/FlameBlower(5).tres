@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="ProjWeaponStats" format=3 uid="uid://dpmwqsai6gxsr"]
 
-[ext_resource type="Script" uid="uid://dkfssottmsrch" path="res://Entities/Stats/EffectSystemResources/EffectSources/EffectSource.gd" id="2_hrsx2"]
+[ext_resource type="Script" uid="uid://dkfssottmsrch" path="res://Entities/Stats/EffectSystemResources/EffectSourceCore/EffectSource.gd" id="2_hrsx2"]
 [ext_resource type="Resource" uid="uid://c8reitxej77jy" path="res://Entities/Stats/EffectSystemResources/StatusEffects/BadEffects/Burning/Burning1FlameBlower.tres" id="3_cibnu"]
 [ext_resource type="Script" uid="uid://boo31eu083dqd" path="res://Entities/Stats/EffectSystemResources/StatusEffects/StatusEffect.gd" id="3_frpgg"]
 [ext_resource type="Script" uid="uid://cowjdnic7xmkp" path="res://Entities/Player/UI/Inventory/Panels/ItemDetailsPanel/StatDetail.gd" id="4_cibnu"]

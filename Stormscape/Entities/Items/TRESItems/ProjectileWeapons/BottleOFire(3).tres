@@ -6,11 +6,10 @@
 [ext_resource type="PackedScene" uid="uid://c7gjhm55x8ymc" path="res://Entities/Items/Weapons/ProjectileWeapons/BottleOFire/BottleOFire.tscn" id="3_yykgi"]
 [ext_resource type="Texture2D" uid="uid://btbju7m01l8x2" path="res://Entities/Items/Weapons/ProjectileWeapons/BottleOFire/BottleOFireBaseCT.tres" id="4_l2ckt"]
 [ext_resource type="Script" uid="uid://cowjdnic7xmkp" path="res://Entities/Player/UI/Inventory/Panels/ItemDetailsPanel/StatDetail.gd" id="4_xiftk"]
-[ext_resource type="Script" uid="uid://dkfssottmsrch" path="res://Entities/Stats/EffectSystemResources/EffectSources/EffectSource.gd" id="5_jastm"]
+[ext_resource type="Script" uid="uid://dkfssottmsrch" path="res://Entities/Stats/EffectSystemResources/EffectSourceCore/EffectSource.gd" id="5_jastm"]
 [ext_resource type="Texture2D" uid="uid://dy66m5u8svl8h" path="res://Entities/Items/Weapons/ProjectileWeapons/BottleOFire/bottle_o_fire_base.png" id="6_14vfc"]
 [ext_resource type="Texture2D" uid="uid://b4bumm88u2qmw" path="res://Entities/Items/Weapons/ProjectileWeapons/BottleOFire/BottleOFireThrowableCT.tres" id="7_am00s"]
 [ext_resource type="Resource" uid="uid://blryd3h2c6dsl" path="res://Entities/Stats/EffectSystemResources/StatusEffects/BadEffects/Burning/Burning1Ground.tres" id="10_xiftk"]
-[ext_resource type="Script" uid="uid://c2gdoebfp12dq" path="res://Entities/Stats/StatMod/StatModsCache.gd" id="11_3anyb"]
 [ext_resource type="PackedScene" uid="uid://cb5ofy3224fh2" path="res://Entities/Items/Projectiles/ProjectileCore/AreaOfEffectVFX/FlamingAOEVFX.tscn" id="11_am00s"]
 [ext_resource type="Script" uid="uid://bj3r5oopspj6l" path="res://Entities/Items/Projectiles/ProjectileCore/ProjStats.gd" id="12_ps56o"]
 [ext_resource type="PackedScene" uid="uid://b26uwbeam6drq" path="res://Entities/Items/Projectiles/Explosives/FireBottle/FireBottle.tscn" id="13_xiftk"]
@@ -75,9 +74,6 @@ aoe_effect_falloff_curve = SubResource("Curve_2b1hi")
 aoe_effect_dur = 5.0
 aoe_vfx = ExtResource("11_am00s")
 
-[sub_resource type="Resource" id="Resource_xpvhm"]
-script = ExtResource("11_3anyb")
-
 [resource]
 script = ExtResource("16_xiftk")
 proj_weapon_type = 8
@@ -92,7 +88,6 @@ ammo_type = 1
 mag_size = -1
 no_levels = true
 max_mods_override = 0
-s_mods = SubResource("Resource_xpvhm")
 id = "bottle_o_fire"
 name = "Bottle O' Fire"
 item_type = 1
@@ -105,6 +100,5 @@ in_hand_icon = ExtResource("7_am00s")
 inv_icon = ExtResource("6_14vfc")
 recipe_unlocked = false
 item_scene = ExtResource("3_yykgi")
-cooldowns_per_suid = false
 shown_cooldown_fills = Array[String](["default"])
 show_cursor_cooldown = true

@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="ConsumableStats" format=3 uid="uid://cx1ydw2jde1y8"]
 
-[ext_resource type="Script" uid="uid://dkfssottmsrch" path="res://Entities/Stats/EffectSystemResources/EffectSources/EffectSource.gd" id="1_bn713"]
+[ext_resource type="Script" uid="uid://dkfssottmsrch" path="res://Entities/Stats/EffectSystemResources/EffectSourceCore/EffectSource.gd" id="1_bn713"]
 [ext_resource type="Script" uid="uid://5qg77uqxh5yw" path="res://Entities/Items/Consumables/ConsumableStats.gd" id="1_jepoi"]
 [ext_resource type="PackedScene" uid="uid://bdaogdtcus1ac" path="res://Entities/Items/Consumables/Consumable.tscn" id="2_1oeu8"]
 [ext_resource type="Script" uid="uid://boo31eu083dqd" path="res://Entities/Stats/EffectSystemResources/StatusEffects/StatusEffect.gd" id="2_2c2ph"]

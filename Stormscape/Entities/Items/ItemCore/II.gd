@@ -7,14 +7,16 @@ signal stats_changed(new_stats: ItemStats)
 signal q_changed(new_q: int)
 
 @export_storage var uid: int = UIDHelper.uid() ## The unique id for this item resource instance.
-@export var stats: ItemStats: ## The resource driving the stats and type of item this is.
-	set(new_stats):
-		stats = new_stats
-		stats_changed.emit(stats)
+@export var stats: ItemStats: set = _set_stats ## The resource driving the stats and type of item this is.
 @export var q: int = 1: ## The quantity associated with the inventory item.
 	set(new_q):
 		q = new_q
 		q_changed.emit(q)
+
+## Setter function for when the item stats are changed.
+func _set_stats(new_stats: ItemStats) -> void:
+	stats = new_stats
+	stats_changed.emit(stats)
 
 ## Finds the place a stat is stored at within the resource and returns it. Can optionally get the unmodified stat
 ## if it exists in the stat mods cache.

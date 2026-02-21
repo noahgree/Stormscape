@@ -18,11 +18,12 @@ const EFFECT_AMOUNT_XP_MULT: float = 0.35 ## Multiplies effect src amounts (dmg,
 @export_custom(PROPERTY_HINT_RANGE, "1,40,1", PROPERTY_USAGE_EDITOR) var level: int = 1 ## The level for this weapon.
 @export_storage var allowed_lvl: int = 1 ## The level that the xp gain has allowed this weapon to achieve, potentially pending an upgrade confirmation from the player.
 @export_storage var lvl_progress: int ## Any xp gained towards the progress of the next level is stored here.
-@export_custom(PROPERTY_HINT_RESOURCE_TYPE, "", PROPERTY_USAGE_ALWAYS_DUPLICATE | PROPERTY_USAGE_STORAGE) var sc: StatModsCache = null ## The cache of all up to date stats for this weapon with mods factored in.
+@export_storage var sc: StatModsCache = null ## The cache of all up to date stats for this weapon with mods factored in. Stands for "stat cache".
 @export var current_mods: Array[StringName] = [&"", &"", &"", &"", &"", &""] ## The current mods applied to this weapon in order, with the StringName mod ids as the values.
-@export_storage var original_status_effects: Array[StatusEffect] = [] ## The original status effect list of the effect source before any mods are applied.
-@export_storage var original_charge_status_effects: Array[StatusEffect] = [] ## The original status effect list of the charge effect source before any mods are applied.
-@export_storage var original_aoe_status_effects: Array[StatusEffect] = [] ## The original status effect list of the aoe effect source before any mods are applied.
+@export_storage var normal_esi: ESI = ESI.new() ## The normal effect source instance.
+@export_storage var charge_esi: ESI = ESI.new() ## The charge effect source instance.
+@export_storage var aoe_esi: ESI = ESI.new() ## The aoe effect source instance.
+
 
 ## Sets up the base values for the stat cache so that weapon mods can be added and managed properly.
 func initialize_sc() -> void:
@@ -110,50 +111,38 @@ func initialize_sc() -> void:
 		sc.add_moddable_stats(normal_moddable_stats)
 		sc.add_moddable_stats(charge_moddable_stats)
 
-	#WeaponModsManager.re_add_all_mods_to_weapon(self, null)
+	WeaponModsManager.add_all_mods_to_weapon(self, null)
 
-## Returns the amount of xp we need to attain the next level that we aren't at yet.
-static func xp_needed_for_lvl(weapon_ii: WeaponII, lvl: int) -> int:
-	var rarity_mult: float = 1 + (weapon_ii.stats.rarity * RARITY_LEVELING_FACTOR)
-
-	# Subtract one iteration at the end since we start at level 1
-	return int(BASE_XP_FOR_LVL * pow(lvl, LVL_SCALING_EXPONENT) * rarity_mult) - int(BASE_XP_FOR_LVL * rarity_mult)
-
-## Returns the percent progress to the next allowed level, 0 - 1.
-static func visual_percent_of_lvl_progress(weapon_ii: WeaponII) -> float:
-	if weapon_ii.level < weapon_ii.allowed_lvl:
-		return 1.0
-	var xp_needed: int = xp_needed_for_lvl(weapon_ii, weapon_ii.allowed_lvl + 1)
-	return float(weapon_ii.lvl_progress) / float(xp_needed)
+## Sets up the effect source instances to copy the effect sources from the stats.
+func initialize_esis() -> void:
+	normal_esi.es = stats.effect_source
+	if stats is MeleeWeaponStats:
+		charge_esi.es = stats.charge_effect_source
+	elif stats is ProjWeaponStats:
+		aoe_esi.es = stats.projectile_logic.aoe_effect_source
 
 ## Whether the weapon is the same as another weapon when called externally to compare.
-## Overrides base method to also compare weapon mods and SUID if cooldowns are based on it.
+## Overrides base method to also compare weapon mods and UID if cooldowns are based on it.
 func is_same_as(other_item: ItemStats) -> bool:
 	var initial_checks: bool = (str(self) == str(other_item)) and (self.current_mods == other_item.current_mods)
 	if not stats.cooldowns_shared:
 		return (self.session_uid == other_item.session_uid) and initial_checks
 	return initial_checks
 
-## Checks to see if the weapon has the passed in mod already, regardless of level. Leaving index as -1 means check
-## every slot, otherwise only check a certain slot index.
-func has_mod(mod_id: StringName, index: int = -1) -> bool:
-	for mod_slot_index: int in range(current_mods.size()):
-		if current_mods[mod_slot_index] == mod_id:
-			if index != -1:
-				if mod_slot_index == index:
-					return true
-				else:
-					continue
-			else:
-				return true
-	return false
+#region Level & XP System
+## Returns the amount of xp we need to attain the next level that we aren't at yet.
+func xp_needed_for_lvl(lvl: int) -> int:
+	var rarity_mult: float = 1 + (stats.rarity * RARITY_LEVELING_FACTOR)
 
-## Returns true if this weapon resource has any mods at all.
-func has_any_mods() -> bool:
-	for mod_slot_index: int in range(current_mods.size()):
-		if current_mods[mod_slot_index] != &"":
-			return true
-	return false
+	# Subtract one iteration at the end since we start at level 1
+	return int(BASE_XP_FOR_LVL * pow(lvl, LVL_SCALING_EXPONENT) * rarity_mult) - int(BASE_XP_FOR_LVL * rarity_mult)
+
+## Returns the percent progress to the next allowed level, 0 - 1.
+func visual_percent_of_lvl_progress() -> float:
+	if level < allowed_lvl:
+		return 1.0
+	var xp_needed: int = xp_needed_for_lvl(allowed_lvl + 1)
+	return float(lvl_progress) / float(xp_needed)
 
 ## Adds xp to the weapon, potentially leveling it up if it has reached enough accumulation of xp. Returns true
 ## if a level up occurred as a result of the added xp.
@@ -165,7 +154,7 @@ func add_xp(amount: int) -> bool:
 
 	lvl_progress += amount
 	while allowed_lvl < MAX_LEVEL:
-		var xp_needed: int = xp_needed_for_lvl(self, allowed_lvl + 1)
+		var xp_needed: int = xp_needed_for_lvl(allowed_lvl + 1)
 		if lvl_progress >= xp_needed and xp_needed > 0:
 			lvl_progress -= xp_needed
 			allowed_lvl += 1
@@ -187,7 +176,7 @@ func add_xp(amount: int) -> bool:
 		Globals.player_node.inv.inv_data_updated.emit(idx, Globals.player_node.inv.inv[idx])
 
 	if DebugFlags.weapon_xp_updates:
-		var xp_needed_now: int = xp_needed_for_lvl(self, allowed_lvl + 1)
+		var xp_needed_now: int = xp_needed_for_lvl(allowed_lvl + 1)
 		print("AMOUNT: ", amount, " | PROGRESS: ", lvl_progress, " | LEVEL: ", level, " | ALLOWED LEVEL: ", allowed_lvl, " | REMAINING_NEEDED: ", xp_needed_now - lvl_progress)
 
 	return allowed_leveled_up
@@ -203,6 +192,45 @@ func level_up() -> int:
 	var stats_msg: String = ". Stats Increased!" if level % 10 == 0 else ""
 	MessageManager.add_msg(stats.name + " is now [color=white]" + max_lvl_msg  + "[/color]" + stats_msg, Globals.ui_colors.ui_glow_strong_success, stats.inv_icon)
 	return level
+#endregion
+
+#region Modding Helpers
+## Checks to see if the weapon has the passed in mod already, regardless of level. Leaving index as -1 means check
+## every slot, otherwise only check a certain slot index.
+func has_mod(mod_id: StringName, index: int = -1) -> bool:
+	var i: int = 0
+	for mod_stats: WeaponModStats in get_all_mods_as_stats(true):
+		if mod_stats and mod_stats.id == mod_id:
+			if index != -1:
+				if i == index:
+					return true
+				else:
+					i += 1
+					continue
+			else:
+				return true
+		i += 1
+	return false
+
+## Returns true if this weapon resource has any mods at all.
+func has_any_mods() -> bool:
+	for mod_slot_index: int in range(current_mods.size()):
+		if current_mods[mod_slot_index] != &"":
+			return true
+	return false
+
+## Returns an array of variable size containing all verified mod stats in the current_mods array.
+func get_all_mods_as_stats(include_empty_slots: bool = false) -> Array[WeaponModStats]:
+	var results: Array[WeaponModStats] = []
+	for mod_key: StringName in current_mods:
+		if mod_key != &"":
+			var mod: WeaponModStats = Items.cached_items.get(mod_key, null)
+			if mod:
+				results.append(mod)
+		elif include_empty_slots:
+			results.append(null)
+	return results
+#endregion
 
 #region DEBUG
 ## prints the total needed xp for each level up to the requested level.
@@ -210,7 +238,7 @@ func print_total_needed(for_level: int) -> void:
 	print("-------------------------------------------------------------------------")
 	var total: int = 0
 	for lvl: int in range(1, for_level + 1):
-		var xp: int = xp_needed_for_lvl(self, lvl)
+		var xp: int = xp_needed_for_lvl(lvl)
 		total += xp
 		print("LVL: ", lvl, " | LVL_XP: ", xp, " | TOTAL: ", total)
 #endregion

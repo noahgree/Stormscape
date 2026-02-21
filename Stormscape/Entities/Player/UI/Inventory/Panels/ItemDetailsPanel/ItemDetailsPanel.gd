@@ -217,7 +217,7 @@ func _on_item_viewer_slot_changed(_slot: Slot, _old_ii: II, new_ii: II) -> void:
 			item_level_label.text = str(level) if level != WeaponII.MAX_LEVEL else "MAX LEVEL"
 			if level < WeaponII.MAX_LEVEL:
 				lvl_progress_margins.show()
-				item_lvl_margin.get_node("%ItemLvlProgressBar").value = WeaponII.visual_percent_of_lvl_progress(new_ii) * 100.0
+				item_lvl_margin.get_node("%ItemLvlProgressBar").value = new_ii.visual_percent_of_lvl_progress() * 100.0
 				if new_ii.allowed_lvl > level:
 					lvl_up_inner_margin.show()
 			else:

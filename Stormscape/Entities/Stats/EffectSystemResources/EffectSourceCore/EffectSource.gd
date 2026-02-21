@@ -6,6 +6,8 @@ class_name EffectSource
 ## This contains all the data needed by an effect receiver, and nothing more. Textures, animations, hitboxes, etc.
 ## should be handled by the producer of this effect source. This is purely data.
 
+enum ESType { NORMAL, CHARGE, AOE } ## The kinds of effect sources that can be modified.
+
 @export_group("General")
 @export var source_type: Globals.EffectSourceSourceType ## A tag used to determine the source of the effect source. See Globals class for details on the tags.
 @export var source_tags: Array[String] = [] ## Additional information to pass to whatever receieves this effect source to make sure it should apply.
@@ -31,7 +33,7 @@ class_name EffectSource
 	set(new_value):
 		base_healing = max(0, new_value)
 @export var heal_affected_stats: Globals.HealAffectedStats = Globals.HealAffectedStats.HEALTH_THEN_SHIELD ## Which entity stats are affected by this healing source.
-@export_range(0, 100, 1, "suffix:%") var lvl_heal_scalar: int = 8 ## The percent of base healing that gets added on for every 10 levels, calculated as (((floor(current_lvl / 10) * lvl_heal_scalar) + 1.0) / 100.0) * base_healing.
+@export_range(0, 100, 1, "suffix:%") var lvl_heal_scalar: int = 8 ## The percent of base healing that gets added on for every 10 levels, calculated as [codeblock](((floor(current_lvl / 10) * lvl_heal_scalar) + 1.0) / 100.0) * base_healing[/codeblock].
 
 @export_group("Impact FX")
 @export var impact_cam_fx: CamFXResource ## The resource defining how the camera should react to firing.
@@ -41,16 +43,3 @@ class_name EffectSource
 
 @export_group("Status Effects")
 @export var status_effects: Array[StatusEffect] ## The array of status effects that can be applied to the receiving entity.
-
-var contact_position: Vector2 ## The position of what the effect source is attached to when it makes contact with a receiver.
-var movement_direction: Vector2 ## The direction vector of this effect source at contact used for knockback.
-var multishot_id: int = -1 ## The id used to relate multishot projectiles with each other. Unique to each game load. -1 means it did not come from a multishot.
-
-
-## Looks to see if there is a status effect with a full matching effect key in this effect source's array of
-## status effects. Return its index if found, else return -1. Does not handle duplicates.
-func check_for_effect_and_get_index(effect_key: String) -> int:
-	for i: int in range(status_effects.size()):
-		if status_effects[i].get_full_effect_key() == effect_key:
-			return i
-	return -1

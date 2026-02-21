@@ -78,7 +78,8 @@ func _handle_barraging() -> void:
 	if barrage_count > 1:
 		angular_spread_rads = deg_to_rad(weapon.ii.sc.get_stat("angular_spread"))
 
-	# If the spread is close to a full circle, decrease the width between the spreads so they don't overlap near 360º
+	# If the spread is close to a full circle, decrease the width between the spreads so they
+	# don't overlap near 360º
 	var close_to_360_adjustment: int = 0 if angular_spread_rads > 5.41 else 1
 	var spread_segment_width: float = 0
 	if barrage_count > 1:

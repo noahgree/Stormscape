@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="ProjWeaponStats" format=3 uid="uid://dlfmjgnfk6nqj"]
 
 [ext_resource type="Texture2D" uid="uid://bm570hawaupxe" path="res://Entities/Items/Weapons/WeaponVFX/Casings/small_casing.png" id="1_80bso"]
-[ext_resource type="Script" uid="uid://dkfssottmsrch" path="res://Entities/Stats/EffectSystemResources/EffectSources/EffectSource.gd" id="1_f7ms2"]
+[ext_resource type="Script" uid="uid://dkfssottmsrch" path="res://Entities/Stats/EffectSystemResources/EffectSourceCore/EffectSource.gd" id="1_f7ms2"]
 [ext_resource type="Script" uid="uid://boo31eu083dqd" path="res://Entities/Stats/EffectSystemResources/StatusEffects/StatusEffect.gd" id="3_7t0ho"]
 [ext_resource type="Texture2D" uid="uid://bn15edu8bniii" path="res://Entities/Items/Weapons/ProjectileWeapons/Revolver/RevolverBaseFrameCT.tres" id="4_4xu4l"]
 [ext_resource type="PackedScene" uid="uid://ohg1k8yu1y3r" path="res://Entities/Items/Weapons/ProjectileWeapons/Revolver/Revolver.tscn" id="4_p3ec7"]

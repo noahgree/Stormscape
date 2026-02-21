@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="ProjWeaponStats" format=3 uid="uid://ciel2rrqq4dvv"]
 
 [ext_resource type="Script" uid="uid://boo31eu083dqd" path="res://Entities/Stats/EffectSystemResources/StatusEffects/StatusEffect.gd" id="2_gdqw7"]
-[ext_resource type="Script" uid="uid://dkfssottmsrch" path="res://Entities/Stats/EffectSystemResources/EffectSources/EffectSource.gd" id="2_v1b1g"]
+[ext_resource type="Script" uid="uid://dkfssottmsrch" path="res://Entities/Stats/EffectSystemResources/EffectSourceCore/EffectSource.gd" id="2_v1b1g"]
 [ext_resource type="PackedScene" uid="uid://c3e5wour08d6u" path="res://Entities/Items/Hitscans/LaserBeam.tscn" id="3_ujvf8"]
 [ext_resource type="Script" uid="uid://cowjdnic7xmkp" path="res://Entities/Player/UI/Inventory/Panels/ItemDetailsPanel/StatDetail.gd" id="4_gch3x"]
 [ext_resource type="Texture2D" uid="uid://dhi85kahpnkpu" path="res://Entities/Items/Weapons/ProjectileWeapons/LaserGun/LaserGunBaseFrameCT.tres" id="4_nt47o"]

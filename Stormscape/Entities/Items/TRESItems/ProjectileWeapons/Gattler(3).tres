@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="ProjWeaponStats" format=3 uid="uid://1q7rlned2r23"]
 
-[ext_resource type="Script" uid="uid://dkfssottmsrch" path="res://Entities/Stats/EffectSystemResources/EffectSources/EffectSource.gd" id="1_lbh37"]
+[ext_resource type="Script" uid="uid://dkfssottmsrch" path="res://Entities/Stats/EffectSystemResources/EffectSourceCore/EffectSource.gd" id="1_lbh37"]
 [ext_resource type="Texture2D" uid="uid://bm570hawaupxe" path="res://Entities/Items/Weapons/WeaponVFX/Casings/small_casing.png" id="1_pxe5r"]
 [ext_resource type="SpriteFrames" uid="uid://cyfl1jof4do4a" path="res://Entities/Items/Weapons/ProjectileWeapons/Gattler/GattlerCursors.tres" id="2_huwqf"]
 [ext_resource type="Script" uid="uid://boo31eu083dqd" path="res://Entities/Stats/EffectSystemResources/StatusEffects/StatusEffect.gd" id="4_81caf"]

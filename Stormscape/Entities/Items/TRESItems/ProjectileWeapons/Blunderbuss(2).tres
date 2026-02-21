@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="ProjWeaponStats" format=3 uid="uid://c05ujhrdtx4r5"]
 
 [ext_resource type="Texture2D" uid="uid://bm570hawaupxe" path="res://Entities/Items/Weapons/WeaponVFX/Casings/small_casing.png" id="1_wvxhv"]
-[ext_resource type="Script" uid="uid://dkfssottmsrch" path="res://Entities/Stats/EffectSystemResources/EffectSources/EffectSource.gd" id="3_iqgpm"]
+[ext_resource type="Script" uid="uid://dkfssottmsrch" path="res://Entities/Stats/EffectSystemResources/EffectSourceCore/EffectSource.gd" id="3_iqgpm"]
 [ext_resource type="Script" uid="uid://boo31eu083dqd" path="res://Entities/Stats/EffectSystemResources/StatusEffects/StatusEffect.gd" id="3_msrdt"]
 [ext_resource type="Script" uid="uid://cowjdnic7xmkp" path="res://Entities/Player/UI/Inventory/Panels/ItemDetailsPanel/StatDetail.gd" id="5_d4m1d"]
 [ext_resource type="Texture2D" uid="uid://bmg1c4tf2t0wl" path="res://Entities/Items/Weapons/ProjectileWeapons/Blunderbuss/BlunderbussBaseFrameCT.tres" id="6_olcib"]

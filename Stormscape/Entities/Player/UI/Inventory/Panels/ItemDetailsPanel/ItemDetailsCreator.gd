@@ -267,7 +267,7 @@ func _get_status_effects(ii: II) -> String:
 	var string: String = _get_title("EFFECTS")
 	var effect_array: Array[StatusEffect]
 	if ii is WeaponII:
-		effect_array = ii.stats.effect_source.status_effects
+		effect_array = ii.normal_esi.status_effects
 	elif ii.stats is WeaponModStats:
 		effect_array = ii.stats.status_effects
 
@@ -275,7 +275,7 @@ func _get_status_effects(ii: II) -> String:
 		return ""
 
 	for effect: StatusEffect in effect_array:
-		if ii is WeaponII and effect not in ii.original_status_effects:
+		if ii is WeaponII and effect not in ii.normal_esi.es.status_effects:
 			string += "[color=Lawngreen]" + effect.get_pretty_string() + "[/color], "
 		else:
 			string += effect.get_pretty_string() + ", "
@@ -288,7 +288,7 @@ func _get_charge_status_effects(ii: II) -> String:
 	var string: String = _get_title("CHRG EFFECTS")
 	var effect_array: Array[StatusEffect]
 	if ii.stats is MeleeWeaponStats:
-		effect_array = ii.stats.charge_effect_source.status_effects
+		effect_array = ii.charge_esi.status_effects
 		if not ii.stats.can_do_charge_use:
 			return ""
 	elif ii.stats is WeaponModStats:
@@ -300,7 +300,7 @@ func _get_charge_status_effects(ii: II) -> String:
 		return ""
 
 	for effect: StatusEffect in effect_array:
-		if ii.stats is MeleeWeaponStats and effect not in ii.original_charge_status_effects:
+		if ii.stats is MeleeWeaponStats and effect not in ii.charge_esi.es.status_effects:
 			string += "[color=Lawngreen]" + effect.get_pretty_string() + "[/color], "
 		else:
 			string += effect.get_pretty_string() + ", "
@@ -314,7 +314,7 @@ func _get_aoe_stats(ii: II) -> Array[String]:
 		return [""]
 	elif ii.sc.get_stat("proj_aoe_radius") == 0:
 		return [""]
-	elif ii.stats.projectile_logic.aoe_effect_source.status_effects.size() == 0:
+	elif ii.aoe_esi.status_effects.is_empty():
 		return[""]
 
 	var strings: Array[String] = [_get_title("AOE RADIUS") + _get_item_sums(ii, ["proj_aoe_radius"], true, " px")]
@@ -330,8 +330,8 @@ func _get_aoe_stats(ii: II) -> Array[String]:
 		strings.append(healing)
 
 	var effects: String = _get_title("AOE EFFECTS")
-	for effect: StatusEffect in ii.stats.projectile_logic.aoe_effect_source.status_effects:
-		if effect not in ii.original_aoe_status_effects:
+	for effect: StatusEffect in ii.aoe_esi.status_effects:
+		if effect not in ii.aoe_esi.es.status_effects:
 			effects += "[color=Lawngreen]" + effect.get_pretty_string() + "[/color], "
 		else:
 			effects += effect.get_pretty_string() + ", "

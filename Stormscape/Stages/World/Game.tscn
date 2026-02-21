@@ -10,7 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://xsq1q0fffsin" path="res://Utilities/Debug/TestRigidEntity.tscn" id="9_37jga"]
 [ext_resource type="PackedScene" uid="uid://bond8rty1ljh" path="res://Utilities/Debug/TestStaticEntity.tscn" id="11_6kn41"]
 [ext_resource type="Script" uid="uid://c2dtyfq8k2oj2" path="res://Entities/Components/HitboxComponent/HitboxComponent.gd" id="11_j4dgk"]
-[ext_resource type="Script" uid="uid://dkfssottmsrch" path="res://Entities/Stats/EffectSystemResources/EffectSources/EffectSource.gd" id="12_jvc44"]
+[ext_resource type="Script" uid="uid://dkfssottmsrch" path="res://Entities/Stats/EffectSystemResources/EffectSourceCore/EffectSource.gd" id="12_jvc44"]
 [ext_resource type="Resource" uid="uid://b2ekcx7kndqjb" path="res://Entities/Stats/EffectSystemResources/StatusEffects/BadEffects/Frostbite/Frostbite1.tres" id="12_s2x07"]
 [ext_resource type="Resource" uid="uid://b8yo5kmjiwnca" path="res://Entities/Stats/EffectSystemResources/StatusEffects/GoodEffects/Regen/Regen1.tres" id="13_27bcd"]
 [ext_resource type="Script" uid="uid://boo31eu083dqd" path="res://Entities/Stats/EffectSystemResources/StatusEffects/StatusEffect.gd" id="13_33bgr"]
@@ -155,13 +155,13 @@ physics_layer_1/collision_layer = 128
 physics_layer_1/collision_mask = 0
 sources/1 = SubResource("TileSetAtlasSource_lb4xb")
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_e5rpg"]
+rough = true
+
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_27u15"]
 rough = true
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_w76bj"]
-rough = true
-
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_vi22v"]
 rough = true
 
 [sub_resource type="Resource" id="Resource_t15sm"]
@@ -357,15 +357,15 @@ y_sort_enabled = true
 
 [node name="TestRigidEntity" parent="WorldRoot/Testing" unique_id=120789680 instance=ExtResource("9_37jga")]
 position = Vector2(127, 27)
-physics_material_override = SubResource("PhysicsMaterial_27u15")
+physics_material_override = SubResource("PhysicsMaterial_e5rpg")
 
 [node name="TestRigidEntity2" parent="WorldRoot/Testing" unique_id=294390776 instance=ExtResource("9_37jga")]
 position = Vector2(129, 87)
-physics_material_override = SubResource("PhysicsMaterial_w76bj")
+physics_material_override = SubResource("PhysicsMaterial_27u15")
 
 [node name="TestRigidEntity3" parent="WorldRoot/Testing" unique_id=941546994 instance=ExtResource("9_37jga")]
 position = Vector2(65, 118)
-physics_material_override = SubResource("PhysicsMaterial_vi22v")
+physics_material_override = SubResource("PhysicsMaterial_w76bj")
 freeze = true
 immovable = true
 
